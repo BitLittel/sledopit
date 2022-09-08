@@ -1,0 +1,354 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+    <head>
+        <title>Следопыты</title>
+        <link rel="stylesheet" type="text/css" href="../static/css/style_for_index.css">
+        <script src="../static/js/script.js"></script>
+    </head>
+    <body>
+        <div id="bodyContainer">
+            <div id="bgHeader">
+                <div class="horFlexContainer" id="headerHorMain">
+                    <p id="iPeriodBubble" class="Lilita redFont" >15 сентября - 13 октября</p>
+                    <p id="headerAnixLogo"></p>
+                </div>
+                <div id="mainH1" class="Lilita redFont">
+                    <div id="textContMainH1">
+                        <p style="font-size: 15pt;">Конкурс</p>
+                        <p style="font-size: 40pt;">юных</p>
+                        <p style="font-size: 40pt; margin-bottom: 6px">следопытов</p>
+                        <div style="justify-content: center; margin-bottom: 20px;" class="horFlexContainer">
+                            <p style="font-size: 15pt; z-index: 12" class="noPadding">Познавай родной край вместе с</p>
+                            <p class="inlineLogo" class="noPadding" style="z-index: 15">Аникс</p>
+                        </div>
+                        <div class="funButton">Регистрируйся</div>
+                    </div>
+                </div>
+            </div>
+            <div id="conBox">
+                <div class="contentBoxFlex">
+                    <div id="mapAltay">
+
+                    </div>
+                    <div id="ruleDescriber">
+                        <h1>Стать участником просто:</h1>
+                        <div class="uiList" uListP="1">
+                            <p class="Tahoma">Выбери тему:</p>
+                            <p class="Tahoma"><b>Известные люди</b> &mdash; расскажи о людях, которые жили или живут в твоём регионе. Почему они стали великими? Чем они вдохновляют тебя?</p>
+                            <p class="Tahoma"><b>Растительный мир</b> &mdash; какие травы, деревья и сельскохозяйственные культуры растут у нас. Расскажи об их пользе, как их применяют.</p>
+                            <p class="Tahoma"><b>Животный мир</b> &mdash; исследуй животных, птиц или рыб родного края и расскажи про них.</p>
+                            <p class="Tahoma"><b>Природные объекты</b> &mdash; какие реки, озёра, горы или другие природные объекты находятся рядом с тобой.</p>
+                        </div>
+                        <div class="uiList" uListP="2">
+                            <p class="Tahoma">Нажми в соответствующем разделе на кнопку <b>«Добавить&nbsp;свое&nbsp;исследование»</b></p>
+                        </div>
+                        <div class="funButton" onclick="showHint()">Читать подробнее</div>
+                    </div>
+                </div>
+                <div style="margin: 5% 0;">
+                    <p style="font-size: 40pt; color: #DD2A1B; font-family: 'Lilita', serif;">Рейтинг юных иследователей</p>
+                    <table style="width: 100%;">
+                        <tr>
+                            <th>Фото ребёнка</th>
+                            <th>ФИО ребёнка</th>
+                            <th>Кол-во иследований</th>
+                            <th>Звание</th>
+                            <th>Кол-во голосов</th>
+                        </tr>
+                        <tr>
+                            <td>фото</td>
+                            <td>Летучий Данил Антонович</td>
+                            <td>3</td>
+                            <td>Супер-Следопыт</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>фото</td>
+                            <td>Малашенко Денис Анатольевич</td>
+                            <td>2</td>
+                            <td>Следопыт</td>
+                            <td>100</td>
+                        </tr>
+                    </table>
+                </div>
+                <h1>Запомни, мира не узнаешь, не зная края своего!</h1>
+                <div class="researchBox">
+                    <div class="horFlexContainer">
+                        <div class="researchHeader" researchColor="brown">Известные люди</div>
+                        <div class="flatButton">Добавить свое исследование</div>
+                    </div>
+                    <div class="photoContainer">
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="researchBox">
+                    <div class="horFlexContainer">
+                        <div class="researchHeader" researchColor="green">Растительный мир</div>
+                        <div class="flatButton">Добавить свое исследование</div>
+                    </div>
+                    <div class="photoContainer">
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="researchBox">
+                    <div class="horFlexContainer">
+                        <div class="researchHeader" researchColor="red">Животный мир</div>
+                        <div class="flatButton">Добавить свое исследование</div>
+                    </div>
+                    <div class="photoContainer">
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="researchBox">
+                    <div class="horFlexContainer">
+                        <div class="researchHeader" researchColor="blue">Природные объекты</div>
+                        <div class="flatButton">Добавить свое исследование</div>
+                    </div>
+                    <div class="photoContainer">
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                        <div class="participantContainer">
+                            <div class="participantPhoto"></div>
+                            <p>Название работы</p>
+                            <p>Автор</p>
+                            <div class="funButtonSmall">Проголосовать</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="bgFooter" class="redFont">
+                <div id="bigDiscl">
+                    <div class="str1">Главные</div>
+                    <div class="str2">призы</div>
+                </div>
+            </div>
+            <div id="hintContainer">
+                <div class="funButton" id="fixed" onclick="closeHint()">Закрыть</div>
+                <div id="idHint">
+                    <p id="hintHeader">Запомни, мира не узнаешь, не зная края своего!</p>
+                    <p class="hintRichLine">Дорогой исследователь родного края.</p>
+                    <p>Мы рады приветствовать тебя на страничке юных следопытов. Если ты читаешь это обращение, значит ты готов вместе с нами отправиться в увлекательное путешествие по просторам родных мест.</p>
+                    <p>Период проведения конкурса:</p>
+                    <p>С 12 сентября по 10 лктября принимаем ваши исследования.</p>
+                    <p>14 октября мы подведем итоги.</p>
+                    <p>Чем больше исследований ты проведешь, тем выше будет становиться твое звание. Каждлый участник получит гарантированный приз в зависимости от своего звания:</p>
+                    <p>1 исследование &mdash; «Юный исследователь» - значок и сладкий приз</p>
+                    <p>2 исследования &mdash; «Следопыт» - кепка и блокнот для юных исследователей</p>
+                    <p>3 и более исследования - «Следопыт-супергерой» - рюкзак для твоих активных прогулок</p>
+                    <p>Среди всех участников команда жюри определит трех главных победителей и в зависимости от призового места подарит им отличные призы:</p>
+                    <p>1 место - электрический самокат</p>
+                    <p>2 место - велосипед для трюков BMX</p>
+                    <p>3 место - велосипед для увлекательных поездок</p>
+                    <p>Мы ценим ваше творчество и поэтому, при выборе победителей, будем обращать внимание на уникальность текста и фото каждой работы!</p>
+                    <p class="hintAvgLine">А теперь подробнее о твоем исследовании!</p>
+                    <p>Ты живешь в уникальном месте, тебя окружает богатый природный мир: животные, птицы, растения, озера, реки, горы...</p>
+                    <p class="noPadding">Знаешь ли ты историю своего любимого места?</p>
+                    <p class="noPadding">Легенду о горе, которую видишь из окна дома?</p>
+                    <p class="noPadding">Где зимует птичка, которая летом поет тебе песни?</p>
+                    <p class="noPadding">А сколько длиной речка, в который ты купаешься летом?</p>
+                    <p class="noPadding">Какие великие люди жили и живут в твоем крае?</p>
+                    <p class="noPadding">Как они стали великими?</p>
+                    <p class="noPadding">Видишь, сколько всего интересного вокруг!</p>
+                    <p>Выбери тему на карте главной страницы, которая интересует тебя больше весго:</p>
+                    <p class="noPadding">Известные люди</p>
+                    <p class="noPadding">Растительный мир</p>
+                    <p class="noPadding">Животный мир</p>
+                    <p class="noPadding">Природные объекты</p>
+                    <p>Выбери конкретный объект, про который ты хочешь рассказать, например:</p>
+                    <p class="noPadding">река Катунь, гора Пикет, исатель Василий Макарович Шукшин.</p>
+                    <p class="noPadding">Далее начни исследование этого объекта.</p>
+                    <p class="noPadding">Узнай о нем как можно больше и напиши свой доклад.</p>
+                    <p class="noPadding">Обязательно расскажи, почему ты выбрал именно эту тему.</p>
+                    <p class="noPadding">Сфотографируй это места или объект твоего изучения, можешь снять видео, а мы с удовольствием его посмотрим!</p>
+                    <p class="noPadding">Если удастся сделать фото исследуемого объекта самому, то это станет твоим преимушеством!</p>
+                    <p class="noPadding">После того, как ты сохранишь работу, она отобразится в блоках по тематикам и все желающие смогут познакомиться с ней, а так же отдать свой голос тебе!</p>
+                    <p class="noPadding">Работа, которая наберет больше всего голосов, получит звание «Приз зрительских симпатий», а победитель получит познавательные книги или энциклопедию в подарок.</p>
+                    <p class="hintAvgLine">Ждем ваши работы и желаем удачи!</p>
+                    <p class="hintAvgLine">Исследуй родной край с «Аникс»!</p>
+                </div>
+                <div id="magRes"></div>
+            </div>
+        </div>
+    </body>
+</html>
