@@ -11,6 +11,8 @@ body {
     padding: 0;
     margin: 0;
     background-color: #EEE;
+    -webkit-font-smoothing: antialiased;
+    font-smooth: always;
 }
 
 #bodyContainer {
@@ -24,7 +26,7 @@ body {
 #bgHeader {
     background-image: url(../img/bgHeader.jpg);
     width: 100%;
-    height: 556px;
+    height: 378px;
     display: inline-block;
     box-shadow: 0 150px 150px 7px #FFF;
     transition: 0.8s ease;
@@ -71,7 +73,7 @@ body {
     display: block;
     background-size: 200%;
     background-repeat: no-repeat;
-    background-position: -10px 10px;
+    background-position: -10px 20px;
 }
 
 .horFlexContainer {
@@ -82,7 +84,7 @@ body {
 }
 
 #headerHorMain {
-    height: 150px;
+    height: 100px;
     padding: 0 50px;
 }
 
@@ -129,7 +131,7 @@ body {
     background-size: contain;
     background-repeat: no-repeat;
     position: relative;
-    top: -215px;
+    top: -200px;
     left: 250px;
     z-index: 10;
 }
@@ -188,6 +190,7 @@ body {
 }
 
 h1 {
+    margin-top: 0;
     display: Inline-block;
     font-family: "Lilita";
     color: #DD2A1B;
@@ -236,12 +239,13 @@ p.Tahoma {
 
 #mapAltay {
     width: 48%;
-    background-image: url(../img/AltayMap.jpg);
+    background-image: url(../img/altMap.png);
     background-repeat: no-repeat;
     background-size: contain;
     background-position: center;
     box-shadow: 0 0 21px 10px #ffffffdd;
     background-color: #ffffffdd;
+    background-position-y: top;
 }
 
 .researchBox {
@@ -406,6 +410,14 @@ p.Tahoma {
     height: 200px;
     background-color: #888;
     border-radius: 15px;
+    background-size: cover;
+    transition: 0.3s ease;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.participantPhoto:hover {
+    transform: scale(2);
 }
 
 .funButtonSmall {
@@ -422,6 +434,7 @@ p.Tahoma {
     font-family: "Lilita";
     text-transform: uppercase;
     letter-spacing: 2px;
+    z-index: 10;
 }
 
 .funButtonSmall:before {
@@ -433,6 +446,7 @@ p.Tahoma {
     display: block;
     position: absolute;
     margin: -7px -10px;
+    z-index: 10;
 }
 
 .funButtonSmall:after {
@@ -446,6 +460,7 @@ p.Tahoma {
     display: inline-block;
     position: absolute;
     margin: 9px -23px;
+    z-index: 10;
 }
 
 .funButtonSmall:hover {
@@ -553,4 +568,13 @@ p.Tahoma {
     left: calc(50% - 71px);
     transition: 1s ease;
     transform: scale3d(2,0.5,3);
+}
+
+.fitDigit {
+    font-weight: bold;
+}
+
+.rank {
+    font-weight: bolder;
+    font-size: 9pt;
 }
