@@ -17,6 +17,7 @@ class Users(Base):
     city = Column(Unicode(128, collation='utf8_unicode_ci'))
     region = Column(Unicode(255, collation='utf8_unicode_ci'))
     age = Column(Integer)
+    photo = Column(Unicode(255, collation='utf8_unicode_ci'))
 
     users_votes = relationship('Votes', backref='users_votes', lazy='dynamic')
     researches_users = relationship('Research', backref='researches_users', lazy='dynamic')
