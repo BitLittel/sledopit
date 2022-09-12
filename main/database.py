@@ -17,6 +17,7 @@ class Users(Base):
     city = Column(Unicode(128, collation='utf8_unicode_ci'))
     region = Column(Unicode(255, collation='utf8_unicode_ci'))
     age = Column(Integer)
+    photo = Column(Unicode(255, collation='utf8_unicode_ci'))
 
     users_votes = relationship('Votes', backref='users_votes', lazy='dynamic')
     researches_users = relationship('Research', backref='researches_users', lazy='dynamic')
@@ -59,6 +60,12 @@ class Votes(Base):
     id = Column(Integer, primary_key=True)
     user_vote = Column(Integer, ForeignKey(Users.id))
     user_vote_to = Column(Integer)
+
+
+class Cites(Base):
+    __tablename__ = 'cites'
+    id = Column(Integer, primary_key=True)
+    name_city = Column(Unicode(255, collation='utf8_unicode_ci'))
 
 
 engine = create_engine('mysql+pymysql://%s:%s@%s/%s?charset=utf8' % (main.config['DATABASE_USER'],

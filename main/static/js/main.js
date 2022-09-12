@@ -166,7 +166,7 @@ var Serialize = function(form) {
         }
 };
 
-function get_city() {
+function login() {
     let FIO = document.getElementById('FIO'),
         tel = document.getElementById('tel'),
         form = document.getElementById('form_reg');
