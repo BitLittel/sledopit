@@ -471,8 +471,10 @@ p.Tahoma {
 
 #bgFooter {
     background-image: url(../img/bgFooter.jpg);
+    background-position: bottom;
+    background-repeat: no-repeat;
     width: 100%;
-    height: 531px;
+    height: 570px;
     box-shadow: 0 -150px 150px 7px #FFF;
 }
 
@@ -662,4 +664,42 @@ p.Tahoma {
 
 .loginElement>p>.funButton {
     margin-top: 23px;
+}
+
+.prizePhoto {
+    width: 350px;
+    height: 350px;
+    position: absolute;
+    background-size: contain;
+}
+
+#prize1 {
+    background-image: url(../img/prizes/prize1big.png);
+    margin-left: 45px;
+}
+
+#prize2 {
+    background-image: url(../img/prizes/prize2big.png);
+    margin-left: 280px;
+}
+
+#prize3 {
+    background-image: url(../img/prizes/prize3big.png);
+    margin-left: 600px;
+}
+
+.prizeDisclaimer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    text-align: center;
+    color: #00000077;
+}
+
+.smallDiscl {
+    font-size: 19pt;
+    padding: 0;
+    background-color: #fff;
+    padding: 20px 0;
+    margin: 0;
 }
