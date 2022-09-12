@@ -720,3 +720,8 @@ p.Tahoma {
     padding: 20px 0;
     margin: 0;
 }
+
+#personalDataAgreement {
+    width: 25px;
+    height: 25px;
+}

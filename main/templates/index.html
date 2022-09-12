@@ -9,41 +9,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <div style="display: none;" id="login_popup">
-            <div class="login_popup">
-                <p>Вход</p>
-                <p>Чтобы проголосовать или выложить своё иследование необходимо войти/зарегестрироваться</p>
-                <div id="first_quastion">Вы сдесь впервые? <button type="button" onclick="quastion(true);">Да</button> <button type="button" onclick="quastion(false);">Нет</button></div>
-                <form method="POST" id="form_reg_log">
-                    <div id="FIO_input">
-                        <label for="FIO">ФИО</label>
-                        <input type="text" name="FIO" id="FIO" required>
-                    </div>
-                    <div id="tel_number_input">
-                        <label for="tel_number">Номер телефона</label>
-                        <input type="tel" name="tel_number" id="tel_number" required>
-                    </div>
-                    <div id="age_input">
-                        <label for="age">Возраст</label>
-                        <input type="number" min="5" max="100" name="age" id="age">
-                    </div>
-                    <div id="city_input">
-                        <label for="city">Населённый пункт</label>
-                        <select name="city" id="city">
-                            <option value="" selected> </option>
-                            <option value="Бийск">Бийск</option>
-                        </select>
-                    </div>
-                    <div id="personal_input">
-                        <label for="personal">Вы даёте согласие на обработку персональных данных?</label>
-                        <input type="checkbox" name="personal" id="personal">
-                    </div>
-                    <div>
-                        <button id="send_button" type="button" onclick="logIn();">Войти/Зарегестрироваться</button>
-                    </div>
-                </form>
-            </div>
-        </div>
         <div id="bodyContainer">
             <div id="bgHeader">
                 <div class="horFlexContainer" id="headerHorMain">
@@ -308,9 +273,9 @@
             <dib id="loginPopupExitButton" onclick="closeLoginPopUp()">x</dib>
             <div class="loginElement" id="loginStep1">
                 <h1>Вход или регистрация</h1>
-                <p>Номер телефона: </p>
+                <p><label for="phoneNumber">Номер телефона:</label></p>
                 <p>
-                    <input size="14" class="tel" placeholder="+7 (999) 999 9999">
+                    <input id="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
                 </p>
                 <p>
                     <button onclick="document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep2').style.display = 'block';" class="funButton">Войти</button>
@@ -318,27 +283,30 @@
             </div>
             <div class="loginElement" id="loginStep2">
                 <h1>Давай познакомимся!</h1>
-                <p>ФИО:</p>
+                <p><label for="name">ФИО:</label></p>
                 <p>
-                    <input class="name" placeholder="Иванов Иван Иванович">
+                    <input class="name" id="name" placeholder="Иванов Иван Иванович">
                 </p>
-                <p>Возраст:</p>
+                <p><label for="ageSelection">Возраст:</label></p>
                 <p>
-                    <select class="option">
+                    <select id="ageSelection" class="option">
                         <option>5</option>
                         <option>6</option>
                         <option>7</option>
                         <option>Влад, циклом тут сделай пжл</option>
                     </select>
                 </p>
-                <p>Откуда ты:</p>
+                <p><label for="cityFrom">Откуда ты:</label></p>
                 <p>
-                    <select class="option">
+                    <select id="cityFrom" class="option">
                         <option>Караганда</option>
                         <option>А ёу</option>
                         <option>ака</option>
                         <option>Влад, циклом тут сделай пжл</option>
                     </select>
+                </p>
+                <p>
+                    <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на обработку персональных данных</label>
                 </p>
                 <p>
                     <button class="funButton">Зарегистрироваться</button>
