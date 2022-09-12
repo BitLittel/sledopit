@@ -5,7 +5,7 @@ import re
 from main import main
 from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
-from main.database import Users, Session
+from main.database import Users, Session, Cites
 from sqlalchemy import and_, or_, desc
 from flask_wtf.csrf import CSRFProtect
 
@@ -50,49 +50,6 @@ def teardown_request(exception):
         db.close()
 
 
-@main.route('/login', methods=['GET', 'POST'])
-def login():
-    tel = None
-    fio = None
-    if request.method == 'GET':
-        fio = request.args.get('FIO')
-        tel = request.args.get('tel')
-        if fio is not None and tel is not None:
-            if re.search(r'^([а-яА-Я]{2,}) ([а-яА-Я]{2,})(()|( [а-яА-Я]{2,}))$', fio) is None:
-                return jsonify(dict(reg_ok=False, input='fio', error="ФИО введено не корректно"))
-            if re.search(r'^(([+][0-9]{1,3})[0-9]{10})|(8+[0-9]{10})$', tel) is None:
-                return jsonify(dict(reg_ok=False, input='tel', error="Номер телефона введён не корректно"))
-            return jsonify(dict(reg_ok=True))
-
-    if request.method == 'POST':
-        fio = request.form.get('FIO')
-        tel = request.form.get('tel')
-
-        if re.search(r'^([а-яА-Я]{2,}) ([а-яА-Я]{2,})(()|( [а-яА-Я]{2,}))$', fio) is None:
-            return render_template('login.html', fio=fio, tel=tel, input='fio')
-        if re.search(r'^(([+][0-9]{1,3})[0-9]{10})|(8+[0-9]{10})$', tel) is None:
-            return render_template('login.html', fio=fio, tel=tel, input='tel')
-
-        get_user = g.db.query(Users).filter(and_(Users.FIO == fio, Users.tel_number == tel)).first()
-        if get_user is None:
-            get_user = Users(FIO=fio, tel_number=tel)
-            g.db.add(get_user)
-            g.db.commit()
-        login_user(get_user, remember=True)
-        next_page = request.args.get('next')
-        if next_page:
-            return redirect(next_page)
-        else:
-            return redirect(url_for('index'))
-    return render_template('login.html', fio=fio, tel=tel)
-
-
-# @app.route("/", defaults={"path": ""})
-# @app.route("/<path:path>")
-# def home(path):
-#     return render_template("index.html")
-
-
 @main.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('15open.html')
@@ -101,33 +58,8 @@ def index():
 # todo: почле открытия поставить как "/" и "/index"
 @main.route('/main')
 def test():
-    # if request.method == 'GET' and request.args != dict():
-    #     FIO = request.args.get('FIO')
-    #     tel_number = request.args.get('tel_number')
-    #     city = request.args.get('city')
-    #     print(request.args)
-    return render_template('index.html')
-
-
-@main.route('/api/login', methods=['POST'])
-def api_login():
-    if request.method == 'GET' and request.args != dict():
-        FIO = request.args.get('FIO')
-        tel_number = request.args.get('tel_number')
-        city = request.args.get('city')
-        age = request.args.get('age')
-    data = request.json
-    username = data.get("username")
-    password = data.get("password")
-
-    for user in users:
-        if user["username"] == username and user["password"] == password:
-            user_model = User()
-            user_model.id = user["id"]
-            login_user(user_model)
-            return jsonify({"login": True})
-
-    return jsonify({"login": False})
+    get_city = g.db.query(Cites).all()
+    return render_template('index.html', cites=get_city)
 
 
 @main.route('/logout')

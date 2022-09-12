@@ -2,6 +2,7 @@
 <html lang="ru">
     <head>
         <title>Следопыты</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/png">
         <link rel="stylesheet" type="text/css" href="../static/css/style_for_index.css">
         <script src="../static/js/script.js"></script>
         <script src="../static/js/main.js"></script>
@@ -92,7 +93,7 @@
                             <div class="participantPhoto"></div>
                             <p>Название работы</p>
                             <p>Автор</p>
-                            <div class="funButtonSmall">Проголосовать</div>
+                            <div class="funButtonSmall" onclick="{{ 'showLoginPopUp()' if current_user.is_authenticated == False else '' }}">Проголосовать</div>
                         </div>
                         <div class="participantContainer">
                             <div class="participantPhoto"></div>
@@ -275,41 +276,45 @@
                 <h1>Вход или регистрация</h1>
                 <p><label for="phoneNumber">Номер телефона:</label></p>
                 <p>
-                    <input id="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
+                    <input id="phoneNumber" name="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
                 </p>
                 <p>
-                    <button onclick="document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep2').style.display = 'block';" class="funButton">Войти</button>
+                    <button onclick="logIn();" class="funButton">Войти</button>
                 </p>
             </div>
             <div class="loginElement" id="loginStep2">
                 <h1>Давай познакомимся!</h1>
-                <p><label for="name">ФИО:</label></p>
+                <p><label for="name">Фамилия Имя:</label></p>
                 <p>
-                    <input class="name" id="name" placeholder="Иванов Иван Иванович">
+                    <input class="name" id="name" placeholder="Иванов Иван">
+                </p>
+                <p><label for="school">Школа:</label></p>
+                <p>
+                    <input class="name" id="school" placeholder="Школа №123">
                 </p>
                 <p><label for="ageSelection">Возраст:</label></p>
                 <p>
                     <select id="ageSelection" class="option">
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>Влад, циклом тут сделай пжл</option>
+                        <option selected>5</option>
+                        {% for i in range(6, 80) %}
+                            <option>{{ i }}</option>
+                        {% endfor %}
                     </select>
                 </p>
                 <p><label for="cityFrom">Откуда ты:</label></p>
                 <p>
                     <select id="cityFrom" class="option">
-                        <option>Караганда</option>
-                        <option>А ёу</option>
-                        <option>ака</option>
-                        <option>Влад, циклом тут сделай пжл</option>
+                        <option selected></option>
+                        {% for cite in cites %}
+                            <option>{{ cite.name_city }}</option>
+                        {% endfor %}
                     </select>
                 </p>
                 <p>
                     <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на обработку персональных данных</label>
                 </p>
                 <p>
-                    <button class="funButton">Зарегистрироваться</button>
+                    <button class="funButton" onclick="RegIn();">Зарегистрироваться</button>
                 </p>
             </div>
         </div>

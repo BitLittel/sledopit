@@ -21,3 +21,4 @@ main.config.from_object('config')
 
 # with session_scope() as db:
 from main import views
+from main import rest_api

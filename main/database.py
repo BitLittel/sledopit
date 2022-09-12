@@ -15,7 +15,7 @@ class Users(Base):
     FIO = Column(Unicode(255, collation='utf8_unicode_ci'), nullable=False)
     tel_number = Column(Unicode(128, collation='utf8_unicode_ci'), nullable=False)
     city = Column(Unicode(128, collation='utf8_unicode_ci'))
-    region = Column(Unicode(255, collation='utf8_unicode_ci'))
+    school = Column(Unicode(255, collation='utf8_unicode_ci'))
     age = Column(Integer)
     photo = Column(Unicode(255, collation='utf8_unicode_ci'))
 

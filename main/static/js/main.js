@@ -166,90 +166,69 @@ var Serialize = function(form) {
         }
 };
 
-let registred = false,
-    first_quastion = false;
 
-// funButton flatButton funButtonSmall
-window.addEventListener("load", function(event) {
-    // на все кнопки вешаем функцию входа/регистрации если пользователь не зареган
-    if (registred === false) {
-        let funButton = document.getElementsByClassName('funButton'),
-            flatButton = document.getElementsByClassName('flatButton'),
-            funButtonSmall = document.getElementsByClassName('funButtonSmall'),
-            func = function(){document.getElementById('login_popup').style.display = 'block';};
-
-        for (var i = 0; i < funButton.length; i++) {
-            funButton[i].addEventListener('click', func);
-        }
-        for (var j = 0; j < flatButton.length; j++) {
-            flatButton[j].addEventListener('click', func);
-        }
-        for (var k = 0; k < funButtonSmall.length; k++) {
-            funButtonSmall[k].addEventListener('click', func);
-        }
-    } else {
-        console.log('Тут начинаем голосование')
-    }
-
-    // вешаем обработку на окно входа, что если нажимаем вне окна, оно скрываеться(да нужно вылавливать через evenTarget)
-    document.getElementById('login_popup').addEventListener('click', function(event) {
-        event = event || window.event;
-        let target = event.target || event.srcElement;
-        if (target == this) {
-            this.style.display = 'none';
-        }
-    });
-
-
-});
-
-
-
-
-function quastion(answer) {
-    document.getElementById('first_quastion').style.display = 'none';
-    if (answer == true) {
-        document.getElementById('send_button').innerText = 'Зарегестрироваться';
-        first_quastion = true;
-    } else {
-        first_quastion = false;
-        document.getElementById('city_input').style.display = 'none';
-        document.getElementById('age_input').style.display = 'none';
-        document.getElementById('personal_input').style.display = 'none';
-        document.getElementById('send_button').innerText = 'Войти';
-    }
-}
-
+let phoneNumber;
 
 function logIn() {
-    let form_reg_log = document.getElementById('form_reg_log');
-    AJAX({url: '/main', data: Serialize(form_reg_log)});
-    console.log(Serialize(form_reg_log));
+    phoneNumber = document.getElementById('phoneNumber');
+    AJAX(
+        {
+            url: '/api/login',
+            data: {
+                phoneNumber: phoneNumber.value
+            }
+        },
+        function (data) {
+            if (data.login == true) {
+                closeLoginPopUp();
+                window.location.reload();
+            } else if (data.login == false) {
+                showErrorMessage(data.header, data.text);
+            } else {
+                document.getElementById('loginStep1').style.display = 'none';
+                document.getElementById('loginStep2').style.display = 'block';
+            }
+        }
+    );
 }
 
-
-// function login() {
-//     let FIO = document.getElementById('FIO'),
-//         tel = document.getElementById('tel'),
-//         form = document.getElementById('form_reg');
-//     AJAX({url: "/login", data: {FIO: FIO.value, tel: tel.value}},
-//         function (data) {
-//             if (data) {
-//                 if (data.reg_ok == false) {
-//                     if (data.input == 'fio') {
-//                         FIO.style.border = '2px solid #FF3838';
-//                         document.getElementById('input_login').style.display = 'block';
-//                     }
-//                     if (data.input == 'tel') {
-//                         tel.style.border = '2px solid #FF3838';
-//                         document.getElementById('input_password').style.display = 'block';
-//                     }
-//                 } else {
-//                     form.submit();
-//                 }
-//             } else {
-//                 console.log('Ошибка соеденения')
-//             }
-//         }
-//     );
-// }
+function RegIn() {
+    let name = document.getElementById('name'),
+        school = document.getElementById('school'),
+        ageSelection = document.getElementById('ageSelection'),
+        cityFrom = document.getElementById('cityFrom'),
+        personalDataAgreement = document.getElementById('personalDataAgreement');
+    if (name.value == '') {
+        showErrorMessage('Ошибка', 'Поле "Фамилия Имя" введено некорректно');
+    } else if (school.value == '') {
+        showErrorMessage('Ошибка', 'Поле "Школа" введено некорректно');
+    } else if (ageSelection.value == '') {
+        showErrorMessage('Ошибка', 'Поле "Возраст" введено некорректно');
+    } else if (cityFrom.value == '') {
+        showErrorMessage('Ошибка', 'Поле "Откуда ты" введено некорректно');
+    } else if (!personalDataAgreement.checked) {
+        showErrorMessage('Ошибка', 'Извините, без вашего согласия на обработку, мы не можем вас зарегистрировать');
+    } else {
+        AJAX(
+            {
+                url: '/api/reg',
+                data: {
+                    phoneNumber: phoneNumber.value,
+                    name: name.value,
+                    school: school.value,
+                    ageSelection: ageSelection.value,
+                    cityFrom: cityFrom.value,
+                    personalDataAgreement: personalDataAgreement.checked
+                }
+            },
+            function (data) {
+                if (data.reg == false) {
+                    showErrorMessage(data.header, data.text);
+                } else {
+                    closeLoginPopUp();
+                    window.location.reload();
+                }
+            }
+        );
+    }
+}
