@@ -84,9 +84,8 @@ def login():
 
 
 @main.route('/', methods=['GET', 'POST'])
-@login_required
 def index():
-    return render_template('index.html')
+    return render_template('15open.html')
 
 
 @main.route("/logout")
