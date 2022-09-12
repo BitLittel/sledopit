@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from main import main
-from sqlalchemy import Column, create_engine, DateTime, Text, Unicode, Boolean, ForeignKey, Date, BigInteger, Integer
+from sqlalchemy import Column, create_engine, DateTime, Text, Unicode, Boolean, ForeignKey, Date, BigInteger, Integer,\
+    PickleType, Enum
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.orm.scoping import scoped_session
-from sqlalchemy.sql import func
 
 Base = declarative_base()
 
@@ -40,9 +40,10 @@ class Research(Base):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey(Users.id))
     name = Column(Unicode(255, collation='utf8_unicode_ci'))
-    about = Column(Text)
-    main_photo = Column(Unicode(255, collation='utf8_unicode_ci'))
-    photo_and_video = Column(Unicode(255, collation='utf8_unicode_ci'))
+    type_research = Column(Enum('famous_people', 'plants', 'animals', 'nature_object'), default='famous_people')
+    about = Column(Text(collation='utf8_unicode_ci'))
+    main_photo_path = Column(Unicode(255, collation='utf8_unicode_ci'))
+    photo_and_video_path = Column(PickleType, default=list())
 
     research_photo_and_video = relationship('PhotoAndVideo', backref='research_photo_and_video', lazy='dynamic')
 

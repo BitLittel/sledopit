@@ -2,4 +2,6 @@
 __pycache__
 venv
 config.py
-main/static/reseach_img/*.*
+main/static/img/reseach_img/*.*
+main/static/img/userPics/*.*
+main/static/img/researchesPics/*.*

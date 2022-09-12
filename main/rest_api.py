@@ -11,9 +11,11 @@ from flask_wtf.csrf import CSRFProtect
 @main.route('/api/login', methods=['POST', 'GET'])
 def api_login():
     if request.method == 'GET':
+
         phoneNumber = request.args.get('phoneNumber').strip().replace(' ', '').replace('(', '').replace(')', '')
         if re.search(r'^(([+][0-9]{1,3})[0-9]{10})|(8+[0-9]{10})$', phoneNumber) is None:
             return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
+
         check_user = g.db.query(Users).filter(Users.tel_number == phoneNumber).first()
         if check_user:
             login_user(check_user, remember=True)
@@ -64,3 +66,9 @@ def api_reg():
         g.db.commit()
         login_user(new_user, remember=True)
         return jsonify(dict(reg=True))
+
+
+@main.route('/api/load_research', methods=['POST', 'GET'])
+@login_required
+def api_load_research():
+    return jsonify(dict(reseach=True))
