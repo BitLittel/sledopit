@@ -725,3 +725,35 @@ p.Tahoma {
     width: 25px;
     height: 25px;
 }
+
+#errorBox {
+    position: fixed;
+    width: 500px;
+    right: 50px;
+    top: -100%;
+    background-color: #ff000044;
+    border-radius: 25px;
+    font-family: "Lilita", serif;
+    border: 1px solid #7d1810;
+    box-shadow: 5px 5px 0px #b42418;
+    backdrop-filter: blur(10px);
+    padding: 25px;
+    z-index: 9999;
+    transition: 0.5s ease;
+    opacity: 0;
+}
+
+#errorBox>p {
+    padding: 0;
+    margin: 0;
+}
+
+#messageHeader {
+    font-size: 30pt;
+    color: #7d1810;
+}
+
+#messageText {
+    font-size: 20pt;
+    color: #333;
+}

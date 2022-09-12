@@ -78,3 +78,17 @@ function closeLoginPopUp() {
     document.getElementById("loginPopUp").style.marginTop = '-100%';
     document.getElementById("loginPopUp").style.transform = 'scale(4)';
 }
+
+function closeErrorMessage() {
+    document.getElementById("errorBox").style.opacity = '0';
+    document.getElementById("errorBox").style.top = '-100%';
+}
+
+function showErrorMessage(header, text) {
+    document.getElementById("messageHeader").innerHTML = header;
+    document.getElementById("messageText").innerHTML = text;
+    document.getElementById("errorBox").style.opacity = '1';
+    document.getElementById("errorBox").style.top = '50px';
+    setTimeout(closeErrorMessage, 3000);
+}
+
