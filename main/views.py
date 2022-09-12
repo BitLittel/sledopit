@@ -7,10 +7,14 @@ from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
 from main.database import Users, Session
 from sqlalchemy import and_, or_, desc
+from flask_wtf.csrf import CSRFProtect
 
 
 login_manager = LoginManager()
 login_manager.init_app(main)
+login_manager.session_protection = "strong"
+
+csrf = CSRFProtect(main)
 
 
 @main.before_request
@@ -83,12 +87,50 @@ def login():
     return render_template('login.html', fio=fio, tel=tel)
 
 
+# @app.route("/", defaults={"path": ""})
+# @app.route("/<path:path>")
+# def home(path):
+#     return render_template("index.html")
+
+
 @main.route('/', methods=['GET', 'POST'])
 def index():
     return render_template('15open.html')
 
 
-@main.route("/logout")
+# todo: почле открытия поставить как "/" и "/index"
+@main.route('/main')
+def test():
+    # if request.method == 'GET' and request.args != dict():
+    #     FIO = request.args.get('FIO')
+    #     tel_number = request.args.get('tel_number')
+    #     city = request.args.get('city')
+    #     print(request.args)
+    return render_template('index.html')
+
+
+@main.route('/api/login', methods=['POST'])
+def api_login():
+    if request.method == 'GET' and request.args != dict():
+        FIO = request.args.get('FIO')
+        tel_number = request.args.get('tel_number')
+        city = request.args.get('city')
+        age = request.args.get('age')
+    data = request.json
+    username = data.get("username")
+    password = data.get("password")
+
+    for user in users:
+        if user["username"] == username and user["password"] == password:
+            user_model = User()
+            user_model.id = user["id"]
+            login_user(user_model)
+            return jsonify({"login": True})
+
+    return jsonify({"login": False})
+
+
+@main.route('/logout')
 @login_required
 def logout():
     logout_user()

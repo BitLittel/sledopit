@@ -4,9 +4,46 @@
         <title>Следопыты</title>
         <link rel="stylesheet" type="text/css" href="../static/css/style_for_index.css">
         <script src="../static/js/script.js"></script>
+        <script src="../static/js/main.js"></script>
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
+        <div style="display: none;" id="login_popup">
+            <div class="login_popup">
+                <p>Вход</p>
+                <p>Чтобы проголосовать или выложить своё иследование необходимо войти/зарегестрироваться</p>
+                <div id="first_quastion">Вы сдесь впервые? <button type="button" onclick="quastion(true);">Да</button> <button type="button" onclick="quastion(false);">Нет</button></div>
+                <form method="POST" id="form_reg_log">
+                    <div id="FIO_input">
+                        <label for="FIO">ФИО</label>
+                        <input type="text" name="FIO" id="FIO" required>
+                    </div>
+                    <div id="tel_number_input">
+                        <label for="tel_number">Номер телефона</label>
+                        <input type="tel" name="tel_number" id="tel_number" required>
+                    </div>
+                    <div id="age_input">
+                        <label for="age">Возраст</label>
+                        <input type="number" min="5" max="100" name="age" id="age">
+                    </div>
+                    <div id="city_input">
+                        <label for="city">Населённый пункт</label>
+                        <select name="city" id="city">
+                            <option value="" selected> </option>
+                            <option value="Бийск">Бийск</option>
+                        </select>
+                    </div>
+                    <div id="personal_input">
+                        <label for="personal">Вы даёте согласие на обработку персональных данных?</label>
+                        <input type="checkbox" name="personal" id="personal">
+                    </div>
+                    <div>
+                        <button id="send_button" type="button" onclick="logIn();">Войти/Зарегестрироваться</button>
+                    </div>
+                </form>
+            </div>
+        </div>
         <div id="bodyContainer">
             <div id="bgHeader">
                 <div class="horFlexContainer" id="headerHorMain">
@@ -20,7 +57,7 @@
                         <p style="font-size: 40pt; margin-bottom: 6px">следопытов</p>
                         <div style="justify-content: center; margin-bottom: 20px;" class="horFlexContainer">
                             <p style="font-size: 15pt; z-index: 12" class="noPadding">Познавай родной край вместе с</p>
-                            <p class="inlineLogo" class="noPadding" style="z-index: 15">Аникс</p>
+                            <p class="inlineLogo noPadding" style="z-index: 15">Аникс</p>
                         </div>
                         <div class="funButton" onclick="showLoginPopUp()">Регистрируйся</div>
                     </div>

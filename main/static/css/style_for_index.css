@@ -581,6 +581,23 @@ p.Tahoma {
     font-size: 9pt;
 }
 
+#login_popup {
+    backdrop-filter: blur(2px);
+    width: 100vw;
+    position: fixed;
+    height: 100vh;
+    z-index: 2000;
+}
+
+.login_popup {
+    background: #fff;
+    padding: 2%;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,.3);
+    margin: 35vh auto;
+    width: 80vh;
+}
+
 #loginPopUp {
     position: fixed;
     width: 500px;
