@@ -22,7 +22,7 @@
                             <p style="font-size: 15pt; z-index: 12" class="noPadding">Познавай родной край вместе с</p>
                             <p class="inlineLogo" class="noPadding" style="z-index: 15">Аникс</p>
                         </div>
-                        <div class="funButton">Регистрируйся</div>
+                        <div class="funButton" onclick="showLoginPopUp()">Регистрируйся</div>
                     </div>
                 </div>
             </div>
@@ -261,6 +261,48 @@
                 </div>
                 <div id="magRes"></div>
             </div>
+        </div>
+        <div id="loginPopUp">
+            <dib id="loginPopupExitButton" onclick="closeLoginPopUp()">x</dib>
+            <div class="loginElement" id="loginStep1">
+                <h1>Вход или регистрация</h1>
+                <p>Номер телефона: </p>
+                <p>
+                    <input size="14" class="tel" placeholder="+7 (999) 999 9999">
+                </p>
+                <p>
+                    <button onclick="document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep2').style.display = 'block';" class="funButton">Войти</button>
+                </p>
+            </div>
+            <div class="loginElement" id="loginStep2">
+                <h1>Давай познакомимся!</h1>
+                <p>ФИО:</p>
+                <p>
+                    <input class="name" placeholder="Иванов Иван Иванович">
+                </p>
+                <p>Возраст:</p>
+                <p>
+                    <select class="option">
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>Влад, циклом тут сделай пжл</option>
+                    </select>
+                </p>
+                <p>Откуда ты:</p>
+                <p>
+                    <select class="option">
+                        <option>Караганда</option>
+                        <option>А ёу</option>
+                        <option>ака</option>
+                        <option>Влад, циклом тут сделай пжл</option>
+                    </select>
+                </p>
+                <p>
+                    <button class="funButton">Зарегистрироваться</button>
+                </p>
+            </div>
+
         </div>
     </body>
 </html>
