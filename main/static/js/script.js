@@ -64,7 +64,7 @@ function showLoginPopUp() {
     document.getElementById("bgFooter").style.opacity = 0;
     document.getElementById("conBox").style.opacity = 0;
     document.getElementById("loginPopUp").style.opacity = 1;
-    document.getElementById("loginPopUp").style.marginTop = '0%';
+    document.getElementById("loginPopUp").style.marginTop = '50px';
     document.getElementById("loginPopUp").style.transform = 'scale(1)';
     document.getElementById("loginStep1").style.display = 'block';
     document.getElementById("loginStep2").style.display = 'none';
@@ -75,8 +75,8 @@ function closeLoginPopUp() {
     document.getElementById("bgFooter").style.opacity = 1;
     document.getElementById("conBox").style.opacity = 1;
     document.getElementById("loginPopUp").style.opacity = 0;
-    document.getElementById("loginPopUp").style.marginTop = '-100%';
-    document.getElementById("loginPopUp").style.transform = 'scale(4)';
+    document.getElementById("loginPopUp").style.marginTop = '-100px';
+    document.getElementById("loginPopUp").style.transform = 'scale(0)';
 }
 
 function closeErrorMessage() {

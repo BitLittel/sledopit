@@ -21,6 +21,7 @@ body {
     position: absolute;
     box-shadow: 0 0 30px #fff;
     text-align:center;
+    min-height: 100%;
 }
 
 #bgHeader {
@@ -603,15 +604,14 @@ p.Tahoma {
     width: 500px;
     box-shadow: 0px 0px 150px #424242;
     left: calc(50% - 263px);
-    top: calc(50% - 350px);
     border-radius: 40px;
     border: solid 1px #888888;
     background: #EFEB8698;
     padding: 26px;
     transition: 0.5s ease;
     opacity: 0;
-    transform: scale(4);
-    margin-top: -100%;
+    transform: scale(0);
+    margin-top: -100px;
 }
 
 #loginPopUp>h1 {
@@ -756,4 +756,64 @@ p.Tahoma {
 #messageText {
     font-size: 20pt;
     color: #333;
+}
+
+.addNewResearchContentBox {
+    padding: 50px;
+}
+
+.newResearchLabel {
+    font-family: "Lilita", serif;
+    font-size: 25pt;
+    padding: 0px 35px 0px 0;
+    line-height: 35pt;
+    width: 300px;
+    text-align: left;
+}
+
+#newReseachCategotySelect {
+    font-size: 25pt;
+    font-family: "Lilita", serif;
+    background: #ffffffbb;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid #888888;
+    width: 550px;
+}
+
+.newResearchParagraph {
+    display: flex;
+    flex-direction: revert;
+    margin-bottom: 50px;
+}
+
+#newResearchName {
+    font-size: 25pt;
+    font-family: "Lilita", serif;
+    border-radius: 6px;
+    border: 1px solid #888888;
+    width: 520px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#newResearchText {
+    font-size: 15pt;
+    font-family: Tahoma, Helvetica, sans-serif;
+    border-radius: 6px;
+    border: 1px solid #888888;
+    width: 540px;
+    height: 500px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+#newResearchPhoto {
+    font-size: 15pt;
+    font-family: Tahoma, Helvetica, sans-serif;
+    border-radius: 6px;
+    border: 1px solid #888888;
+    width: 520px;
+    padding: 15px;
+    line-height: 0pt;
 }
