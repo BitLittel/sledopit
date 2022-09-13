@@ -828,6 +828,29 @@ p.Tahoma {
     padding-right: 15px;
     border: 1px solid #888888;
     width: 550px;
+    border-radius: 6px;
+}
+
+#ageSelection {
+    font-size: 25pt;
+    font-family: "Lilita", serif;
+    background: #ffffffbb;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid #888888;
+    width: 550px;
+    border-radius: 6px;
+}
+
+#cityFrom {
+    font-size: 25pt;
+    font-family: "Lilita", serif;
+    background: #ffffffbb;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid #888888;
+    width: 550px;
+    border-radius: 6px;
 }
 
 .newResearchParagraph {
@@ -837,6 +860,16 @@ p.Tahoma {
 }
 
 #newResearchName {
+    font-size: 25pt;
+    font-family: "Lilita", serif;
+    border-radius: 6px;
+    border: 1px solid #888888;
+    width: 520px;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#school {
     font-size: 25pt;
     font-family: "Lilita", serif;
     border-radius: 6px;

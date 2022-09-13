@@ -38,6 +38,40 @@
         <div class="addNewResearchContentBox">
           <div class="newResearchParagraph">
             <div class="newResearchLabel">
+              <label for="school">Школа</label>
+            </div>
+            <div>
+              <input id="school" placeholder="Школа/Гимназия 40">
+            </div>
+          </div>
+          <div class="newResearchParagraph">
+            <div class="newResearchLabel">
+              <label for="ageSelection">Возраст</label>
+            </div>
+            <div>
+              <select id="ageSelection">
+                <option selected>5</option>
+                {% for i in range(6, 80) %}
+                <option>{{ i }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="newResearchParagraph">
+            <div class="newResearchLabel">
+              <label for="cityFrom">Откуда ты</label>
+            </div>
+            <div>
+              <select id="cityFrom">
+                <option selected></option>
+                {% for cite in cites %}
+                <option>{{ cite.name_city }}</option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+          <div class="newResearchParagraph">
+            <div class="newResearchLabel">
               <label for="newReseachCategotySelect">Раздел</label>
             </div>
             <div>
@@ -97,28 +131,6 @@
       <p><label for="name">Фамилия Имя:</label></p>
       <p>
         <input class="name" id="name" placeholder="Иванов Иван">
-      </p>
-      <p><label for="school">Школа:</label></p>
-      <p>
-        <input class="name" id="school" placeholder="Школа №123">
-      </p>
-      <p><label for="ageSelection">Возраст:</label></p>
-      <p>
-        <select id="ageSelection" class="option">
-          <option selected>5</option>
-          {% for i in range(6, 80) %}
-          <option>{{ i }}</option>
-          {% endfor %}
-        </select>
-      </p>
-      <p><label for="cityFrom">Откуда ты:</label></p>
-      <p>
-        <select id="cityFrom" class="option">
-          <option selected></option>
-          {% for cite in cites %}
-          <option>{{ cite.name_city }}</option>
-          {% endfor %}
-        </select>
       </p>
       <p>
         <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на обработку персональных данных</label>

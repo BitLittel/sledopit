@@ -248,28 +248,6 @@
                 <p>
                     <input class="name" id="name" placeholder="Иванов Иван">
                 </p>
-                <p><label for="school">Школа:</label></p>
-                <p>
-                    <input class="name" id="school" placeholder="Школа №123">
-                </p>
-                <p><label for="ageSelection">Возраст:</label></p>
-                <p>
-                    <select id="ageSelection" class="option">
-                        <option selected>5</option>
-                        {% for i in range(6, 80) %}
-                            <option>{{ i }}</option>
-                        {% endfor %}
-                    </select>
-                </p>
-                <p><label for="cityFrom">Откуда ты:</label></p>
-                <p>
-                    <select id="cityFrom" class="option">
-                        <option selected></option>
-                        {% for cite in cites %}
-                            <option>{{ cite.name_city }}</option>
-                        {% endfor %}
-                    </select>
-                </p>
                 <p>
                     <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на обработку персональных данных</label>
                 </p>
