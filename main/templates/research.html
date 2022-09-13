@@ -4,8 +4,10 @@
   <title>Следопыты</title>
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/png">
   <link rel="stylesheet" type="text/css" href="../static/css/style_for_index.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/itc-slider.css">
   <script src="../static/js/script.js"></script>
   <script src="../static/js/main.js"></script>
+  <script src="../static/js/itc-slider.js"></script>
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
@@ -37,7 +39,27 @@
       <h3 style="display: block">Наименование работы</h3>
       <h4 style="display: block">Категория работы</h4>
       <div class="researchBody">
-        <img class="researchImage" src="../static/img/userPics/kid3.jpg" width="400">
+        <div class="container">
+          <div class="slider" data-slider="itc-slider" data-loop="false">
+            <div class="slider__container">
+              <div class="slider__wrapper">
+                <div class="slider__items">
+                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid1.jpg)">
+                    <!-- Фото лучше добавлять в стиль фона, а видосы можно в тело контейнера через <video> -->
+                  </div>
+                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid2.jpg)">
+                  </div>
+                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid3.jpg)">
+                  </div>
+                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid4.webp)">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="slider__control" data-slide="prev"></button>
+            <button class="slider__control" data-slide="next"></button>
+          </div>
+        </div>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

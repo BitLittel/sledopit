@@ -976,3 +976,49 @@ p.Tahoma {
     font-weight: bolder;
     text-align: center;
 }
+
+.container {
+    width: 900px;
+    height: 400px;
+    display: block;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 25px;
+}
+
+.slider__container {
+    padding-left: 0;
+    padding-right: 0;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.slider__items {
+    counter-reset: slide;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.slider__item {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 100%;
+    flex: 0 0 100%;
+    max-width: 100%;
+    counter-increment: slide;
+    height: 400px;
+    position: relative;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #fff;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.slider {
+    position: relative;
+}
+
+.slider__control {
+    background: #7d1810 !important;
+}
