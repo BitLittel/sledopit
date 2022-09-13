@@ -230,6 +230,24 @@ p.Tahoma {
     position: absolute;
 }
 
+.rankEmbed{
+    background-color: #FD8268;
+    color: #fff;
+    font-size: 18pt;
+    display: block;
+    border-radius: 50px;
+    text-shadow: 3px 3px 0px #00000088;
+    box-shadow: 3px 3px 0 0 #CA5238;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-family: fantasy;
+    position: absolute;
+    margin-top: -20px;
+    margin-left: -20px;
+}
+
 .uiList[uListP="1"]:before {
     content: "1";
 }
@@ -403,7 +421,7 @@ p.Tahoma {
 
 .participantContainer {
     width: 200px;
-    margin: 20px;
+    margin: 25px;
 }
 
 .participantPhoto {
@@ -415,10 +433,11 @@ p.Tahoma {
     transition: 0.3s ease;
     cursor: pointer;
     z-index: 999;
+    box-shadow: 0px 0px 15px #00000077;
 }
 
 .participantPhoto:hover {
-    transform: scale(2);
+    transform: scale(1.8);
 }
 
 .funButtonSmall {
@@ -816,4 +835,15 @@ p.Tahoma {
     width: 520px;
     padding: 15px;
     line-height: 0pt;
+}
+
+.flexGrid {
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+    flex-wrap: wrap;
+}
+
+.researchContainer {
+    width: 200px;
 }
