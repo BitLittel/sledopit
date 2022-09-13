@@ -690,6 +690,7 @@ p.Tahoma {
     border: 1px solid #888888;
     padding: 10px 15px;
     width: 450px;
+    transition: 0.3s ease;
 }
 
 #loginPopupExitButton{
@@ -725,6 +726,10 @@ p.Tahoma {
 }
 
 #loginStep2 {
+    display: none;
+}
+
+#loginStep3 {
     display: none;
 }
 
@@ -956,4 +961,18 @@ p.Tahoma {
     margin: 6px;
     text-align: right;
     font-weight: bolder;
+}
+
+.blankContainer {
+    width: 700px;
+    margin-left: calc(50% - 300px);
+    font-family: "Times New Roman";
+    font-size: 14pt;
+    text-align: justify;
+}
+
+.blankContainerHeader {
+    font-size: 18pt;
+    font-weight: bolder;
+    text-align: center;
 }

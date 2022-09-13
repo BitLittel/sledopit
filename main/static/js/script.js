@@ -68,6 +68,7 @@ function showLoginPopUp() {
     document.getElementById("loginPopUp").style.transform = 'scale(1)';
     document.getElementById("loginStep1").style.display = 'block';
     document.getElementById("loginStep2").style.display = 'none';
+    document.getElementById("loginStep3").style.display = 'none';
 }
 
 function closeLoginPopUp() {
@@ -90,5 +91,21 @@ function showErrorMessage(header, text) {
     document.getElementById("errorBox").style.opacity = '1';
     document.getElementById("errorBox").style.top = '50px';
     setTimeout(closeErrorMessage, 3000);
+}
+
+function comparePasswords() {
+    let passInput = document.getElementById('signinPassword'), passInputRepeat = document.getElementById('signinPasswordRepeat');
+    if (passInput.value !== passInputRepeat.value) {
+        passInputRepeat.style.borderColor = 'red'
+        passInputRepeat.style.backgroundColor = '#ffc3c3';
+        return false;
+    } return true;
+}
+
+function rejectPasswordInput() {
+    let passInput = document.getElementById('signinPassword'), passInputRepeat = document.getElementById('signinPasswordRepeat');
+
+    passInputRepeat.style.borderColor = '#888888';
+    passInputRepeat.style.backgroundColor = '#ffffffbb';
 }
 

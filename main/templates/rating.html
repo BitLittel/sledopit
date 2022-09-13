@@ -57,20 +57,38 @@
       <input id="phoneNumber" name="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
     </p>
     <p>
-      <button onclick="logIn();" class="funButton">Войти</button>
+      <button onclick="logIn();" class="funButton">Далее</button>
     </p>
   </div>
   <div class="loginElement" id="loginStep2">
+    <h1>Вход по паролю</h1>
+    <p><label for="loginPassword">Пароль:</label></p>
+    <p>
+      <input type="password" class="name" id="loginPassword">
+    </p>
+    <p>
+      <button class="funButton" onclick="/* Процедура входа по паролю */">Войти</button>
+    </p>
+  </div>
+  <div class="loginElement" id="loginStep3">
     <h1>Давай познакомимся!</h1>
     <p><label for="name">Фамилия Имя:</label></p>
     <p>
       <input class="name" id="name" placeholder="Иванов Иван">
     </p>
+    <p><label for="signinPassword">Придумай пароль:</label></p>
     <p>
-      <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на обработку персональных данных</label>
+      <input type="password" class="name" id="signinPassword">
+    </p>
+    <p><label for="signinPasswordRepeat">Еще раз:</label></p>
+    <p>
+      <input oninput="rejectPasswordInput()" type="password" class="name" id="signinPasswordRepeat">
     </p>
     <p>
-      <button class="funButton" onclick="RegIn();">Зарегистрироваться</button>
+      <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на <a href="terms.html" target="_blank">обработку персональных данных</a></label>
+    </p>
+    <p>
+      <button class="funButton" onclick="if(!comparePasswords())return; RegIn();">Зарегистрироваться</button>
     </p>
   </div>
 </div>
