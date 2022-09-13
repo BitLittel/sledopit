@@ -197,6 +197,36 @@ h1 {
     color: #DD2A1B;
     font-size: 30pt;
     letter-spacing: 2px;
+    font-weight: normal;
+}
+
+h2 {
+    margin-top: 0;
+    display: Inline-block;
+    font-family: "Lilita";
+    color: #DD2A1B;
+    font-size: 20pt;
+    letter-spacing: 2px;
+    font-weight: normal;
+}
+
+h3 {
+    margin: 0 0 15px 0;
+    display: Inline-block;
+    font-family: Tahoma, Helvetica, sans-serif;
+    color: #DD2A1B;
+    font-size: 30pt;
+    font-weight: bolder;
+}
+
+h4 {
+    margin: 0 0 15px 0;
+    padding: 0;
+    display: Inline-block;
+    font-family: Tahoma, Helvetica, sans-serif;
+    color: #DD2A1B;
+    font-size: 20pt;
+    font-weight: bolder;
 }
 
 p.Tahoma {
@@ -846,4 +876,51 @@ p.Tahoma {
 
 .researchContainer {
     width: 200px;
+}
+
+.researchImage {
+    float: left;
+    margin-right: 25px;
+    transition: 0.5s ease;
+    cursor: pointer;
+}
+
+.researchImage:hover {
+    transform: scale(2);
+}
+
+.researchBody {
+    font-family: Tahoma, Helvetica, sans-serif;
+    text-align: justify;
+    padding: 10px 25px;
+}
+
+.researcherName {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 30pt;
+    color: #DD2A1B;
+    padding: 0 25px 0 0;
+    margin: 6px;
+    text-align: right;
+    font-weight: bolder;
+}
+
+.researcherAge {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 15pt;
+    color: #DD2A1B;
+    padding: 0 25px 0 0;
+    margin: 6px;
+    text-align: right;
+    font-weight: bolder;
+}
+
+.researcherFrom {
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: 15pt;
+    color: #DD2A1B;
+    padding: 0 25px 0 0;
+    margin: 6px;
+    text-align: right;
+    font-weight: bolder;
 }
