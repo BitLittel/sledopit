@@ -4,4 +4,3 @@ venv
 config.py
 main/static/img/reseach_img/*.*
 main/static/img/userPics/*.*
-main/static/img/researchesPics/*.*

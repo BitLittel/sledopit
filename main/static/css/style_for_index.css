@@ -425,7 +425,7 @@ p.Tahoma {
     letter-spacing: 2px;
     transition: 0.3s ease;
     position: relative;
-    right: 0px;
+    right: 0;
     margin-top: 6px;
 }
 

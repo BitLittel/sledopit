@@ -50,22 +50,24 @@
                     </div>
                 </div>
                 <div style="margin: 5% 0;">
-                    <p style="font-size: 40pt; color: #DD2A1B; margin: 20px 0px; font-family: 'Lilita', serif;">Рейтинг юных иследователей</p>
+                    <p style="font-size: 40pt; color: #DD2A1B; margin: 20px 0px; font-family: 'Lilita', serif;">Рейтинг юных исследователей</p>
                     <div class="photoContainer" style="padding-top: 0px">
-                        {% for random_user in random_users %}
-                            <div class="participantContainer">
-                                <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='static/img/userPics/'+random_user[0].photo)+')' if random_user[0].photo else ''}}"></div>
-                                <p>{{ random_user[0].FIO }}</p>
-                                {% if random_user[1] == 1 %}
-                                    <p class="rank">Юный исследователь</p>
-                                {% elif random_user[1] == 2 %}
-                                    <p class="rank">Следопыт</p>
-                                {% elif random_user[1] >= 3 %}
-                                    <p class="rank">Следопыт-супергерой</p>
-                                {% endif %}
-                                <p><span class="fitDigit">{{ random_user[1] }}</span> исследований</p>
-                                <p><span class="fitDigit">{{ random_user[2] }}</span> голосов</p>
-                            </div>
+                        {% if random_users != None %}
+                            {% for random_user in random_users %}
+                                <div class="participantContainer">
+                                    <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+random_user[0].main_photo_path)+')' if random_user[0].main_photo_path != '' else ''}}"></div>
+                                    <p>{{ random_user[0].FIO }}</p>
+                                    {% if random_user[1] == 1 %}
+                                        <p class="rank">Юный исследователь</p>
+                                    {% elif random_user[1] == 2 %}
+                                        <p class="rank">Следопыт</p>
+                                    {% elif random_user[1] >= 3 %}
+                                        <p class="rank">Следопыт-супергерой</p>
+                                    {% endif %}
+                                    <p><span class="fitDigit">{{ random_user[1] }}</span> исследований</p>
+                                    <p><span class="fitDigit">{{ random_user[2] }}</span> голосов</p>
+                                </div>
+                            {% endfor %}
                         {% else %}
                             <div class="participantContainer">
                                 <div class="participantPhoto"></div>
@@ -74,102 +76,98 @@
                                 <p><span class="fitDigit">0</span> исследований</p>
                                 <p><span class="fitDigit">0</span> голосов</p>
                             </div>
-                        {% endfor %}
+                        {% endif %}
                     </div>
+                    <a href="{{ url_for('rating') }}"><div class="funButtonSmall">Рейтинг юных исследователей</div></a>
                 </div>
                 <h1>Запомни, мира не узнаешь, не зная края своего!</h1>
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="brown">Известные люди</div>
-                        <div class="flatButton">Добавить свое исследование</div>
+                        <a href="{{ url_for('add_research', type_research='famous_people') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                     </div>
                     <div class="photoContainer">
                         {% for research_famous_person in research_famous_people %}
-                            <div class="participantContainer">
-                                <div class="participantPhoto"></div>
+                            <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=research_famous_person.id) }}')">
+                                <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+research_famous_person.main_photo_path)+')' if research_famous_person.main_photo_path else ''}}"></div>
                                 <p>{{ research_famous_person.name }}</p>
                                 <p>{{ research_famous_person.FIO }}</p>
-                                {# todo: добавить функцию голосования для залогиненых пользователей, а если не залогинен то выводить окно для логина #}
-                                <div class="funButtonSmall" onclick="{{ 'showLoginPopUp()' if current_user.is_authenticated == False else '' }}">Проголосовать</div>
                             </div>
                         {% else %}
                             <div class="participantContainer">
                                 <div class="participantPhoto"></div>
                                 <p>Название работы</p>
                                 <p>Автор</p>
-                                <div class="funButtonSmall">Проголосовать</div>
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="funButtonSmall" onclick="window.location.replace('{{ url_for('category', type_category='famous_people') }}')">Показать все исследования</div>
                 </div>
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="green">Растительный мир</div>
-                        <div class="flatButton">Добавить свое исследование</div>
+                        <a href="{{ url_for('add_research', type_research='plants') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                     </div>
                     <div class="photoContainer">
                         {% for research_plant in research_plants %}
-                            <div class="participantContainer">
-                                <div class="participantPhoto"></div>
+                            <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=research_plant.id) }}')">
+                                <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+research_plant.main_photo_path)+')' if research_plant.main_photo_path else ''}}"></div>
                                 <p>{{ research_plant.name }}</p>
                                 <p>{{ research_plant.FIO }}</p>
-                                <div class="funButtonSmall" onclick="{{ 'showLoginPopUp()' if current_user.is_authenticated == False else '' }}">Проголосовать</div>
                             </div>
                         {% else %}
                             <div class="participantContainer">
                                 <div class="participantPhoto"></div>
                                 <p>Название работы</p>
                                 <p>Автор</p>
-                                <div class="funButtonSmall">Проголосовать</div>
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="funButtonSmall" onclick="window.location.replace('{{ url_for('category', type_category='plants') }}')">Показать все исследования</div>
                 </div>
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="red">Животный мир</div>
-                        <div class="flatButton">Добавить свое исследование</div>
+                        <a href="{{ url_for('add_research', type_research='animals') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                     </div>
                     <div class="photoContainer">
                         {% for research_animal in research_animals %}
-                            <div class="participantContainer">
-                                <div class="participantPhoto"></div>
+                            <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=research_animal.id) }}')">
+                                <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+research_animal.main_photo_path)+')' if research_animal.main_photo_path else ''}}"></div>
                                 <p>{{ research_animal.name }}</p>
                                 <p>{{ research_animal.FIO }}</p>
-                                <div class="funButtonSmall" onclick="{{ 'showLoginPopUp()' if current_user.is_authenticated == False else '' }}">Проголосовать</div>
                             </div>
                         {% else %}
                             <div class="participantContainer">
                                 <div class="participantPhoto"></div>
                                 <p>Название работы</p>
                                 <p>Автор</p>
-                                <div class="funButtonSmall">Проголосовать</div>
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="funButtonSmall" onclick="window.location.replace('{{ url_for('category', type_category='animals') }}')">Показать все исследования</div>
                 </div>
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="blue">Природные объекты</div>
-                        <div class="flatButton">Добавить свое исследование</div>
+                        <a href="{{ url_for('add_research', type_research='nature_object') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                     </div>
                     <div class="photoContainer">
                         {% for research_nature_object in research_nature_objects %}
-                            <div class="participantContainer">
-                                <div class="participantPhoto"></div>
+                            <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=research_nature_object.id) }}')">
+                                <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+research_nature_object.main_photo_path)+')' if research_nature_object.main_photo_path else ''}}"></div>
                                 <p>{{ research_nature_object.name }}</p>
                                 <p>{{ research_nature_object.FIO }}</p>
-                                <div class="funButtonSmall" onclick="{{ 'showLoginPopUp()' if current_user.is_authenticated == False else '' }}">Проголосовать</div>
                             </div>
                         {% else %}
                             <div class="participantContainer">
                                 <div class="participantPhoto"></div>
                                 <p>Название работы</p>
                                 <p>Автор</p>
-                                <div class="funButtonSmall">Проголосовать</div>
                             </div>
                         {% endfor %}
                     </div>
+                    <div class="funButtonSmall" onclick="window.location.replace('{{ url_for('category', type_category='nature_object') }}')">Показать все исследования</div>
                 </div>
             </div>
             <div id="bgFooter" class="redFont">
@@ -192,7 +190,7 @@
                     <p>Период проведения конкурса:</p>
                     <p>С 15 сентября по 13 октября принимаем ваши исследования.</p>
                     <p>20 октября мы подведем итоги.</p>
-                    <p>Чем больше исследований ты проведешь, тем выше будет становиться твое звание. Каждлый участник получит гарантированный приз в зависимости от своего звания:</p>
+                    <p>Чем больше исследований ты проведешь, тем выше будет становиться твое звание. Каждый участник получит гарантированный приз в зависимости от своего звания:</p>
                     <p>1 исследование &mdash; «Юный исследователь» - значок и сладкий приз</p>
                     <p>2 исследования &mdash; «Следопыт» - удобный блокнот для твоих исследований и бандана</p>
                     <p>3 и более исследования - «Следопыт-супергерой» - рюкзак и бутылка для твоих активных прогулок</p>
@@ -231,7 +229,7 @@
             </div>
         </div>
         <div id="loginPopUp">
-            <dib id="loginPopupExitButton" onclick="closeLoginPopUp()">x</dib>
+            <div id="loginPopupExitButton" onclick="closeLoginPopUp()">x</div>
             <div class="loginElement" id="loginStep1">
                 <h1>Вход или регистрация</h1>
                 <p><label for="phoneNumber">Номер телефона:</label></p>
@@ -246,10 +244,10 @@
                 <h1>Вход по паролю</h1>
                 <p><label for="loginPassword">Пароль:</label></p>
                 <p>
-                    <input type="password" class="name" id="loginPassword">
+                    <input type="password" class="name" id="loginPassword" name="loginPassword">
                 </p>
                 <p>
-                    <button class="funButton" onclick="/* Процедура входа по паролю */">Войти</button>
+                    <button class="funButton" onclick="logIn();">Войти</button>
                 </p>
             </div>
             <div class="loginElement" id="loginStep3">

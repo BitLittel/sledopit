@@ -17,7 +17,8 @@ class Users(Base):
     city = Column(Unicode(128, collation='utf8_unicode_ci'))
     school = Column(Unicode(255, collation='utf8_unicode_ci'))
     age = Column(Integer)
-    photo = Column(Unicode(255, collation='utf8_unicode_ci'))
+    # photo = Column(Unicode(255, collation='utf8_unicode_ci'))
+    password = Column(Unicode(255, collation='utf8_unicode_ci'))
 
     users_votes = relationship('Votes', backref='users_votes', lazy='dynamic')
     researches_users = relationship('Research', backref='researches_users', lazy='dynamic')
@@ -43,7 +44,8 @@ class Research(Base):
     type_research = Column(Enum('famous_people', 'plants', 'animals', 'nature_object'), default='famous_people')
     about = Column(Text(collation='utf8_unicode_ci'))
     main_photo_path = Column(Unicode(255, collation='utf8_unicode_ci'))
-    photo_and_video_path = Column(PickleType, default=list())
+    photos = Column(PickleType, default=list())
+    videos = Column(PickleType, default=list())
 
     research_photo_and_video = relationship('PhotoAndVideo', backref='research_photo_and_video', lazy='dynamic')
 

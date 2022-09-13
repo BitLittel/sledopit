@@ -32,57 +32,59 @@
     <div id="conBox">
       <div style="margin: 5% 0;">
         <div style="margin-bottom: 75px; text-align: left; margin-left: 25px;">
-          <div class="funButton"> < На главную</div>
+          <a href="{{ url_for('test') }}"><div class="funButton"> < На главную</div></a>
         </div>
-        <h1 style="display: block">Добавить новое исследование</h1>
+
+        {% if type_research == 'famous_people' %}
+            <h1 style="display: block">Добавить новое исследование в раздел "Известные люди"</h1>
+        {% elif type_research == 'plants' %}
+            <h1 style="display: block">Добавить новое исследование в раздел "Растительный мир"</h1>
+        {% elif type_research == 'animals' %}
+            <h1 style="display: block">Добавить новое исследование в раздел "Животный мир"</h1>
+        {% else %}
+            <h1 style="display: block">Добавить новое исследование в раздел "Природные объекты"</h1>
+        {% endif %}
+
         <div class="addNewResearchContentBox">
-          <div class="newResearchParagraph">
-            <div class="newResearchLabel">
-              <label for="school">Школа</label>
-            </div>
-            <div>
-              <input id="school" placeholder="Школа/Гимназия 40">
-            </div>
-          </div>
-          <div class="newResearchParagraph">
-            <div class="newResearchLabel">
-              <label for="ageSelection">Возраст</label>
-            </div>
-            <div>
-              <select id="ageSelection">
-                <option selected>5</option>
-                {% for i in range(6, 80) %}
-                <option>{{ i }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <div class="newResearchParagraph">
-            <div class="newResearchLabel">
-              <label for="cityFrom">Откуда ты</label>
-            </div>
-            <div>
-              <select id="cityFrom">
-                <option selected></option>
-                {% for cite in cites %}
-                <option>{{ cite.name_city }}</option>
-                {% endfor %}
-              </select>
-            </div>
-          </div>
-          <div class="newResearchParagraph">
-            <div class="newResearchLabel">
-              <label for="newReseachCategotySelect">Раздел</label>
-            </div>
-            <div>
-              <select id="newReseachCategotySelect">
-                <option>Известные люди</option>
-                <option>Растительный мир</option>
-                <option>Животный мир</option>
-                <option>Природные объекты</option>
-              </select>
-            </div>
-          </div>
+            {% if current_user.school == None %}
+                <div class="newResearchParagraph">
+                    <div class="newResearchLabel">
+                        <label for="school">Учебное заведение</label>
+                    </div>
+                    <div>
+                        <input id="school" placeholder="Школа/Гимназия 40">
+                    </div>
+                </div>
+
+                <div class="newResearchParagraph">
+                    <div class="newResearchLabel">
+                        <label for="ageSelection">Возраст</label>
+                    </div>
+                    <div>
+                        <select id="ageSelection">
+                            <option selected>5</option>
+                            {% for i in range(6, 80) %}
+                                <option>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="newResearchParagraph">
+                    <div class="newResearchLabel">
+                        <label for="cityFrom">Откуда ты</label>
+                    </div>
+                    <div>
+                        <select id="cityFrom">
+                            <option selected></option>
+                            {% for cite in cites %}
+                                <option>{{ cite.name_city }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            {% endif %}
+
           <div class="newResearchParagraph">
             <div class="newResearchLabel">
               <label for="newResearchName">Название работы</label>
@@ -108,54 +110,10 @@
             </div>
           </div>
           <div class="newResearchParagraph" style="justify-content: center">
-            <div class="funButton">Отправить работу</div>
+            <div class="funButton" onclick="addResearch('{{ 'false' if current_user.school == None else 'true' }}', '{{ type_research }}', '{{ csrf_token() }}');">Отправить работу</div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div id="loginPopUp">
-    <dib id="loginPopupExitButton" onclick="closeLoginPopUp()">x</dib>
-    <div class="loginElement" id="loginStep1">
-      <h1>Вход или регистрация</h1>
-      <p><label for="phoneNumber">Номер телефона:</label></p>
-      <p>
-        <input id="phoneNumber" name="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
-      </p>
-      <p>
-        <button onclick="logIn();" class="funButton">Далее</button>
-      </p>
-    </div>
-    <div class="loginElement" id="loginStep2">
-      <h1>Вход по паролю</h1>
-      <p><label for="loginPassword">Пароль:</label></p>
-      <p>
-        <input type="password" class="name" id="loginPassword">
-      </p>
-      <p>
-        <button class="funButton" onclick="/* Процедура входа по паролю */">Войти</button>
-      </p>
-    </div>
-    <div class="loginElement" id="loginStep3">
-      <h1>Давай познакомимся!</h1>
-      <p><label for="name">Фамилия Имя:</label></p>
-      <p>
-        <input class="name" id="name" placeholder="Иванов Иван">
-      </p>
-      <p><label for="signinPassword">Придумай пароль:</label></p>
-      <p>
-        <input type="password" class="name" id="signinPassword">
-      </p>
-      <p><label for="signinPasswordRepeat">Еще раз:</label></p>
-      <p>
-        <input oninput="rejectPasswordInput()" type="password" class="name" id="signinPasswordRepeat">
-      </p>
-      <p>
-        <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на <a href="terms.html" target="_blank">обработку персональных данных</a></label>
-      </p>
-      <p>
-        <button class="funButton" onclick="if(!comparePasswords())return; RegIn();">Зарегистрироваться</button>
-      </p>
     </div>
   </div>
   <div id="errorBox">

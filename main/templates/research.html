@@ -34,43 +34,45 @@
   <div id="conBox">
     <div style="margin: 5% 0;">
       <div style="margin-bottom: 75px; text-align: left; margin-left: 25px;">
-        <div class="funButton"> < Назад</div>
+        <a href="{{ url_for('test') }}"><div class="funButton"> < На главную</div></a>
       </div>
-      <h3 style="display: block">Наименование работы</h3>
-      <h4 style="display: block">Категория работы</h4>
+      <h3 style="display: block">{{check_research.name}}</h3>
+        {% if check_research.type_research == 'famous_people' %}
+            <h4 style="display: block">Известные люди</h4>
+        {% elif check_research.type_research == 'plants' %}
+            <h4 style="display: block">Растительный мир</h4>
+        {% elif check_research.type_research == 'animals' %}
+            <h4 style="display: block">Животный мир</h4>
+        {% else %}
+            <h4 style="display: block">Природные объекты</h4>
+        {% endif %}
+
       <div class="researchBody">
         <div class="container">
           <div class="slider" data-slider="itc-slider" data-loop="false">
             <div class="slider__container">
               <div class="slider__wrapper">
                 <div class="slider__items">
-                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid1.jpg)">
-                    <!-- Фото лучше добавлять в стиль фона, а видосы можно в тело контейнера через <video> -->
-                  </div>
-                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid2.jpg)">
-                  </div>
-                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid3.jpg)">
-                  </div>
-                  <div class="slider__item" style="background-image: url(../static/img/userPics/kid4.webp)">
-                  </div>
+                    <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+check_research.main_photo_path) }})">
+                    {% for photo in check_research.photos %}
+                        <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})">
+                    {% endfor %}
                 </div>
               </div>
             </div>
             <button class="slider__control" data-slide="prev"></button>
             <button class="slider__control" data-slide="next"></button>
           </div>
+            {% for video in check_research.videos %}
+                <video src="{{ url_for('static', filename='img/reseach_img/'+video) }}" preload="auto"></video>
+            {% endfor %}
         </div>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        {{ check_research.about }}
       </div>
       <div researchAuthorBox>
-        <p class="researcherName">Дмитрий Табакаев</p>
-        <p class="researcherAge">0 лет</p>
-        <p class="researcherFrom">Луганск, МБОУ СОШ 1488</p>
+        <p class="researcherName">{{ check_research.FIO }}</p>
+        <p class="researcherAge">{{ check_research.age }} лет</p>
+        <p class="researcherFrom">{{ check_research.city }}, {{ check_research.school }}</p>
       </div>
     </div>
   </div>

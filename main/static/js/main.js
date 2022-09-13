@@ -171,22 +171,32 @@ let phoneNumber;
 
 function logIn() {
     phoneNumber = document.getElementById('phoneNumber');
+    let loginPassword = document.getElementById('loginPassword').value,
+        send_data = (loginPassword !== "") ? {phoneNumber: phoneNumber.value, loginPassword: loginPassword} : {phoneNumber: phoneNumber.value};
+    console.log(phoneNumber, loginPassword, send_data)
     AJAX(
         {
             url: '/api/login',
-            data: {
-                phoneNumber: phoneNumber.value
-            }
+            data: send_data
         },
         function (data) {
-            if (data.login == true) {
-                closeLoginPopUp();
-                window.location.reload();
-            } else if (data.login == false) {
-                showErrorMessage(data.header, data.text);
+            if (loginPassword === "") {
+                if (data.login == true) {
+                    document.getElementById('loginStep1').style.display = 'none';
+                    document.getElementById('loginStep2').style.display = 'block';
+                } else if (data.login == false) {
+                    showErrorMessage(data.header, data.text);
+                } else {
+                    document.getElementById('loginStep1').style.display = 'none';
+                    document.getElementById('loginStep3').style.display = 'block';
+                }
             } else {
-                document.getElementById('loginStep1').style.display = 'none';
-                document.getElementById('loginStep2').style.display = 'block';
+                if (data.login == true) {
+                    closeLoginPopUp();
+                    window.location.reload();
+                } else {
+                    showErrorMessage(data.header, data.text);
+                }
             }
         }
     );
@@ -194,30 +204,19 @@ function logIn() {
 
 function RegIn() {
     let name = document.getElementById('name'),
-        school = document.getElementById('school'),
-        ageSelection = document.getElementById('ageSelection'),
-        cityFrom = document.getElementById('cityFrom'),
+        signinPassword = document.getElementById('signinPassword'),
         personalDataAgreement = document.getElementById('personalDataAgreement');
+
     if (name.value == '') {
         showErrorMessage('Ошибка', 'Поле "Фамилия Имя" введено некорректно');
-    } else if (school.value == '') {
-        showErrorMessage('Ошибка', 'Поле "Школа" введено некорректно');
-    } else if (ageSelection.value == '') {
-        showErrorMessage('Ошибка', 'Поле "Возраст" введено некорректно');
-    } else if (cityFrom.value == '') {
-        showErrorMessage('Ошибка', 'Поле "Откуда ты" введено некорректно');
-    } else if (!personalDataAgreement.checked) {
-        showErrorMessage('Ошибка', 'Извините, без вашего согласия на обработку, мы не можем вас зарегистрировать');
-    } else {
+    }  else {
         AJAX(
             {
                 url: '/api/reg',
                 data: {
                     phoneNumber: phoneNumber.value,
                     name: name.value,
-                    school: school.value,
-                    ageSelection: ageSelection.value,
-                    cityFrom: cityFrom.value,
+                    signinPassword: signinPassword.value,
                     personalDataAgreement: personalDataAgreement.checked
                 }
             },
@@ -231,4 +230,48 @@ function RegIn() {
             }
         );
     }
+}
+
+function addResearch(user_have_data, type_research, csrf_token) {
+    let formData = new FormData();
+
+    if (user_have_data == 'false') {
+        let cityFrom = document.getElementById('cityFrom'),
+            ageSelection = document.getElementById('ageSelection'),
+            school = document.getElementById('school');
+        formData.append('cityFrom', cityFrom.value);
+        formData.append('ageSelection', ageSelection.value);
+        formData.append('school', school.value);
+    }
+
+    let newResearchPhoto = document.getElementById('newResearchPhoto');
+    for (var i = 0, file; file = newResearchPhoto.files[i]; ++i) {
+        formData.append('photo_and_video', file);
+    }
+
+    formData.append('newResearchText', newResearchText.value);
+    formData.append('newResearchName', newResearchName.value);
+    formData.append('have_data', user_have_data);
+    formData.append('type_research', type_research);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/load_research', true);
+    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+
+
+    xhr.onload = function(e) {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            // выполнить при получении данных
+            var result = JSON.parse(xhr.responseText);
+            console.log(result);
+            if (result.reseach == false) {
+                showErrorMessage(result.header, result.text);
+            } else {
+                window.location.replace('/research/'+result.id_research)
+            }
+        } else {
+            console.log(xhr.status);
+        }
+    };
+    xhr.send(formData);
 }
