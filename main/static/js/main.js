@@ -275,3 +275,32 @@ function addResearch(user_have_data, type_research, csrf_token) {
     };
     xhr.send(formData);
 }
+
+
+function vote(id_research, is_authenticated, user_id) {
+    let count_allow_votes = document.getElementById('count_allow_votes');
+    if (is_authenticated == 'True') {
+        AJAX(
+            {
+                url: '/api/vote',
+                data: {
+                    user_id: user_id,
+                    id_research: id_research
+                }
+            },
+            function (data) {
+                if (data.vote == true) {
+                    count_allow_votes.innerText = Number(count_allow_votes.innerText) - 1
+                    console.log(data);
+                } else {
+                    showErrorMessage(data.header, data.text);
+                    console.log(data);
+                }
+            }
+        )
+    } else {
+        showLoginPopUp();
+        showErrorMessage('Ошибка', 'Необходимо войти в аккаунт');
+    }
+
+}

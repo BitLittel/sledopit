@@ -47,22 +47,14 @@ class Research(Base):
     photos = Column(PickleType, default=list())
     videos = Column(PickleType, default=list())
 
-    research_photo_and_video = relationship('PhotoAndVideo', backref='research_photo_and_video', lazy='dynamic')
-
-
-class PhotoAndVideo(Base):
-    __tablename__ = 'photoandvideo'
-    id = Column(Integer, primary_key=True)
-    research_id = Column(Integer, ForeignKey(Research.id))
-    path = Column(Unicode(255, collation='utf8_unicode_ci'))
-    name = Column(Unicode(255, collation='utf8_unicode_ci'))
+    research_votes = relationship('Votes', backref='research_votes', lazy='dynamic')
 
 
 class Votes(Base):
     __tablename__ = 'votes'
     id = Column(Integer, primary_key=True)
     user_vote = Column(Integer, ForeignKey(Users.id))
-    user_vote_to = Column(Integer)
+    user_vote_to_research = Column(Integer, ForeignKey(Research.id))
 
 
 class Cites(Base):

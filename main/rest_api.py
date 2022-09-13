@@ -4,7 +4,7 @@ import os
 from main import main
 from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
-from main.database import Users, Session, Cites, Research
+from main.database import Users, Session, Cites, Research, Votes
 from sqlalchemy import and_, or_, desc
 from flask_wtf.csrf import CSRFProtect
 from main.views import global_type_research
@@ -182,3 +182,29 @@ def api_load_research():
         return jsonify(dict(reseach=True, id_research=add_new_research.id))
     else:
         return jsonify(dict(reseach=False, header='Ошибка', text='Отправлены некорректные данные'))
+
+
+@main.route('/api/vote', methods=['POST', 'GET'])
+@login_required
+def vote():
+    if request.method == 'GET':
+        try:
+            user_id = int(request.args.get('user_id'))
+            id_research = int(request.args.get('id_research'))
+        except ValueError:
+            return jsonify(dict(vote=False, header='Ошибка', text='Отправлены некорректные данные'))
+        if current_user.id != user_id:
+            return jsonify(dict(vote=False, header='Ошибка', text='Отправлены некорректные данные'))
+        get_research = g.db.query(Research).filter(Research.id == id_research).first()
+        if get_research is None:
+            return jsonify(dict(vote=False, header='Ошибка', text='Отправлены некорректные данные'))
+        if get_research.user_id == user_id:
+            return jsonify(dict(vote=False, header='Ошибка', text='За самого себя проголосовать нельзя'))
+        if g.db.query(Votes).filter(Votes.user_vote == user_id).count() >= 3:
+            return jsonify(dict(vote=False, header='Ошибка', text='Вы уже проголосовали максимальное количество раз'))
+
+        new_votes = Votes(users_votes=current_user, research_votes=get_research)
+        g.db.add(new_votes)
+        g.db.commit()
+
+    return jsonify(dict(vote=True))

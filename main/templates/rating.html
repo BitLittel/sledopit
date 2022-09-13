@@ -39,9 +39,9 @@
     <div class="flexGrid">
         {% if all_user_with_researchs != None %}
             {% for i in range(all_user_with_researchs|length) %}
-                <div class="participantContainer">
+                <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=all_user_with_researchs[i].id) }}')">
                     <div class="rankEmbed">{{ i + 1 }}</div>
-                    <div class="participantPhoto"></div>
+                    <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+all_user_with_researchs[i].main_photo_path)+')' if all_user_with_researchs[i].main_photo_path else ''}}"></div>
                     <p>{{ all_user_with_researchs[i].FIO }}, {{ all_user_with_researchs[i].age }} лет/года</p>
                     {% if all_user_with_researchs[i].count_research == 1 %}
                         <p class="rank">Юный исследователь</p>

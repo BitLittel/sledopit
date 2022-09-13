@@ -32,105 +32,85 @@
   <div id="conBox">
     <div style="margin: 5% 0;">
       <div style="margin-bottom: 75px; text-align: left; margin-left: 25px;">
-        <div class="funButton"> < На главную</div>
+        <a href="{{ url_for('test') }}"><div class="funButton"> < На главную</div></a>
       </div>
       <!-- Показывай нужную плашку на выбор -->
-      <div class="researchHeader" researchColor="brown">Известные люди</div>
-      <div class="researchHeader" researchColor="green">Растительный мир</div>
-      <div class="researchHeader" researchColor="red">Животный мир</div>
-      <div class="researchHeader" researchColor="blue">Природные объекты</div>
+        {% if type_category == 'famous_people' %}
+            <div class="researchHeader" researchColor="brown">Известные люди</div>
+        {% elif type_category == 'plants' %}
+            <div class="researchHeader" researchColor="green">Растительный мир</div>
+        {% elif type_category == 'animals' %}
+            <div class="researchHeader" researchColor="red">Животный мир</div>
+        {% else %}
+            <div class="researchHeader" researchColor="blue">Природные объекты</div>
+        {% endif %}
     </div>
-    <!-- После голосования нужно декрементировать этот счетчик -->
-    <h1>Вы можете проголосовать за 3 работы</h1>
+    <h1>Вы можете проголосовать за <span id="count_allow_votes">{{ count_votes_user }}</span> работы</h1>
     <div class="flexGrid">
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
-      <div class="participantContainer">
-        <div class="participantPhoto"></div>
-        <p>Имя Фамилия, 0 лет</p>
-        <p>0 голосов</p>
-        <div class="funButtonSmall">Проголосовать</div>
-      </div>
+        {% if get_research_with_categorys %}
+            {% for get_research_with_category in get_research_with_categorys %}
+                <div class="participantContainer">
+                    <div class="participantPhoto" onclick="window.location.replace('{{ url_for('research', id_research=get_research_with_category.id) }}')" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+get_research_with_category.main_photo_path)+')' if get_research_with_category.main_photo_path else ''}}"></div>
+                    <p>{{ get_research_with_category.FIO }}, {{ get_research_with_category.age }} лет</p>
+                    <p>{{ get_research_with_category.count_votes }} голосов</p>
+                    <div class="funButtonSmall" onclick="vote({{ get_research_with_category.id }}, '{{ current_user.is_authenticated() }}', '{{ current_user.id }}');">Проголосовать</div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="participantContainer">
+                <div class="participantPhoto"></div>
+                <p>Имя Фамилия, 0 лет</p>
+                <p>0 голосов</p>
+                <div class="funButtonSmall">Проголосовать</div>
+            </div>
+        {% endif %}
     </div>
   </div>
+    <div id="bgFooter" class="redFont" style="display: none;"></div>
 </div>
 <div id="loginPopUp">
-  <dib id="loginPopupExitButton" onclick="closeLoginPopUp()">x</dib>
-  <div class="loginElement" id="loginStep1">
-    <h1>Вход или регистрация</h1>
-    <p><label for="phoneNumber">Номер телефона:</label></p>
-    <p>
-      <input id="phoneNumber" name="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
-    </p>
-    <p>
-      <button onclick="logIn();" class="funButton">Далее</button>
-    </p>
-  </div>
-  <div class="loginElement" id="loginStep2">
-    <h1>Вход по паролю</h1>
-    <p><label for="loginPassword">Пароль:</label></p>
-    <p>
-      <input type="password" class="name" id="loginPassword">
-    </p>
-    <p>
-      <button class="funButton" onclick="/* Процедура входа по паролю */">Войти</button>
-    </p>
-  </div>
-  <div class="loginElement" id="loginStep3">
-    <h1>Давай познакомимся!</h1>
-    <p><label for="name">Фамилия Имя:</label></p>
-    <p>
-      <input class="name" id="name" placeholder="Иванов Иван">
-    </p>
-    <p><label for="signinPassword">Придумай пароль:</label></p>
-    <p>
-      <input type="password" class="name" id="signinPassword">
-    </p>
-    <p><label for="signinPasswordRepeat">Еще раз:</label></p>
-    <p>
-      <input oninput="rejectPasswordInput()" type="password" class="name" id="signinPasswordRepeat">
-    </p>
-    <p>
-      <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на <a href="terms.html" target="_blank">обработку персональных данных</a></label>
-    </p>
-    <p>
-      <button class="funButton" onclick="if(!comparePasswords())return; RegIn();">Зарегистрироваться</button>
-    </p>
-  </div>
+    <div id="loginPopupExitButton" onclick="closeLoginPopUp()">x</div>
+    <div class="loginElement" id="loginStep1">
+        <h1>Вход или регистрация</h1>
+        <p><label for="phoneNumber">Номер телефона:</label></p>
+        <p>
+            <input id="phoneNumber" name="phoneNumber" size="14" class="tel" placeholder="+7 (999) 999 9999">
+        </p>
+        <p>
+            <button onclick="logIn();" class="funButton">Далее</button>
+        </p>
+    </div>
+    <div class="loginElement" id="loginStep2">
+        <h1>Вход по паролю</h1>
+        <p><label for="loginPassword">Пароль:</label></p>
+        <p>
+            <input type="password" class="name" id="loginPassword" name="loginPassword">
+        </p>
+        <p>
+            <button class="funButton" onclick="logIn();">Войти</button>
+        </p>
+    </div>
+    <div class="loginElement" id="loginStep3">
+        <h1>Давай познакомимся!</h1>
+        <p><label for="name">Фамилия Имя:</label></p>
+        <p>
+            <input class="name" id="name" placeholder="Иванов Иван">
+        </p>
+        <p><label for="signinPassword">Придумай пароль:</label></p>
+        <p>
+            <input type="password" class="name" id="signinPassword">
+        </p>
+        <p><label for="signinPasswordRepeat">Еще раз:</label></p>
+        <p>
+            <input oninput="rejectPasswordInput()" type="password" class="name" id="signinPasswordRepeat">
+        </p>
+        <p>
+            <input id="personalDataAgreement" type="checkbox"><label for="personalDataAgreement">Соглашаюсь на <a href="terms.html" target="_blank">обработку персональных данных</a></label>
+        </p>
+        <p>
+            <button class="funButton" onclick="if(!comparePasswords())return; RegIn();">Зарегистрироваться</button>
+        </p>
+    </div>
 </div>
 <div id="errorBox">
   <p id="messageHeader">Test message</p>

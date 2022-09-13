@@ -4,7 +4,7 @@ import re
 from main import main
 from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
-from main.database import Users, Session, Cites, Votes, PhotoAndVideo, Research
+from main.database import Users, Session, Cites, Votes, Research
 from sqlalchemy import and_, or_, desc
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy.sql import func
@@ -61,18 +61,57 @@ def index():
 # todo: почле открытия поставить как "/" и "/index"
 @main.route('/main', methods=['GET', 'POST'])
 def test():
+    # todo: get city перенести в дж логин и реги ин как отдельную функцию по аджаксу, еу косяк в том что из разных страниц там будет шиш данных
     get_city = g.db.query(Cites).all()
 
-    get_users = g.db.query(Users.FIO, Users.id, Research.main_photo_path).join(Research, Research.user_id == Users.id).all()
-    if get_users is None or get_users == []:
-        random_users = None
-    else:
-        shuffle(get_users)
+    users = []
+    all_user_with_researchs = g.db.query(
+        Research.id,
+        Users.FIO,
+        Users.age,
+        Research.main_photo_path,
+        func.count(Research.id).label('count_research'),
+        func.count(Votes.id).label('count_votes')
+    ).join(
+        Research,
+        Research.user_id == Users.id,
+        isouter=True
+    ).join(
+        Votes,
+        Votes.user_vote_to_research == Research.id,
+        isouter=True
+    ).order_by(func.count(Research.id)).all()
+
+    for i in all_user_with_researchs:
+        if i.count_research != 0:
+            users.append(i)
+
+    if users != []:
+        shuffle(users)
         random_users = []
-        for i in get_users[0:4]:
-            count_research = g.db.query(Research).filter(Research.user_id == i.id).count()
-            count_votes = g.db.query(Votes).filter(Votes.user_vote_to == i.id).count()
-            random_users.append([i, count_research, count_votes])
+        for i in users[0:4]:
+            random_users.append(i)
+    else:
+        random_users = None
+
+    # get_users = g.db.query(
+    #     Users.FIO,
+    #     Users.id,
+    #     Research.main_photo_path,
+    #     Research.id.label('research_id')
+    # ).join(
+    #     Research,
+    #     Research.user_id == Users.id
+    # ).all()
+    # if get_users is None or get_users == []:
+    #     random_users = None
+    # else:
+    #     shuffle(get_users)
+    #     random_users = []
+    #     for i in get_users[0:4]:
+    #         count_research = g.db.query(Research).filter(Research.user_id == i.id).count()
+    #         count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.research_id).count()
+    #         random_users.append([i, count_research, count_votes])
 
     research_famous_people = g.db.query(
         Research.id,
@@ -131,9 +170,10 @@ def test():
 def rating():
     users = []
     all_user_with_researchs = g.db.query(
+        Research.id,
         Users.FIO,
         Users.age,
-        Users.photo,
+        Research.main_photo_path,
         func.count(Research.id).label('count_research'),
         func.count(Votes.id).label('count_votes')
     ).join(
@@ -142,14 +182,13 @@ def rating():
         isouter=True
     ).join(
         Votes,
-        Votes.user_vote_to == Users.id,
+        Votes.user_vote_to_research == Research.id,
         isouter=True
-    ).all()
+    ).order_by(func.count(Research.id)).all()
 
     for i in all_user_with_researchs:
         if i.count_research != 0:
             users.append(i)
-    print(all_user_with_researchs)
 
     return render_template('rating.html', all_user_with_researchs=users if users != [] else None)
 
@@ -192,7 +231,32 @@ def category(type_category):
     # todo: вывод иследований по категориям
     if type_category not in global_type_research:
         return redirect(url_for('test'))
-    return render_template('category.html')
+    get_research_with_categorys = g.db.query(
+        Research.id,
+        Research.name,
+        Research.main_photo_path,
+        Users.FIO,
+        Users.age,
+        func.count(Votes.id).label('count_votes')
+    ).join(
+        Users,
+        Users.id == Research.user_id,
+        isouter=True
+    ).join(
+        Votes,
+        Votes.user_vote_to_research == Research.user_id,
+        isouter=True
+    ).filter(
+        Research.type_research == type_category
+    ).all()
+
+    get_research_with_categorys = None if get_research_with_categorys == [(None, None, None, None, None, 0)] else get_research_with_categorys
+
+    count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
+    return render_template('category.html',
+                           type_category=type_category,
+                           get_research_with_categorys=get_research_with_categorys,
+                           count_votes_user=count_votes_user)
 
 
 @main.route('/logout')
