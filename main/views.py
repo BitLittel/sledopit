@@ -80,7 +80,7 @@ def test():
         Votes,
         Votes.user_vote_to_research == Research.id,
         isouter=True
-    ).order_by(func.count(Research.id)).all()
+    ).all()
 
     for i in all_user_with_researchs:
         if i.count_research != 0:
