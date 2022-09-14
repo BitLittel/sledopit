@@ -94,7 +94,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'famous_people').all()
+    ).filter(Research.type_research == 'famous_people').all()[0:4]
 
     research_plants = g.db.query(
         Research.id,
@@ -105,7 +105,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'plants').all()
+    ).filter(Research.type_research == 'plants').all()[0:4]
 
     research_animals = g.db.query(
         Research.id,
@@ -116,7 +116,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'animals').all()
+    ).filter(Research.type_research == 'animals').all()[0:4]
 
     research_nature_objects = g.db.query(
         Research.id,
@@ -127,7 +127,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'nature_object').all()
+    ).filter(Research.type_research == 'nature_object').all()[0:4]
 
     return render_template('index.html',
                            random_users=users,
