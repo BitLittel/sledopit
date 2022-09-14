@@ -61,24 +61,19 @@ def index():
 # todo: почле открытия поставить как "/" и "/index"
 @main.route('/main', methods=['GET', 'POST'])
 def test():
-    # todo: get city перенести в дж логин и реги ин как отдельную функцию по аджаксу, еу косяк в том что из разных страниц там будет шиш данных
-    get_city = g.db.query(Cites).all()
-
     users = []
-    all_user_with_researchs = g.db.query(
+    all_researchs_with_user = g.db.query(
         Research.id,
+        Research.main_photo_path,
         Users.FIO,
         Users.age,
-        Users.id.label('user_id'),
-        Research.main_photo_path
+        Users.id.label('user_id')
     ).join(
-        Research,
-        Research.user_id == Users.id,
-        isouter=True
+        Users,
+        Users.id == Research.user_id
     ).all()
-    print(all_user_with_researchs)
 
-    for i in all_user_with_researchs:
+    for i in all_researchs_with_user:
         count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
         count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
         if count_research != 0:
@@ -86,11 +81,9 @@ def test():
 
     if users != []:
         shuffle(users)
-        random_users = []
-        for i in users[0:4]:
-            random_users.append(i)
+        users = users[0:4]
     else:
-        random_users = None
+        users = None
 
     research_famous_people = g.db.query(
         Research.id,
@@ -137,8 +130,7 @@ def test():
     ).filter(Research.type_research == 'nature_object').all()
 
     return render_template('index.html',
-                           cites=get_city,
-                           random_users=random_users,
+                           random_users=users,
                            research_famous_people=research_famous_people,
                            research_plants=research_plants,
                            research_animals=research_animals,
@@ -147,28 +139,25 @@ def test():
 
 @main.route("/rating", methods=['GET', 'POST'])
 def rating():
-    
     users = []
-    all_user_with_researchs = g.db.query(
+    all_researchs_with_user = g.db.query(
         Research.id,
+        Research.main_photo_path,
         Users.FIO,
         Users.age,
-        Users.id.label('user_id'),
-        Research.main_photo_path
+        Users.id.label('user_id')
     ).join(
-        Research,
-        Research.user_id == Users.id,
-        isouter=True
+        Users,
+        Users.id == Research.user_id
     ).all()
 
-    for i in all_user_with_researchs:
+    for i in all_researchs_with_user:
         count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
         count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
         if count_research != 0:
             users.append([i, int(count_research), int(count_votes)])
 
     users = sorted(users, key=lambda x: x[2], reverse=False) if users != [] else None
-    print(users)
     return render_template('rating.html', all_user_with_researchs=users)
 
 

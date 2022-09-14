@@ -164,9 +164,8 @@ def api_load_research():
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
             files = get_path_file_and_save_this(photo_and_video)
             get_user = g.db.query(Users).filter(Users.id == current_user.id).first()
-            # get_user.photo = files[2]
-            get_user.city = cityFrom,
-            get_user.school = school,
+            get_user.city = cityFrom
+            get_user.school = school
             get_user.age = ageSelection
             g.db.commit()
 

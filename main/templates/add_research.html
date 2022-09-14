@@ -75,12 +75,7 @@
                         <label for="cityFrom">Откуда ты</label>
                     </div>
                     <div>
-                        <select id="cityFrom">
-                            <option selected></option>
-                            {% for cite in cites %}
-                                <option>{{ cite.name_city }}</option>
-                            {% endfor %}
-                        </select>
+                        <input type="text" id="cityFrom" placeholder="Бийск">
                     </div>
                 </div>
             {% endif %}
