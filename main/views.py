@@ -53,13 +53,12 @@ def teardown_request(exception):
         db.close()
 
 
-@main.route('/', methods=['GET', 'POST'])
-def index():
-    return render_template('15open.html')
+# @main.route('/', methods=['GET', 'POST'])
+# def index():
+#     return render_template('15open.html')
 
-
-# todo: почле открытия поставить как "/" и "/index"
-@main.route('/main', methods=['GET', 'POST'])
+@main.route('/', methods=['GET'])
+@main.route('/main', methods=['GET'])
 def test():
     users = []
     all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
