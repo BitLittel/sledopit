@@ -437,7 +437,7 @@ p.Tahoma {
 .photoContainer {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: left;
     padding-top: 110px;
     flex-wrap: wrap;
 }
