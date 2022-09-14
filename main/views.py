@@ -69,7 +69,7 @@ def test():
             count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
             count_votes = g.db.query(Votes).filter(Votes.user_research == i.user_id).count()
             users.append([i, check_research.id, check_research.main_photo_path, count_research, count_votes])
-    users = sorted(users[0:4], key=lambda x: x[4], reverse=True) if users != None else users
+    users = sorted(users[0:4], key=lambda x: x[4], reverse=True) if users != [] else None
 
     research_famous_people = g.db.query(
         Research.id,
