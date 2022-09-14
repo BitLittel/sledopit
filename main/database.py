@@ -55,6 +55,7 @@ class Votes(Base):
     id = Column(Integer, primary_key=True)
     user_vote = Column(Integer, ForeignKey(Users.id))
     user_vote_to_research = Column(Integer, ForeignKey(Research.id))
+    user_research = Column(Integer)
 
 
 class Cites(Base):

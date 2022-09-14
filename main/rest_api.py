@@ -61,7 +61,7 @@ def get_path_file_and_save_this(photoAndVideo) -> list:
     return [all_photo, all_video, main_photo]
 
 
-@main.route('/api/login', methods=['POST', 'GET'])
+@main.route('/api/login', methods=['GET'])
 def api_login():
     if request.method == 'GET':
         try:
@@ -88,7 +88,7 @@ def api_login():
                 return jsonify(dict(login=False, header='Ошибка', text='Пароль введен не верно'))
 
 
-@main.route('/api/reg', methods=['POST', 'GET'])
+@main.route('/api/reg', methods=['GET'])
 def api_reg():
     if request.method == 'GET':
         # проверка галочки согласия на обработку данных
@@ -122,10 +122,12 @@ def api_reg():
         return jsonify(dict(reg=True))
 
 
-@main.route('/api/load_research', methods=['POST', 'GET'])
+@main.route('/api/load_research', methods=['POST'])
 @login_required
 def api_load_research():
     if request.method == 'POST' and request.form.get('have_data') and (request.form.get('type_research') in global_type_research):
+        if g.db.query(Research).filter(Research.user_id == current_user.id).count() >= 20:
+            return jsonify(dict(reseach=False, header='Ошибка', text='Харош дудосить'))
         have_data = request.form.get('have_data') == 'true'
         type_research = request.form.get('type_research')
         photo_and_video = request.files.getlist('photo_and_video')
@@ -199,10 +201,12 @@ def vote():
             return jsonify(dict(vote=False, header='Ошибка', text='Отправлены некорректные данные'))
         if get_research.user_id == user_id:
             return jsonify(dict(vote=False, header='Ошибка', text='За самого себя проголосовать нельзя'))
+        if g.db.query(Votes).filter(and_(Votes.user_vote == user_id, Votes.user_vote_to_research == get_research.id)).first():
+            return jsonify(dict(vote=False, header='Ошибка', text='За одну и туже работу нельзя проголосовать'))
         if g.db.query(Votes).filter(Votes.user_vote == user_id).count() == 3:
             return jsonify(dict(vote=False, header='Ошибка', text='Вы уже проголосовали максимальное количество раз'))
 
-        new_votes = Votes(users_votes=current_user, research_votes=get_research)
+        new_votes = Votes(users_votes=current_user, research_votes=get_research, user_research=get_research.user_id)
         g.db.add(new_votes)
         g.db.commit()
 

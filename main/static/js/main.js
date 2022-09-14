@@ -283,7 +283,8 @@ function addResearch(user_have_data, type_research, csrf_token) {
 
 
 function vote(id_research, is_authenticated, user_id) {
-    let count_allow_votes = document.getElementById('count_allow_votes');
+    let count_allow_votes = document.getElementById('count_allow_votes'),
+        count_votes = document.getElementById('count_votes');
     if (is_authenticated == 'True') {
         AJAX(
             {
@@ -295,7 +296,8 @@ function vote(id_research, is_authenticated, user_id) {
             },
             function (data) {
                 if (data.vote == true) {
-                    count_allow_votes.innerText = Number(count_allow_votes.innerText) - 1
+                    count_allow_votes.innerText = Number(count_allow_votes.innerText) - 1;
+                    count_votes.innerText = Number(count_votes.innerText) + 1;
                     console.log(data);
                 } else {
                     showErrorMessage(data.header, data.text);

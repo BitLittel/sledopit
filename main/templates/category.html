@@ -52,7 +52,7 @@
                 <div class="participantContainer">
                     <div class="participantPhoto" onclick="window.location.replace('{{ url_for('research', id_research=get_research_with_category[0].id) }}')" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+get_research_with_category[0].main_photo_path)+')' if get_research_with_category[0].main_photo_path else ''}}"></div>
                     <p>{{ get_research_with_category[0].FIO }}, {{ get_research_with_category[0].age }} лет</p>
-                    <p>{{ get_research_with_category[1] }} голосов</p>
+                    <p><span id="count_votes">{{ get_research_with_category[1] }}</span> голосов</p>
                     <div class="funButtonSmall" onclick="vote({{ get_research_with_category[0].id }}, '{{ current_user.is_authenticated() }}', '{{ current_user.id }}');">Проголосовать</div>
                 </div>
             {% endfor %}

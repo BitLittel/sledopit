@@ -5,7 +5,7 @@ from main import main
 from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
 from main.database import Users, Session, Cites, Votes, Research
-from sqlalchemy import and_, or_, desc
+from sqlalchemy import and_, or_, desc, distinct
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy.sql import func
 from random import shuffle
@@ -62,28 +62,14 @@ def index():
 @main.route('/main', methods=['GET', 'POST'])
 def test():
     users = []
-    all_researchs_with_user = g.db.query(
-        Research.id,
-        Research.main_photo_path,
-        Users.FIO,
-        Users.age,
-        Users.id.label('user_id')
-    ).join(
-        Users,
-        Users.id == Research.user_id
-    ).all()
-
-    for i in all_researchs_with_user:
-        count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
-        count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
-        if count_research != 0:
-            users.append([i, int(count_research), int(count_votes)])
-
-    if users != []:
-        shuffle(users)
-        users = users[0:4]
-    else:
-        users = None
+    all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
+    for i in all_user:
+        check_research = g.db.query(Research.id, Research.main_photo_path).filter(Research.user_id == i.user_id).first()
+        if check_research:
+            count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
+            count_votes = g.db.query(Votes).filter(Votes.user_research == i.user_id).count()
+            users.append([i, check_research.id, check_research.main_photo_path, count_research, count_votes])
+    users = sorted(users[0:4], key=lambda x: x[4], reverse=True) if users != None else users
 
     research_famous_people = g.db.query(
         Research.id,
@@ -94,7 +80,9 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'famous_people').all()[0:4]
+    ).filter(Research.type_research == 'famous_people').all()
+    shuffle(research_famous_people)
+    research_famous_people = research_famous_people[0:4]
 
     research_plants = g.db.query(
         Research.id,
@@ -105,7 +93,9 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'plants').all()[0:4]
+    ).filter(Research.type_research == 'plants').all()
+    shuffle(research_plants)
+    research_plants = research_plants[0:4]
 
     research_animals = g.db.query(
         Research.id,
@@ -116,7 +106,9 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'animals').all()[0:4]
+    ).filter(Research.type_research == 'animals').all()
+    shuffle(research_animals)
+    research_animals = research_animals[0:4]
 
     research_nature_objects = g.db.query(
         Research.id,
@@ -127,7 +119,9 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'nature_object').all()[0:4]
+    ).filter(Research.type_research == 'nature_object').all()
+    shuffle(research_nature_objects)
+    research_nature_objects = research_nature_objects[0:4]
 
     return render_template('index.html',
                            random_users=users,
@@ -139,25 +133,19 @@ def test():
 
 @main.route("/rating", methods=['GET', 'POST'])
 def rating():
+
     users = []
-    all_researchs_with_user = g.db.query(
-        Research.id,
-        Research.main_photo_path,
-        Users.FIO,
-        Users.age,
-        Users.id.label('user_id')
-    ).join(
-        Users,
-        Users.id == Research.user_id
-    ).all()
 
-    for i in all_researchs_with_user:
-        count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
-        count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
-        if count_research != 0:
-            users.append([i, int(count_research), int(count_votes)])
+    all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
+    for i in all_user:
+        check_research = g.db.query(Research.id, Research.main_photo_path).filter(Research.user_id == i.user_id).first()
+        if check_research:
+            count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
+            count_votes = g.db.query(Votes).filter(Votes.user_research == i.user_id).count()
+            users.append([i, check_research.id, check_research.main_photo_path, count_research, count_votes])
 
-    users = sorted(users, key=lambda x: x[2], reverse=False) if users != [] else None
+    users = sorted(users, key=lambda x: x[4], reverse=True) if users != None else users
+
     return render_template('rating.html', all_user_with_researchs=users)
 
 
@@ -166,8 +154,7 @@ def rating():
 def add_research(type_research):
     if type_research not in global_type_research:
         return redirect(url_for('test'))
-    cites = g.db.query(Cites).all()
-    return render_template("add_research.html", type_research=type_research, cites=cites)
+    return render_template("add_research.html", type_research=type_research)
 
 
 @main.route('/research/<int:id_research>', methods=['GET', 'POST'])
@@ -195,8 +182,9 @@ def research(id_research):
 
 
 @main.route('/category/<type_category>')
+@login_required
 def category(type_category):
-    # todo: вывод иследований по категориям
+
     if type_category not in global_type_research:
         return redirect(url_for('test'))
 
@@ -215,13 +203,11 @@ def category(type_category):
     ).filter(
         Research.type_research == type_category
     ).all()
-    print(get_research_with_categorys)
 
     if get_research_with_categorys != [(None, None, None, None, None)]:
         for i in get_research_with_categorys:
             count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
             count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
-            print(count_votes)
             if count_research != 0:
                 users.append([i, count_votes])
     else:
