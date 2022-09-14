@@ -53,9 +53,10 @@ def teardown_request(exception):
         db.close()
 
 
-# @main.route('/', methods=['GET', 'POST'])
-# def index():
-#     return render_template('15open.html')
+@main.route('/admin/', methods=['GET', 'POST'])
+def index():
+    return render_template('15open.html')
+
 
 @main.route('/', methods=['GET'])
 @main.route('/main', methods=['GET'])
