@@ -75,8 +75,13 @@
         <p class="researcherFrom">{{ check_research.city }}, {{ check_research.school }}</p>
       </div>
     </div>
-    <div class="funButton">Проголосовать</div>
-    <h1 style="margin-top: 25px">Вы можете проголосовать еще 3 раза</h1>
+    {% if user_autificate %}
+        <span style="display: none;" id="count_votes_{{ check_research.id }}"></span>
+        <div class="funButton" onclick="vote({{ check_research.id }}, '{{ user_autificate }}', '{{ current_user.id }}');">Проголосовать</div>
+        <h1 style="margin-top: 25px">Вы можете проголосовать еще <span id="count_allow_votes">{{ count_votes_user }}</span> раза</h1>
+    {% else %}
+        <h1 style="margin-top: 25px">Необходимо зарегистрироваться, чтобы проголосовать</h1>
+    {% endif %}
   </div>
 </div>
 <div id="loginPopUp">

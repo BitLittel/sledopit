@@ -84,7 +84,11 @@
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="brown">Известные люди</div>
-                        <a href="{{ url_for('add_research', type_research='famous_people') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% if user_autificate %}
+                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='famous_people') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% else %}
+                            <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% endif %}
                     </div>
                     <div class="photoContainer">
                         {% for research_famous_person in research_famous_people %}
@@ -106,7 +110,11 @@
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="green">Растительный мир</div>
-                        <a href="{{ url_for('add_research', type_research='plants') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% if user_autificate %}
+                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='plants') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% else %}
+                            <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% endif %}
                     </div>
                     <div class="photoContainer">
                         {% for research_plant in research_plants %}
@@ -128,7 +136,12 @@
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="red">Животный мир</div>
-                        <a href="{{ url_for('add_research', type_research='animals') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% if user_autificate %}
+                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='animals') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% else %}
+                            <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% endif %}
+
                     </div>
                     <div class="photoContainer">
                         {% for research_animal in research_animals %}
@@ -150,7 +163,11 @@
                 <div class="researchBox">
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="blue">Природные объекты</div>
-                        <a href="{{ url_for('add_research', type_research='nature_object') }}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% if user_autificate %}
+                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='nature_object') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% else %}
+                            <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                        {% endif %}
                     </div>
                     <div class="photoContainer">
                         {% for research_nature_object in research_nature_objects %}

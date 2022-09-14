@@ -284,7 +284,7 @@ function addResearch(user_have_data, type_research, csrf_token) {
 
 function vote(id_research, is_authenticated, user_id) {
     let count_allow_votes = document.getElementById('count_allow_votes'),
-        count_votes = document.getElementById('count_votes');
+        count_votes = document.getElementById('count_votes_'+id_research);
     if (is_authenticated == 'True') {
         AJAX(
             {

@@ -42,7 +42,8 @@
                 <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=all_user_with_researchs[i][1]) }}')">
                     <div class="rankEmbed">{{ i + 1 }}</div>
                     <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+all_user_with_researchs[i][2])+')' if all_user_with_researchs[i][2] else ''}}"></div>
-                    <p>{{ all_user_with_researchs[i][0].FIO }}, {{ all_user_with_researchs[i][0].age }} лет</p>
+                    <p>{{ all_user_with_researchs[i][0].FIO }}</p>
+                    <p>{{ all_user_with_researchs[i][0].age }} лет</p>
                     {% if all_user_with_researchs[i][3]== 1 %}
                         <p class="rank">Юный исследователь</p>
                     {% elif all_user_with_researchs[i][3] == 2 %}

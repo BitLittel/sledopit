@@ -34,7 +34,6 @@
       <div style="margin-bottom: 75px; text-align: left; margin-left: 25px;">
         <a href="{{ url_for('test') }}"><div class="funButton"> < На главную</div></a>
       </div>
-      <!-- Показывай нужную плашку на выбор -->
         {% if type_category == 'famous_people' %}
             <div class="researchHeader" researchColor="brown">Известные люди</div>
         {% elif type_category == 'plants' %}
@@ -45,15 +44,21 @@
             <div class="researchHeader" researchColor="blue">Природные объекты</div>
         {% endif %}
     </div>
-    <h1>Вы можете проголосовать за <span id="count_allow_votes">{{ count_votes_user }}</span> работы</h1>
+    {% if count_votes_user %}
+        <h1>Вы можете проголосовать за <span id="count_allow_votes">{{ count_votes_user }}</span> работы</h1>
+    {% else %}
+        <h1>Необходимо зарегистрироваться, чтобы проголосовать</h1>
+    {% endif %}
+
     <div class="flexGrid">
         {% if get_research_with_categorys %}
             {% for get_research_with_category in get_research_with_categorys %}
                 <div class="participantContainer">
                     <div class="participantPhoto" onclick="window.location.replace('{{ url_for('research', id_research=get_research_with_category[0].id) }}')" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+get_research_with_category[0].main_photo_path)+')' if get_research_with_category[0].main_photo_path else ''}}"></div>
-                    <p>{{ get_research_with_category[0].FIO }}, {{ get_research_with_category[0].age }} лет</p>
-                    <p><span id="count_votes">{{ get_research_with_category[1] }}</span> голосов</p>
-                    <div class="funButtonSmall" onclick="vote({{ get_research_with_category[0].id }}, '{{ current_user.is_authenticated() }}', '{{ current_user.id }}');">Проголосовать</div>
+                    <p>{{ get_research_with_category[0].FIO }}</p>
+                    <p>{{ get_research_with_category[0].age }} лет</p>
+                    <p><span id="count_votes_{{ get_research_with_category[0].id }}">{{ get_research_with_category[1] }}</span> голосов</p>
+                    <div class="funButtonSmall" onclick="vote({{ get_research_with_category[0].id }}, '{{ user_autificate }}', '{{ current_user.id }}');">Проголосовать</div>
                 </div>
             {% endfor %}
         {% else %}

@@ -58,12 +58,6 @@ class Votes(Base):
     user_research = Column(Integer)
 
 
-class Cites(Base):
-    __tablename__ = 'cites'
-    id = Column(Integer, primary_key=True)
-    name_city = Column(Unicode(255, collation='utf8_unicode_ci'))
-
-
 engine = create_engine('mysql+pymysql://%s:%s@%s/%s?charset=utf8' % (main.config['DATABASE_USER'],
                                                                      main.config['DATABASE_PASSWORD'],
                                                                      main.config['DATABASE_IP'],

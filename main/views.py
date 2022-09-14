@@ -4,7 +4,7 @@ import re
 from main import main
 from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
-from main.database import Users, Session, Cites, Votes, Research
+from main.database import Users, Session, Votes, Research
 from sqlalchemy import and_, or_, desc, distinct
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy.sql import func
@@ -123,12 +123,18 @@ def test():
     shuffle(research_nature_objects)
     research_nature_objects = research_nature_objects[0:4]
 
+    try:
+        user_autificate = True if current_user.id else None
+    except AttributeError:
+        user_autificate = False
+
     return render_template('index.html',
                            random_users=users,
                            research_famous_people=research_famous_people,
                            research_plants=research_plants,
                            research_animals=research_animals,
-                           research_nature_objects=research_nature_objects)
+                           research_nature_objects=research_nature_objects,
+                           user_autificate=user_autificate)
 
 
 @main.route("/rating", methods=['GET', 'POST'])
@@ -160,6 +166,7 @@ def add_research(type_research):
 @main.route('/research/<int:id_research>', methods=['GET', 'POST'])
 def research(id_research):
     check_research = g.db.query(
+        Research.id,
         Research.name,
         Research.type_research,
         Research.about,
@@ -178,11 +185,18 @@ def research(id_research):
     ).first()
     if check_research is None:
         return redirect(url_for('test'))
-    return render_template('research.html', check_research=check_research)
+
+    try:
+        count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
+        user_autificate = True if current_user.id else None
+    except AttributeError:
+        user_autificate = False
+        count_votes_user = None
+
+    return render_template('research.html', check_research=check_research, user_autificate=user_autificate, count_votes_user=count_votes_user)
 
 
 @main.route('/category/<type_category>')
-@login_required
 def category(type_category):
 
     if type_category not in global_type_research:
@@ -213,12 +227,17 @@ def category(type_category):
     else:
         users = None
 
-    count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
-    print(users)
+    try:
+        count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
+        user_autificate = True if current_user.id else None
+    except AttributeError:
+        user_autificate = False
+        count_votes_user = None
     return render_template('category.html',
                            type_category=type_category,
                            get_research_with_categorys=users,
-                           count_votes_user=count_votes_user)
+                           count_votes_user=count_votes_user,
+                           user_autificate=user_autificate)
 
 
 @main.route('/logout')

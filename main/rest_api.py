@@ -4,7 +4,7 @@ import os
 from main import main
 from flask import render_template, g, request, redirect, url_for, jsonify
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
-from main.database import Users, Session, Cites, Research, Votes
+from main.database import Users, Session, Research, Votes
 from sqlalchemy import and_, or_, desc
 from flask_wtf.csrf import CSRFProtect
 from main.views import global_type_research
@@ -16,19 +16,25 @@ def hash_password(password: str) -> str:
     return h.hexdigest()
 
 
-def get_path_file_and_save_this(photoAndVideo) -> list:
+def get_path_file_and_save_this(photoAndVideo):
+    if len(photoAndVideo) > 30:
+        return 'Максимальное количество файлов не должно превышать 30'
     all_path_photo_and_video = []
     # todo: дополнить форматы
     photo_format = ['jpeg', 'png', 'webp']
     video_format = ['mov', 'mp4']
+    print(photoAndVideo)
+    print(photoAndVideo[0].content_length)
+    # return 0
+
+    for i in photoAndVideo:
+        type_file = 'mov' if i.content_type == 'video/quicktime' else i.content_type.split('/')[1]
+        print(type_file == 'jpeg')
+        if (type_file not in photo_format) and (type_file not in video_format):
+            return 'Поддерживаемые форматы для фото "jpeg", "png", "webp", для видео "mov", "mp4"'
 
     for pv in photoAndVideo:
-        print(pv.content_type)
-
-        if pv.content_type == 'video/quicktime':
-            type_file = 'mov'
-        else:
-            type_file = pv.content_type.split('/')[1]
+        type_file = 'mov' if pv.content_type == 'video/quicktime' else pv.content_type.split('/')[1]
 
         random_name = hash_password(pv.filename.split(".")[0])[0:20]
 
@@ -133,7 +139,6 @@ def api_load_research():
         photo_and_video = request.files.getlist('photo_and_video')
         newResearchText = request.form.get('newResearchText')
         newResearchName = request.form.get('newResearchName')
-        print(have_data)
 
         if have_data and current_user.school is not None:
 
@@ -145,8 +150,8 @@ def api_load_research():
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
 
             files = get_path_file_and_save_this(photo_and_video)
-            print(files)
-            print('xuy')
+            if type(file) == str:
+                return jsonify(dict(reseach=False, header='Ошибка', text=file))
         else:
             cityFrom = request.form.get('cityFrom')
             ageSelection = request.form.get('ageSelection')
@@ -165,6 +170,8 @@ def api_load_research():
             if photo_and_video == []:
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
             files = get_path_file_and_save_this(photo_and_video)
+            if type(file) == str:
+                return jsonify(dict(reseach=False, header='Ошибка', text=file))
             get_user = g.db.query(Users).filter(Users.id == current_user.id).first()
             get_user.city = cityFrom
             get_user.school = school
