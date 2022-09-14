@@ -234,7 +234,7 @@ function RegIn() {
 
 function addResearch(user_have_data, type_research, csrf_token) {
     if (document.getElementById('newResearchText').value.length < 2000) {
-        showErrorMessage('Ошибка', 'Дорогой друг, текст слишком мкороткий. Минимальная длина текста - 2000 символов.');
+        showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');
         return;
     }
 
