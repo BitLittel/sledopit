@@ -231,7 +231,7 @@ def category(type_category):
     print(users)
     return render_template('category.html',
                            type_category=type_category,
-                           get_research_with_categorys=users if users != None else None,
+                           get_research_with_categorys=users,
                            count_votes_user=count_votes_user)
 
 

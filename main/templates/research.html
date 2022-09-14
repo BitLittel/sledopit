@@ -53,9 +53,9 @@
             <div class="slider__container">
               <div class="slider__wrapper">
                 <div class="slider__items">
-                    <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+check_research.main_photo_path) }})">
+                    <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+check_research.main_photo_path) }})"></div>
                     {% for photo in check_research.photos %}
-                        <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})">
+                        <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})"></div>
                     {% endfor %}
                 </div>
               </div>
