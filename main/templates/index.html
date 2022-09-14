@@ -57,15 +57,15 @@
                                 <div class="participantContainer">
                                     <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+random_user.main_photo_path)+')' if random_user.main_photo_path else ''}}"></div>
                                     <p>{{ random_user.FIO }}</p>
-                                    {% if random_user.count_research == 1 %}
+                                    {% if random_user[4] == 1 %}
                                         <p class="rank">Юный исследователь</p>
-                                    {% elif random_user.count_research == 2 %}
+                                    {% elif random_user[4] == 2 %}
                                         <p class="rank">Следопыт</p>
-                                    {% elif random_user.count_research >= 3 %}
+                                    {% elif random_user[4] >= 3 %}
                                         <p class="rank">Следопыт-супергерой</p>
                                     {% endif %}
-                                    <p><span class="fitDigit">{{ random_user.count_research }}</span> исследований</p>
-                                    <p><span class="fitDigit">{{ random_user.count_votes }}</span> голосов</p>
+                                    <p><span class="fitDigit">{{ random_user[4] }}</span> исследований</p>
+                                    <p><span class="fitDigit">{{ random_user[5] }}</span> голосов</p>
                                 </div>
                             {% endfor %}
                         {% else %}

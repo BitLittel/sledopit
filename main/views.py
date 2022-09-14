@@ -70,8 +70,8 @@ def test():
         Users.FIO,
         Users.age,
         Research.main_photo_path,
-        func.count(Research.id).label('count_research'),
-        func.count(Votes.id).label('count_votes')
+        (g.db.query(Research).filter(Research.user_id == Users.id).count()),
+        (g.db.query(Votes).filter(Votes.user_vote_to_research == Research.id).count())
     ).join(
         Research,
         Research.user_id == Users.id,
@@ -81,9 +81,10 @@ def test():
         Votes.user_vote_to_research == Research.id,
         isouter=True
     ).all()
+    print(all_user_with_researchs)
 
     for i in all_user_with_researchs:
-        if i.count_research != 0:
+        if i[4] != 0:
             users.append(i)
 
     if users != []:
