@@ -200,7 +200,7 @@ def vote():
             return jsonify(dict(vote=False, header='Ошибка', text='Отправлены некорректные данные'))
         if get_research.user_id == user_id:
             return jsonify(dict(vote=False, header='Ошибка', text='За самого себя проголосовать нельзя'))
-        if g.db.query(Votes).filter(Votes.user_vote == user_id).count() >= 3:
+        if g.db.query(Votes).filter(Votes.user_vote == user_id).count() == 3:
             return jsonify(dict(vote=False, header='Ошибка', text='Вы уже проголосовали максимальное количество раз'))
 
         new_votes = Votes(users_votes=current_user, research_votes=get_research)

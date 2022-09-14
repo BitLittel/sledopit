@@ -69,22 +69,20 @@ def test():
         Research.id,
         Users.FIO,
         Users.age,
-        Research.main_photo_path,
-        (g.db.query(Research).filter(Research.user_id == Users.id).count()),
-        (g.db.query(Votes).filter(Votes.user_vote_to_research == Research.id).count())
+        Users.id.label('user_id'),
+        Research.main_photo_path
     ).join(
         Research,
         Research.user_id == Users.id,
         isouter=True
-    ).join(
-        Votes,
-        Votes.user_vote_to_research == Research.id,
-        isouter=True
     ).all()
+    print(all_user_with_researchs)
 
     for i in all_user_with_researchs:
-        if i[4] != 0:
-            users.append(i)
+        count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
+        count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
+        if count_research != 0:
+            users.append([i, int(count_research), int(count_votes)])
 
     if users != []:
         shuffle(users)
@@ -149,30 +147,28 @@ def test():
 
 @main.route("/rating", methods=['GET', 'POST'])
 def rating():
+    
     users = []
     all_user_with_researchs = g.db.query(
         Research.id,
         Users.FIO,
         Users.age,
-        Research.main_photo_path,
-        (g.db.query(Research).filter(Research.user_id == Users.id).count()),
-        (g.db.query(Votes).filter(Votes.user_vote_to_research == Research.id).count())
+        Users.id.label('user_id'),
+        Research.main_photo_path
     ).join(
         Research,
         Research.user_id == Users.id,
         isouter=True
-    ).join(
-        Votes,
-        Votes.user_vote_to_research == Research.id,
-        isouter=True
     ).all()
 
     for i in all_user_with_researchs:
-        if i[4] != 0:
-            users.append(i)
+        count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
+        count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
+        if count_research != 0:
+            users.append([i, int(count_research), int(count_votes)])
 
-    users = sorted(users, key=lambda x: x[4], reverse=False) if users != [] else None
-
+    users = sorted(users, key=lambda x: x[2], reverse=False) if users != [] else None
+    print(users)
     return render_template('rating.html', all_user_with_researchs=users)
 
 
@@ -214,31 +210,39 @@ def category(type_category):
     # todo: вывод иследований по категориям
     if type_category not in global_type_research:
         return redirect(url_for('test'))
+
+    users = []
     get_research_with_categorys = g.db.query(
         Research.id,
         Research.name,
         Research.main_photo_path,
         Users.FIO,
         Users.age,
-        (g.db.query(Votes).filter(Votes.user_vote_to_research == Research.id).count())
+        Users.id.label('user_id')
     ).join(
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).join(
-        Votes,
-        Votes.user_vote_to_research == Research.user_id,
-        isouter=True
     ).filter(
         Research.type_research == type_category
     ).all()
+    print(get_research_with_categorys)
 
-    get_research_with_categorys = None if get_research_with_categorys == [(None, None, None, None, None, 0)] else get_research_with_categorys
+    if get_research_with_categorys != [(None, None, None, None, None)]:
+        for i in get_research_with_categorys:
+            count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
+            count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.id).count()
+            print(count_votes)
+            if count_research != 0:
+                users.append([i, count_votes])
+    else:
+        users = None
 
     count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
+    print(users)
     return render_template('category.html',
                            type_category=type_category,
-                           get_research_with_categorys=get_research_with_categorys,
+                           get_research_with_categorys=users if users != None else None,
                            count_votes_user=count_votes_user)
 
 
