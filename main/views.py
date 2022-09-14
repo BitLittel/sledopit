@@ -81,7 +81,6 @@ def test():
         Votes.user_vote_to_research == Research.id,
         isouter=True
     ).all()
-    print(all_user_with_researchs)
 
     for i in all_user_with_researchs:
         if i[4] != 0:
@@ -94,25 +93,6 @@ def test():
             random_users.append(i)
     else:
         random_users = None
-
-    # get_users = g.db.query(
-    #     Users.FIO,
-    #     Users.id,
-    #     Research.main_photo_path,
-    #     Research.id.label('research_id')
-    # ).join(
-    #     Research,
-    #     Research.user_id == Users.id
-    # ).all()
-    # if get_users is None or get_users == []:
-    #     random_users = None
-    # else:
-    #     shuffle(get_users)
-    #     random_users = []
-    #     for i in get_users[0:4]:
-    #         count_research = g.db.query(Research).filter(Research.user_id == i.id).count()
-    #         count_votes = g.db.query(Votes).filter(Votes.user_vote_to_research == i.research_id).count()
-    #         random_users.append([i, count_research, count_votes])
 
     research_famous_people = g.db.query(
         Research.id,
@@ -175,8 +155,8 @@ def rating():
         Users.FIO,
         Users.age,
         Research.main_photo_path,
-        func.count(Research.id).label('count_research'),
-        func.count(Votes.id).label('count_votes')
+        (g.db.query(Research).filter(Research.user_id == Users.id).count()),
+        (g.db.query(Votes).filter(Votes.user_vote_to_research == Research.id).count())
     ).join(
         Research,
         Research.user_id == Users.id,
@@ -185,13 +165,15 @@ def rating():
         Votes,
         Votes.user_vote_to_research == Research.id,
         isouter=True
-    ).order_by(func.count(Research.id)).all()
+    ).all()
 
     for i in all_user_with_researchs:
-        if i.count_research != 0:
+        if i[4] != 0:
             users.append(i)
 
-    return render_template('rating.html', all_user_with_researchs=users if users != [] else None)
+    users = sorted(users, key=lambda x: x[4], reverse=False) if users != [] else None
+
+    return render_template('rating.html', all_user_with_researchs=users)
 
 
 @main.route('/add_research/<type_research>')
@@ -238,7 +220,7 @@ def category(type_category):
         Research.main_photo_path,
         Users.FIO,
         Users.age,
-        func.count(Votes.id).label('count_votes')
+        (g.db.query(Votes).filter(Votes.user_vote_to_research == Research.id).count())
     ).join(
         Users,
         Users.id == Research.user_id,

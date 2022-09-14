@@ -43,15 +43,15 @@
                     <div class="rankEmbed">{{ i + 1 }}</div>
                     <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+all_user_with_researchs[i].main_photo_path)+')' if all_user_with_researchs[i].main_photo_path else ''}}"></div>
                     <p>{{ all_user_with_researchs[i].FIO }}, {{ all_user_with_researchs[i].age }} лет/года</p>
-                    {% if all_user_with_researchs[i].count_research == 1 %}
+                    {% if all_user_with_researchs[i][4]== 1 %}
                         <p class="rank">Юный исследователь</p>
-                    {% elif all_user_with_researchs[i].count_research == 2 %}
+                    {% elif all_user_with_researchs[i][4] == 2 %}
                         <p class="rank">Следопыт</p>
-                    {% elif all_user_with_researchs[i].count_research >= 3 %}
+                    {% elif all_user_with_researchs[i][4] >= 3 %}
                         <p class="rank">Следопыт-супергерой</p>
                     {% endif %}
-                    <p>{{ all_user_with_researchs[i].count_research }} исследований</p>
-                    <p>{{ all_user_with_researchs[i].count_votes }} голосов</p>
+                    <p>{{ all_user_with_researchs[i][4] }} исследований</p>
+                    <p>{{ all_user_with_researchs[i][5] }} голосов</p>
                 </div>
             {% endfor %}
         {% else %}
