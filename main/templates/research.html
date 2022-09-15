@@ -57,15 +57,15 @@
                     {% for photo in check_research.photos %}
                         <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})"></div>
                     {% endfor %}
+                    {% for video in check_research.videos %}
+                        <div class="slider__item" style="display: flex;justify-content: center;"><video style="justify-content: center;height: 100%" src="{{ url_for('static', filename='img/reseach_img/'+video) }}" preload="auto" controls=""></video></div>
+                    {% endfor %}
                 </div>
               </div>
             </div>
             <button class="slider__control" data-slide="prev"></button>
             <button class="slider__control" data-slide="next"></button>
           </div>
-            {% for video in check_research.videos %}
-                <video src="{{ url_for('static', filename='img/reseach_img/'+video) }}" preload="auto"></video>
-            {% endfor %}
         </div>
         {{ check_research.about }}
       </div>
