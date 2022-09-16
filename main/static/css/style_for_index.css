@@ -47,6 +47,23 @@ body {
     }
 }
 
+@media (min-width: 800px) and (max-width: 999px) {
+    .participantContainer {
+        width: calc((100% - 200px) / 4) !important;
+    }
+}
+
+@media (max-width: 799px) {
+    .participantContainer {
+        width: calc((100% - 40px) / 4) !important;
+        margin: 25px 5px !important;
+    }
+    .participantPhoto {
+        width: 150px !important;
+        height: 150px !important;
+    }
+}
+
 .horFlexContainer {
 
 }
@@ -932,6 +949,7 @@ p.Tahoma {
     font-family: Tahoma, Helvetica, sans-serif;
     text-align: justify;
     padding: 10px 25px;
+    background: #ffffffcc;
 }
 
 .researcherName {
