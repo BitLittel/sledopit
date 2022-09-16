@@ -139,9 +139,7 @@ def test():
 
 @main.route("/rating", methods=['GET', 'POST'])
 def rating():
-
     users = []
-
     all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
     for i in all_user:
         check_research = g.db.query(Research.id, Research.main_photo_path).filter(Research.user_id == i.user_id).first()
@@ -149,8 +147,7 @@ def rating():
             count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
             count_votes = g.db.query(Votes).filter(Votes.user_research == i.user_id).count()
             users.append([i, check_research.id, check_research.main_photo_path, count_research, count_votes])
-
-    users = sorted(users, key=lambda x: x[4], reverse=True) if users != None else users
+    users = sorted(users, key=lambda x: x[4], reverse=True) if users != [] else None
 
     return render_template('rating.html', all_user_with_researchs=users)
 
