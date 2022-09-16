@@ -5,7 +5,8 @@
   <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/png">
   <link rel="stylesheet" type="text/css" href="../static/css/style_for_index.css">
   <script src="../static/js/script.js"></script>
-  <script src="../static/js/main.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/35.0.1/classic/ckeditor.js"></script>
+{#  <script src="../static/js/ckeditor/ckeditor.js"></script>#}
   <meta name="csrf-token" content="{{ csrf_token() }}" />
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
@@ -93,7 +94,37 @@
               <label for="newResearchText">Текст работы</label>
             </div>
             <div>
-              <textarea id="newResearchText" placeholder="Опиши свою работу здесь" style="resize: none;"> </textarea>
+                <div id="newResearchText"></div>
+                <script>
+                    ClassicEditor.create(document.getElementById("newResearchText"), {
+                        toolbar: {
+                            items: [
+                                'heading', '|', 'bold', 'italic',  '|', 'bulletedList', 'numberedList', '|', 'outdent', 'indent', '|',
+                                'undo', 'redo', 'blockQuote'
+                            ],
+                            shouldNotGroupWhenFull: true
+                        },
+                        heading: {
+                            options: [
+                                { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                                { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                                { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+                                { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+                                { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+                                { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+                                { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+                            ]
+                        },
+                        placeholder: 'Опиши свою работу здесь',
+                    });
+                </script>
+                <script>
+                    window.onload = function () {
+                        document.getElementsByClassName('ck-editor')[0].style = 'min-width: 550px;max-width: 550px;width: 550px;height: 500px;min-height: 500px;max-height: 500px;resize: none;overflow: auto;';
+                    };
+                </script>
+{#              <textarea id="newResearchText" placeholder="Опиши свою работу здесь" name="content" style="resize: none;"> </textarea>#}
+{#              <script>CKEDITOR.replace('content');</script>#}
               <p class="Lilita">Не менее 2000 символов!</p>
             </div>
           </div>
@@ -120,5 +151,6 @@
     <p id="loadMessageHeader">Загрузка</p>
     <p id="loadMessageText">Ваша работа, загружается. Пожалуйста подождите</p>
   </div>
+<script src="../static/js/main.js"></script>
 </body>
 </html>

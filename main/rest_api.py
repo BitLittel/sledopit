@@ -156,7 +156,7 @@ def api_load_research():
 
             files = get_path_file_and_save_this(photoAndVideo=photo_and_video, id_user=current_user.id)
             if type(files) == str:
-                return jsonify(dict(reseach=False, header='Ошибка', text=file))
+                return jsonify(dict(reseach=False, header='Ошибка', text=files))
         else:
             cityFrom = request.form.get('cityFrom')
             ageSelection = request.form.get('ageSelection')
@@ -176,7 +176,7 @@ def api_load_research():
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
             files = get_path_file_and_save_this(photoAndVideo=photo_and_video, id_user=current_user.id)
             if type(files) == str:
-                return jsonify(dict(reseach=False, header='Ошибка', text=file))
+                return jsonify(dict(reseach=False, header='Ошибка', text=files))
             get_user = g.db.query(Users).filter(Users.id == current_user.id).first()
             get_user.city = cityFrom
             get_user.school = school

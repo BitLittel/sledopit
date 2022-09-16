@@ -233,7 +233,8 @@ function RegIn() {
 }
 
 function addResearch(user_have_data, type_research, csrf_token) {
-    if (document.getElementById('newResearchText').value.length < 2000) {
+    let text = document.getElementsByClassName('ck-editor__editable_inline')[0];
+    if (text.innerText.length < 2000) {
         showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');
         return;
     }
@@ -254,7 +255,7 @@ function addResearch(user_have_data, type_research, csrf_token) {
         formData.append('photo_and_video', file);
     }
 
-    formData.append('newResearchText', newResearchText.value);
+    formData.append('newResearchText', text.innerHTML);
     formData.append('newResearchName', newResearchName.value);
     formData.append('have_data', user_have_data);
     formData.append('type_research', type_research);
