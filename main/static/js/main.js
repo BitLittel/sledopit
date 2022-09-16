@@ -265,6 +265,7 @@ function addResearch(user_have_data, type_research, csrf_token) {
 
 
     xhr.onload = function(e) {
+        showLoadMessage();
         if (xhr.status >= 200 && xhr.status < 400) {
             // выполнить при получении данных
             var result = JSON.parse(xhr.responseText);

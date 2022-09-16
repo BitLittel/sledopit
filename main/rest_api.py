@@ -2,13 +2,13 @@ import hashlib
 import re
 import os
 from main import main
-from flask import render_template, g, request, redirect, url_for, jsonify
-from flask_login import current_user, login_required, login_user, LoginManager, logout_user
-from main.database import Users, Session, Research, Votes
-from sqlalchemy import and_, or_, desc
-from flask_wtf.csrf import CSRFProtect
+from flask import g, request, jsonify
+from flask_login import current_user, login_required, login_user
+from main.database import Users, Research, Votes
+from sqlalchemy import and_
 from main.views import global_type_research
 from datetime import datetime
+from PIL import Image
 
 
 def hash_password(password: str) -> str:
@@ -59,6 +59,15 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
     for i in all_path_photo_and_video:
         if i.split('.')[1] in video_format:
             all_video.append(i)
+
+    path_main_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", main_photo)
+    img_main = Image.open(path_main_photo)
+    img_main.save(path_main_photo, quality=70)
+
+    for i in all_photo:
+        path_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", i)
+        img = Image.open(path_photo)
+        img.save(path_photo, quality=60)
 
     return [all_photo, all_video, main_photo]
 

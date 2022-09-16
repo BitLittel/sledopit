@@ -109,3 +109,7 @@ function rejectPasswordInput() {
     passInputRepeat.style.backgroundColor = '#ffffffbb';
 }
 
+function showLoadMessage() {
+    document.getElementById("loadBox").style.display = 'block';
+}
+

@@ -75,7 +75,7 @@
                         <label for="cityFrom">Откуда ты</label>
                     </div>
                     <div>
-                        <input type="text" id="cityFrom" placeholder="Бийск">
+                        <input type="text" id="cityFrom" placeholder="Бийск" style="width: 518px;">
                     </div>
                 </div>
             {% endif %}
@@ -93,7 +93,7 @@
               <label for="newResearchText">Текст работы</label>
             </div>
             <div>
-              <textarea id="newResearchText" placeholder="Опиши свою работу здесь"> </textarea>
+              <textarea id="newResearchText" placeholder="Опиши свою работу здесь" style="resize: none;"> </textarea>
               <p class="Lilita">Не менее 2000 символов!</p>
             </div>
           </div>
@@ -115,6 +115,10 @@
   <div id="errorBox">
     <p id="messageHeader">Test message</p>
     <p id="messageText">You are dead</p>
+  </div>
+  <div id="loadBox" style="display: none;">
+    <p id="loadMessageHeader">Загрузка</p>
+    <p id="loadMessageText">Ваша работа, загружается. Пожалуйста подождите</p>
   </div>
 </body>
 </html>

@@ -806,7 +806,7 @@ p.Tahoma {
     border-radius: 25px;
     font-family: "Lilita", serif;
     border: 1px solid #7d1810;
-    box-shadow: 5px 5px 0px #b42418;
+    box-shadow: 5px 5px 0 #b42418;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     padding: 25px;
@@ -1040,4 +1040,36 @@ p.Tahoma {
 
 .slider__control {
     background: #7d1810 !important;
+}
+
+#loadBox {
+    position: fixed;
+    width: 500px;
+    left: calc(50% - 250px);
+    top: calc(60% - 250px);
+    background-color: #00ff4344;
+    border-radius: 25px;
+    font-family: "Lilita", serif;
+    border: 1px solid #107d32;
+    box-shadow: 5px 5px 0 #2dcd1a;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 25px;
+    z-index: 9999;
+    transition: 0.5s ease;
+}
+
+#errorBox>p {
+    padding: 0;
+    margin: 0;
+}
+
+#loadMessageHeader {
+    font-size: 30pt;
+    color: #1d810b;
+}
+
+#loadMessageText {
+    font-size: 20pt;
+    color: #333;
 }
