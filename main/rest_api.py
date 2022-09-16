@@ -124,7 +124,7 @@ def api_reg():
             return jsonify(dict(
                 reg=False,
                 header='Ошибка',
-                text='Пароль введен не корректно. Могут быть только латинские символы и спец.символы, а так же длинна пароля от 8 символов'))
+                text='Пароль введен не корректно. Могут быть только латинские символы и спец.символы, а так же длинна от 8 символов'))
 
         new_user = Users(FIO=name, tel_number=phoneNumber, password=hash_password(signinPassword))
         g.db.add(new_user)
@@ -149,6 +149,8 @@ def api_load_research():
 
             if newResearchText is None or newResearchText == '':
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
+            if len(newResearchText) < 2000:
+                return jsonify(dict(reseach=False,  header='Ошибка', text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
             if newResearchName is None or newResearchName == '':
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы не заполнено"'))
             if photo_and_video == []:
@@ -165,7 +167,7 @@ def api_load_research():
             if newResearchText is None or newResearchText == '':
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
             if newResearchName is None or newResearchName == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы не заполнено"'))
+                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы" не заполнено'))
             if cityFrom is None or cityFrom == '':
                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Откуда ты" не заполнено'))
             if ageSelection is None or ageSelection == '':
@@ -223,3 +225,48 @@ def vote():
         g.db.commit()
 
     return jsonify(dict(vote=True))
+
+
+@main.route('/api/edit_research', methods=['GET'])
+@login_required
+def api_edit_research():
+    if request.method == 'GET':
+        try:
+            user_id = int(request.args.get('user_id'))
+            id_research = int(request.args.get('id_research'))
+        except ValueError:
+            return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
+        if current_user.id != user_id:
+            return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
+        research = g.db.query(Research).filter(and_(Research.id == id_research, Research.user_id == user_id)).first()
+        if research is None:
+            return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
+        newResearchName = request.args.get('newResearchName')
+        if newResearchName is None or newResearchName == '':
+            return jsonify(dict(edit=False, header='Ошибка', text='Поле "Название работы" не заполнено'))
+        newResearchText = request.args.get('newResearchText')
+        if newResearchText is None or newResearchText == '':
+            return jsonify(dict(edit=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
+        if len(newResearchText) < 2000:
+            return jsonify(dict(edit=False, header='Ошибка',
+                                text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
+        research.name = newResearchName
+        research.about = newResearchText
+        research.checked = False
+        research.prichina = None
+        g.db.commit()
+    return jsonify(dict(edit=True))
+
+
+@main.route(f'/api/admin/{main.config["SECRET_KEY"]}', methods=['GET'])
+def api_admin():
+    if request.method == 'GET':
+        id_research = int(request.args.get('id_research'))
+        accept = (request.args.get('accept') == 'true')
+        print(accept, type(accept))
+        prichina = request.args.get('prichina') if accept is False else None
+        research = g.db.query(Research).filter(Research.id == id_research).first()
+        research.checked = accept
+        research.prichina = prichina
+        g.db.commit()
+    return jsonify(dict(admin=True))

@@ -1,0 +1,98 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+    <head>
+        <title>Следопыты</title>
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}" type="image/png">
+        <link rel="stylesheet" type="text/css" href="../static/css/style_for_index.css">
+        <link rel="stylesheet" type="text/css" href="../static/css/itc-slider.css">
+        <script src="../static/js/script.js"></script>
+        <script src="../static/js/main.js"></script>
+        <script src="../static/js/itc-slider.js"></script>
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    </head>
+    <body>
+        <div id="bodyContainer">
+            <div id="bgHeader">
+                <div class="horFlexContainer" id="headerHorMain">
+                    <p id="iPeriodBubble" class="Lilita redFont" >15 сентября - 13 октября</p>
+                    <p id="headerAnixLogo"></p>
+                </div>
+                <div id="mainH1" class="Lilita redFont">
+                    <div id="textContMainH1">
+                        <p style="font-size: 15pt;">Конкурс</p>
+                        <p style="font-size: 40pt;">юных</p>
+                        <p style="font-size: 40pt; margin-bottom: 6px">следопытов</p>
+                        <div style="justify-content: center; margin-bottom: 20px;" class="horFlexContainer">
+                            <p style="font-size: 15pt; z-index: 12" class="noPadding">Познавай родной край вместе с</p>
+                            <p class="inlineLogo noPadding" style="z-index: 15">Аникс</p>
+                        </div>
+                        <div style="height: 56px"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="conBox">
+                <div style="margin: 5% 0;">
+                    {% for get_all_research in get_all_researchs %}
+                        <div id="research_{{ get_all_research.id }}">
+                            <h3 style="display: block">{{get_all_research.name}}</h3>
+                            {% if get_all_research.type_research == 'famous_people' %}
+                                <h4 style="display: block">Известные люди</h4>
+                            {% elif get_all_research.type_research == 'plants' %}
+                                <h4 style="display: block">Растительный мир</h4>
+                            {% elif get_all_research.type_research == 'animals' %}
+                                <h4 style="display: block">Животный мир</h4>
+                            {% else %}
+                                <h4 style="display: block">Природные объекты</h4>
+                            {% endif %}
+                            <div class="researchBody" style="word-break: break-all;">
+                                <div class="container">
+                                    <div class="slider" data-slider="itc-slider" data-loop="false">
+                                        <div class="slider__container">
+                                            <div class="slider__wrapper">
+                                                <div class="slider__items">
+                                                    <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+get_all_research.main_photo_path) }})"></div>
+                                                        {% for photo in get_all_research.photos %}
+                                                            <div class="slider__item" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})"></div>
+                                                        {% endfor %}
+                                                        {% for video in get_all_research.videos %}
+                                                            <div class="slider__item" style="display: flex;justify-content: center;"><video style="justify-content: center;height: 100%" src="{{ url_for('static', filename='img/reseach_img/'+video) }}" preload="auto" controls=""></video></div>
+                                                        {% endfor %}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <button class="slider__control" data-slide="prev"></button>
+                                        <button class="slider__control" data-slide="next"></button>
+                                    </div>
+                                </div>
+                                {{ get_all_research.about|safe }}
+                            </div>
+                            <span>Если решили отклонить, то обязательно заполните причину. Если решили принять, то причину заполнять не нужно</span>
+                            <label>Причина: <input type="text" name="prichina" id="prichina"></label>
+                            <button id="accept" onclick="Admin({{ get_all_research.id }}, true);">Принять</button>
+                            <button id="denial" onclick="Admin({{ get_all_research.id }}, false);">Отклонить</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script>
+            function Admin(id_research, accept) {
+                let prichina = document.getElementById('prichina');
+                if (accept) {
+                    send = {id_research: id_research, accept: accept};
+                } else {
+                    send = {id_research: id_research, accept: accept, prichina: prichina.value};
+                }
+                AJAX(
+                    {url: '/api/admin/0JzQvtGH0LAg0YHRitC10LvQsCDQs9C+0LLQvdC+', data: send},
+                    function (data) {
+                        if (data.admin == true) {
+                            document.getElementById('research_'+id_research).remove()
+                        }
+                    }
+                );
+            }
+        </script>
+    </body>
+</html>

@@ -46,6 +46,7 @@ class Research(Base):
     photos = Column(PickleType, default=list())
     videos = Column(PickleType, default=list())
     checked = Column(Boolean, default=False)
+    prichina = Column(Unicode(255, collation='utf8_unicode_ci'), default=None)
 
     research_votes = relationship('Votes', backref='research_votes', lazy='dynamic')
 

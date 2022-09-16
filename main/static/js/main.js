@@ -175,28 +175,15 @@ function logIn() {
         send_data = (loginPassword !== "") ? {phoneNumber: phoneNumber.value, loginPassword: loginPassword} : {phoneNumber: phoneNumber.value};
     console.log(phoneNumber, loginPassword, send_data)
     AJAX(
-        {
-            url: '/api/login',
-            data: send_data
-        },
+        {url: '/api/login', data: send_data},
         function (data) {
             if (loginPassword === "") {
-                if (data.login == true) {
-                    document.getElementById('loginStep1').style.display = 'none';
-                    document.getElementById('loginStep2').style.display = 'block';
-                } else if (data.login == false) {
-                    showErrorMessage(data.header, data.text);
-                } else {
-                    document.getElementById('loginStep1').style.display = 'none';
-                    document.getElementById('loginStep3').style.display = 'block';
-                }
+                if (data.login == true) {document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep2').style.display = 'block';}
+                else if (data.login == false) {showErrorMessage(data.header, data.text);}
+                else {document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep3').style.display = 'block';}
             } else {
-                if (data.login == true) {
-                    closeLoginPopUp();
-                    window.location.reload();
-                } else {
-                    showErrorMessage(data.header, data.text);
-                }
+                if (data.login == true) {closeLoginPopUp();window.location.reload();}
+                else {showErrorMessage(data.header, data.text);}
             }
         }
     );
@@ -206,55 +193,36 @@ function RegIn() {
     let name = document.getElementById('name'),
         signinPassword = document.getElementById('signinPassword'),
         personalDataAgreement = document.getElementById('personalDataAgreement');
-
-    if (name.value == '') {
-        showErrorMessage('Ошибка', 'Поле "Фамилия Имя" введено некорректно');
-    }  else {
-        AJAX(
-            {
-                url: '/api/reg',
-                data: {
-                    phoneNumber: phoneNumber.value,
-                    name: name.value,
-                    signinPassword: signinPassword.value,
-                    personalDataAgreement: personalDataAgreement.checked
-                }
-            },
+    if (name.value == '') {showErrorMessage('Ошибка', 'Поле "Фамилия Имя" введено некорректно');}
+    else {
+        AJAX({url: '/api/reg', data: {phoneNumber: phoneNumber.value, name: name.value, signinPassword: signinPassword.value, personalDataAgreement: personalDataAgreement.checked}},
             function (data) {
-                if (data.reg == false) {
-                    showErrorMessage(data.header, data.text);
-                } else {
-                    closeLoginPopUp();
-                    window.location.reload();
-                }
+                if (data.reg == false) {showErrorMessage(data.header, data.text);}
+                else {closeLoginPopUp(); window.location.reload();}
             }
         );
     }
 }
 
 function addResearch(user_have_data, type_research, csrf_token) {
-    let text = document.getElementsByClassName('ck-editor__editable_inline')[0];
-    if (text.innerText.length < 2000) {
-        showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');
-        return;
-    }
-
-    let formData = new FormData();
-
+    let formData = new FormData(),
+        text = document.getElementsByClassName('ck-editor__editable_inline')[0];
+    if (text.innerText.length < 2000) {showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');return;}
     if (user_have_data == 'false') {
         let cityFrom = document.getElementById('cityFrom'),
             ageSelection = document.getElementById('ageSelection'),
             school = document.getElementById('school');
+        if (cityFrom.value == null || cityFrom.value == '') {showErrorMessage('Ошибка', 'Поле "Откуда ты" не заполнено');return;}
+        if (ageSelection.value == null || ageSelection.value == '') {showErrorMessage('Ошибка', 'Поле "Возраст" не заполнено');return;}
+        if (school.value == null || school.value == '') {showErrorMessage('Ошибка', 'Поле "Учебное заведение" не заполнено');return;}
         formData.append('cityFrom', cityFrom.value);
         formData.append('ageSelection', ageSelection.value);
         formData.append('school', school.value);
     }
-
-    let newResearchPhoto = document.getElementById('newResearchPhoto');
-    for (var i = 0, file; file = newResearchPhoto.files[i]; ++i) {
-        formData.append('photo_and_video', file);
-    }
-
+    let newResearchPhoto = document.getElementById('newResearchPhoto'),
+        newResearchName = document.getElementById('newResearchName');
+    if (newResearchName.value == null || newResearchName.value == '') {showErrorMessage('Ошибка', 'Поле "Название работы" не заполнено');return;}
+    for (var i = 0, file; file = newResearchPhoto.files[i]; ++i) {formData.append('photo_and_video', file);}
     formData.append('newResearchText', text.innerHTML);
     formData.append('newResearchName', newResearchName.value);
     formData.append('have_data', user_have_data);
@@ -264,23 +232,16 @@ function addResearch(user_have_data, type_research, csrf_token) {
     xhr.open('POST', '/api/load_research', true);
     xhr.setRequestHeader("X-CSRFToken", csrf_token);
 
-
     xhr.onload = function(e) {
         showLoadMessage();
         if (xhr.status >= 200 && xhr.status < 400) {
             // выполнить при получении данных
             var result = JSON.parse(xhr.responseText);
             console.log(result);
-            if (result.reseach == false) {
-                showErrorMessage(result.header, result.text);
-            } else {
-                window.location.replace('/research/'+result.id_research)
-            }
-        } else {
-            console.log(xhr.status);
-        }
-    };
-    xhr.send(formData);
+            if (result.reseach == false) {showErrorMessage(result.header, result.text);}
+            else {window.location.replace('/research/'+result.id_research)}
+        } else {console.log(xhr.status);}
+    }; xhr.send(formData);
 }
 
 
@@ -288,28 +249,26 @@ function vote(id_research, is_authenticated, user_id) {
     let count_allow_votes = document.getElementById('count_allow_votes'),
         count_votes = document.getElementById('count_votes_'+id_research);
     if (is_authenticated == 'True') {
-        AJAX(
-            {
-                url: '/api/vote',
-                data: {
-                    user_id: user_id,
-                    id_research: id_research
-                }
-            },
+        AJAX({url: '/api/vote', data: {user_id: user_id, id_research: id_research}},
             function (data) {
                 if (data.vote == true) {
                     count_allow_votes.innerText = Number(count_allow_votes.innerText) - 1;
                     count_votes.innerText = Number(count_votes.innerText) + 1;
-                    console.log(data);
-                } else {
-                    showErrorMessage(data.header, data.text);
-                    console.log(data);
-                }
+                } else {showErrorMessage(data.header, data.text);}
             }
         )
-    } else {
-        showLoginPopUp();
-        showErrorMessage('Ошибка', 'Необходимо войти в аккаунт');
-    }
+    } else {showLoginPopUp(); showErrorMessage('Ошибка', 'Необходимо войти в аккаунт');}
+}
 
+function EditResearch(user_id, id_research) {
+    let newResearchName = document.getElementById('newResearchName'),
+        text = document.getElementsByClassName('ck-editor__editable_inline')[0];
+    if (text.innerText.length < 2000) {showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');return;}
+    if (newResearchName.value == null || newResearchName.value == '') {showErrorMessage('Ошибка', 'Поле "Название работы" не заполнено');return;}
+    AJAX(
+        {url: '/api/edit_research', data: {newResearchName: newResearchName.value, newResearchText: text.innerHTML, user_id: user_id, id_research: id_research}},
+        function (data) {
+            if (data.edit == true) window.location.replace('/research/'+id_research); else showErrorMessage(data.header, data.text);
+        }
+    );
 }

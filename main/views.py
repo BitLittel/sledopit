@@ -53,9 +53,23 @@ def teardown_request(exception):
         db.close()
 
 
-@main.route('/admin/', methods=['GET', 'POST'])
+@main.route(f'/admin/{main.config["SECRET_KEY"]}', methods=['GET', 'POST'])
 def index():
-    return render_template('15open.html')
+    get_all_researchs = g.db.query(
+        Research
+    ).filter(
+        or_(
+            and_(
+                Research.checked == 0,
+                Research.prichina == None
+            ),
+            and_(
+                Research.checked == 0,
+                Research.prichina == ''
+            )
+        )
+    ).all()
+    return render_template('admin.html', get_all_researchs=get_all_researchs)
 
 
 @main.route('/', methods=['GET'])
@@ -63,11 +77,42 @@ def index():
 def test():
     users = []
     all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
+
     for i in all_user:
-        check_research = g.db.query(Research.id, Research.main_photo_path).filter(Research.user_id == i.user_id).first()
+
+        check_research = g.db.query(
+            Research.id,
+            Research.main_photo_path
+        ).filter(
+            and_(
+                Research.user_id == i.user_id,
+                Research.checked == True
+            )
+        ).first()
+
         if check_research:
-            count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
-            count_votes = g.db.query(Votes).filter(Votes.user_research == i.user_id).count()
+
+            count_research = g.db.query(
+                Research
+            ).filter(
+                and_(
+                    Research.user_id == i.user_id,
+                    Research.checked == True
+                )
+            ).count()
+
+            count_votes = g.db.query(
+                Votes
+            ).join(
+                Research,
+                Research.id == Votes.user_vote_to_research
+            ).filter(
+                and_(
+                    Votes.user_research == i.user_id,
+                    Research.checked == True
+                )
+            ).count()
+
             users.append([i, check_research.id, check_research.main_photo_path, count_research, count_votes])
     users = sorted(users, key=lambda x: x[4], reverse=True) if users != [] else None
 
@@ -80,7 +125,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'famous_people').all()
+    ).filter(and_(Research.type_research == 'famous_people', Research.checked == True)).all()
     shuffle(research_famous_people)
     research_famous_people = research_famous_people[0:4]
 
@@ -93,7 +138,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'plants').all()
+    ).filter(and_(Research.type_research == 'plants', Research.checked == True)).all()
     shuffle(research_plants)
     research_plants = research_plants[0:4]
 
@@ -106,7 +151,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'animals').all()
+    ).filter(and_(Research.type_research == 'animals', Research.checked == True)).all()
     shuffle(research_animals)
     research_animals = research_animals[0:4]
 
@@ -119,7 +164,7 @@ def test():
         Users,
         Users.id == Research.user_id,
         isouter=True
-    ).filter(Research.type_research == 'nature_object').all()
+    ).filter(and_(Research.type_research == 'nature_object', Research.checked == True)).all()
     shuffle(research_nature_objects)
     research_nature_objects = research_nature_objects[0:4]
 
@@ -129,7 +174,7 @@ def test():
         user_autificate = False
 
     return render_template('index.html',
-                           random_users=users[0:4],
+                           random_users=users[0:4] if users else None,
                            research_famous_people=research_famous_people,
                            research_plants=research_plants,
                            research_animals=research_animals,
@@ -139,13 +184,42 @@ def test():
 
 @main.route("/rating", methods=['GET', 'POST'])
 def rating():
+
     users = []
+
     all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
     for i in all_user:
-        check_research = g.db.query(Research.id, Research.main_photo_path).filter(Research.user_id == i.user_id).first()
+        check_research = g.db.query(
+            Research.id,
+            Research.main_photo_path
+        ).filter(
+            and_(
+                Research.user_id == i.user_id,
+                Research.checked == True
+            )
+        ).first()
         if check_research:
-            count_research = g.db.query(Research).filter(Research.user_id == i.user_id).count()
-            count_votes = g.db.query(Votes).filter(Votes.user_research == i.user_id).count()
+
+            count_research = g.db.query(
+                Research
+            ).filter(
+                and_(
+                    Research.user_id == i.user_id,
+                    Research.checked == True
+                )
+            ).count()
+
+            count_votes = g.db.query(
+                Votes
+            ).join(
+                Research,
+                Research.id == Votes.user_vote_to_research
+            ).filter(
+                and_(
+                    Votes.user_research == i.user_id,
+                    Research.checked == True
+                )
+            ).count()
             users.append([i, check_research.id, check_research.main_photo_path, count_research, count_votes])
     users = sorted(users, key=lambda x: x[4], reverse=True) if users != [] else None
 
@@ -170,6 +244,9 @@ def research(id_research):
         Research.main_photo_path,
         Research.photos,
         Research.videos,
+        Research.checked,
+        Research.prichina,
+        Research.user_id,
         Users.FIO,
         Users.city,
         Users.school,
@@ -212,7 +289,10 @@ def category(type_category):
         Users.id == Research.user_id,
         isouter=True
     ).filter(
-        Research.type_research == type_category
+        or_(
+            and_(Research.type_research == type_category, Research.checked == True),
+            and_(Research.type_research == type_category, Research.user_id == current_user.id)
+        )
     ).all()
 
     if get_research_with_categorys != [(None, None, None, None, None)]:
@@ -235,6 +315,22 @@ def category(type_category):
                            get_research_with_categorys=users,
                            count_votes_user=count_votes_user,
                            user_autificate=user_autificate)
+
+
+@main.route('/edit_research/<int:id_research>', methods=['GET', 'POST'])
+@login_required
+def edit_research(id_research):
+    check_research = g.db.query(Research).filter(Research.id == id_research).first()
+    if check_research == None:
+        return redirect(url_for('test'))
+    if check_research.user_id != current_user.id:
+        return redirect(url_for('test'))
+    return render_template("edit_research.html", check_research=check_research)
+
+
+@main.route('/test_user', methods=['POST', 'GET'])
+def test_user():
+    return ''
 
 
 @main.route('/logout')

@@ -36,7 +36,7 @@
       <div style="margin-bottom: 75px; text-align: left; margin-left: 25px;">
         <a href="{{ url_for('test') }}"><div class="funButton"> < На главную</div></a>
       </div>
-      <h3 style="display: block">{{check_research.name}}</h3>
+        <h3 style="display: block">{{check_research.name}}</h3>
         {% if check_research.type_research == 'famous_people' %}
             <h4 style="display: block">Известные люди</h4>
         {% elif check_research.type_research == 'plants' %}
@@ -47,7 +47,7 @@
             <h4 style="display: block">Природные объекты</h4>
         {% endif %}
 
-      <div class="researchBody">
+      <div class="researchBody" style="word-break: break-all;">
         <div class="container">
           <div class="slider" data-slider="itc-slider" data-loop="false">
             <div class="slider__container">
@@ -76,16 +76,27 @@
       </div>
     </div>
     {% if user_autificate %}
-        <span style="display: none;" id="count_votes_{{ check_research.id }}"></span>
-        <div class="funButton" onclick="vote({{ check_research.id }}, '{{ user_autificate }}', '{{ current_user.id }}');">Проголосовать</div>
-        <h1 style="margin-top: 25px">Вы можете проголосовать еще <span id="count_allow_votes">{{ count_votes_user }}</span> раза</h1>
+        {% if current_user.id == check_research.user_id %}
+            {% if check_research.checked == False and (check_research.prichina == None or check_research.prichina == '')%}
+                <p style="font-family: 'Lilita', sans-serif;color: #4435c1;;font-size: 25pt;">Ваша работа на проверке, как проверка будет выполнена, здесь появиться ответ</p>
+            {% elif check_research.checked == False and (check_research.prichina != '' or check_research.prichina != None) %}
+                <p style="font-family: 'Lilita', sans-serif;color: #DD2A1B;font-size: 25pt;">Ваша работа не прошла проверку. Причина: {{ check_research.prichina }}</p>
+            {% elif check_research.checked == True %}
+                <p style="font-family: 'Lilita', sans-serif;color: #258d32;;font-size: 25pt;">Ваша работа прошла проверку</p>
+            {% endif %}
+            <div class="funButton" style="margin-bottom: 100px;" onclick="window.location.replace('{{ url_for('edit_research', id_research=check_research.id) }}')">Редактировать</div>
+        {% else %}
+            <span style="display: none;" id="count_votes_{{ check_research.id }}"></span>
+            <div class="funButton" onclick="vote({{ check_research.id }}, '{{ user_autificate }}', '{{ current_user.id }}');">Проголосовать</div>
+            <h1 style="margin-top: 25px">Вы можете проголосовать еще <span id="count_allow_votes">{{ count_votes_user }}</span> раза</h1>
+        {% endif %}
     {% else %}
         <h1 style="margin-top: 25px">Необходимо зарегистрироваться, чтобы проголосовать</h1>
     {% endif %}
   </div>
 </div>
 <div id="loginPopUp">
-  <dib id="loginPopupExitButton" onclick="closeLoginPopUp()">x</dib>
+  <div id="loginPopupExitButton" onclick="closeLoginPopUp()">x</div>
   <div class="loginElement" id="loginStep1">
     <h1>Вход или регистрация</h1>
     <p><label for="phoneNumber">Номер телефона:</label></p>
