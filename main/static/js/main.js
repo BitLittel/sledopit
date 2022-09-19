@@ -172,8 +172,8 @@ let phoneNumber;
 function logIn() {
     phoneNumber = document.getElementById('phoneNumber');
     let loginPassword = document.getElementById('loginPassword').value,
-        send_data = (loginPassword !== "") ? {phoneNumber: phoneNumber.value, loginPassword: loginPassword} : {phoneNumber: phoneNumber.value};
-    console.log(phoneNumber, loginPassword, send_data)
+        send_data = (loginPassword != "") ? {phoneNumber: phoneNumber.value, loginPassword: loginPassword} : {phoneNumber: phoneNumber.value};
+
     AJAX(
         {url: '/api/login', data: send_data},
         function (data) {
