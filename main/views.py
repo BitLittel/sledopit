@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
-import hashlib
-import re
 from main import main
-from flask import render_template, g, request, redirect, url_for, jsonify
+from flask import render_template, g, request, redirect, url_for
 from flask_login import current_user, login_required, login_user, LoginManager, logout_user
 from main.database import Users, Session, Votes, Research
-from sqlalchemy import and_, or_, desc, distinct
+from sqlalchemy import and_, or_
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy.sql import func
-from random import shuffle
 
 
 login_manager = LoginManager()
@@ -68,6 +65,27 @@ def index():
 @main.route('/', methods=['GET'])
 @main.route('/main', methods=['GET'])
 def test():
+
+    # rand_user = db.query(
+    #     Users.id.label('user_id'),
+    #     Users.FIO,
+    #     Users.age,
+    #     Research.id,
+    #     Research.main_photo_path
+    # ).join(
+    #     Research,
+    #     Research.user_id == Users.id
+    # ).filter(
+    #     and_(Research.checked == True)
+    # ).order_by(func.rand()).limit(4).all()
+    # users = []
+    # for i in rand_user:
+    #     count_research = db.query(Research).filter(
+    #         and_(Research.user_id == i.user_id, Research.checked == True)).count()
+    #     count_votes = db.query(Votes).join(Research, Research.id == Votes.user_vote_to_research).filter(
+    #         and_(Votes.user_research == i.user_id, Research.checked == True)).count()
+    #     users.append([i, count_research, count_votes])
+
     users = []
     all_user = g.db.query(Users.id.label('user_id'), Users.FIO, Users.age).all()
     for i in all_user:
@@ -110,10 +128,7 @@ def test():
         isouter=True
     ).filter(
         and_(Research.type_research == 'famous_people', Research.checked == True)
-    ).all()
-
-    shuffle(research_famous_people)
-    research_famous_people = research_famous_people[0:4]
+    ).order_by(func.rand()).limit(4).all()
 
     research_plants = g.db.query(
         Research.id,
@@ -126,10 +141,7 @@ def test():
         isouter=True
     ).filter(
         and_(Research.type_research == 'plants', Research.checked == True)
-    ).all()
-
-    shuffle(research_plants)
-    research_plants = research_plants[0:4]
+    ).order_by(func.rand()).limit(4).all()
 
     research_animals = g.db.query(
         Research.id,
@@ -142,10 +154,7 @@ def test():
         isouter=True
     ).filter(
         and_(Research.type_research == 'animals', Research.checked == True)
-    ).all()
-
-    shuffle(research_animals)
-    research_animals = research_animals[0:4]
+    ).order_by(func.rand()).limit(4).all()
 
     research_nature_objects = g.db.query(
         Research.id,
@@ -158,10 +167,7 @@ def test():
         isouter=True
     ).filter(
         and_(Research.type_research == 'nature_object', Research.checked == True)
-    ).all()
-
-    shuffle(research_nature_objects)
-    research_nature_objects = research_nature_objects[0:4]
+    ).order_by(func.rand()).limit(4).all()
 
     try:
         user_autificate = True if current_user.id else None
@@ -169,7 +175,7 @@ def test():
         user_autificate = False
 
     return render_template('index.html',
-                           random_users=users[0:4] if users else None,
+                           random_users=users,
                            research_famous_people=research_famous_people,
                            research_plants=research_plants,
                            research_animals=research_animals,
