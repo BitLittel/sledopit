@@ -28,7 +28,7 @@ def test():
         for i in rand_user:
             count_votes = db.query(Votes).join(Research, Research.id == Votes.user_vote_to_research).filter(and_(Votes.user_research == i.user_id, Research.checked == True)).count()
             users.append([i, count_votes])
-        users = sorted(users, key=lambda x: x[1], reverse=True) if users != [] else None
+        users = sorted(users, key=lambda x: x[1], reverse=True)[0:4] if users != [] else None
         # users = []
         # for i in rand_user:
         #     count_research = db.query(Research).filter(and_(Research.user_id == i.user_id, Research.checked == True)).count()
