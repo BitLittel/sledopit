@@ -34,6 +34,7 @@ def test():
             r = randint(get_id_min_max.min, get_id_min_max.max)
             if r not in rand_arr_int:
                 rand_arr_int.append(r)
+        print(rand_arr_int)
 
         users = []
         for i in rand_arr_int:
@@ -49,7 +50,7 @@ def test():
             ).filter(
                 and_(Research.checked == True, Users.id == i)
             ).first()
-
+            print(rand_user)
             count_research = db.query(Research).filter(
                 and_(Research.user_id == rand_user.user_id, Research.checked == True)).count()
 
