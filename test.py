@@ -26,16 +26,18 @@ def test():
         end = time.time()
         print(f'delta: {end-start}')
 
-        print('kek1')
+        print('kek2')
         start = time.time()
         get_id_min_max = db.query(func.max(Users.id).label('max'), func.min(Users.id).label('min')).first()
+        print(f'min: {get_id_min_max.min} max: {get_id_min_max.max}')
         rand_arr_int = []
         for i in range(4):
             r = randint(get_id_min_max.min, get_id_min_max.max)
             if r not in rand_arr_int:
                 rand_arr_int.append(r)
         print(rand_arr_int)
-
+        test_test = db.query(Users).filter(Users.id in rand_arr_int).all()
+        print(f'test: {test_test}')
         users = []
         for i in rand_arr_int:
             rand_user = db.query(
@@ -50,7 +52,9 @@ def test():
             ).filter(
                 and_(Research.checked == True, Users.id == i)
             ).first()
-            print(rand_user)
+
+            print('User_rand:', rand_user)
+
             count_research = db.query(Research).filter(
                 and_(Research.user_id == rand_user.user_id, Research.checked == True)).count()
 
