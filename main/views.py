@@ -276,7 +276,15 @@ def category(type_category):
     if type_category not in global_type_research:
         return redirect(url_for('test'))
 
+    try:
+        count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
+        user_autificate = True if current_user.id else None
+    except AttributeError:
+        user_autificate = False
+        count_votes_user = None
+
     users = []
+    filter_res = [and_(Research.type_research == type_category, Research.user_id == current_user.id)] if user_autificate else [and_(Research.type_research == type_category, Research.checked == True)]
     get_research_with_categorys = g.db.query(
         Research.id,
         Research.name,
@@ -289,10 +297,7 @@ def category(type_category):
         Users.id == Research.user_id,
         isouter=True
     ).filter(
-        or_(
-            and_(Research.type_research == type_category, Research.checked == True),
-            and_(Research.type_research == type_category, Research.user_id == current_user.id)
-        )
+        *filter_res
     ).all()
 
     if get_research_with_categorys != [(None, None, None, None, None)]:
@@ -304,12 +309,6 @@ def category(type_category):
     else:
         users = None
 
-    try:
-        count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
-        user_autificate = True if current_user.id else None
-    except AttributeError:
-        user_autificate = False
-        count_votes_user = None
     return render_template('category.html',
                            type_category=type_category,
                            get_research_with_categorys=users,
