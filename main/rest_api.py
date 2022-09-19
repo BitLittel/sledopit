@@ -55,6 +55,9 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
         if i.split('.')[1] in photo_format:
             all_photo.append(i)
 
+    if all_photo == [] and main_photo == '':
+        return 'Добавте хотя бы одно фото'
+
     all_video = []
     for i in all_path_photo_and_video:
         if i.split('.')[1] in video_format:
@@ -81,6 +84,9 @@ def api_login():
         except:
             return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
 
+        if phoneNumber is None or phoneNumber == '':
+            return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
+
         if password is None or password == '':
             if re.search(r'^(([+][0-9]{1,3})[0-9]{10})|(8+[0-9]{10})$', phoneNumber) is None:
                 return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
@@ -92,6 +98,8 @@ def api_login():
                 return jsonify(dict(login=True))
         else:
             check_user = g.db.query(Users).filter(Users.tel_number == phoneNumber).first()
+            if check_user is None:
+                return jsonify(dict(login=False, header='Ошибка', text='Пользователь с таким номером телефона не найден'))
             if check_user.password == hash_password(password):
                 login_user(check_user, remember=True)
                 return jsonify(dict(login=True))

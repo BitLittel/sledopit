@@ -113,3 +113,7 @@ function showLoadMessage() {
     document.getElementById("loadBox").style.display = 'block';
 }
 
+function closeLoadMessage() {
+    document.getElementById("loadBox").style.display = 'none';
+}
+

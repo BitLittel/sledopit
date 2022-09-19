@@ -232,16 +232,33 @@ function addResearch(user_have_data, type_research, csrf_token) {
     xhr.open('POST', '/api/load_research', true);
     xhr.setRequestHeader("X-CSRFToken", csrf_token);
 
-    xhr.onload = function(e) {
+    showLoadMessage();
+
+    xhr.onprogress = function () {
         showLoadMessage();
+    }
+
+    xhr.onload = function(e) {
         if (xhr.status >= 200 && xhr.status < 400) {
             // выполнить при получении данных
             var result = JSON.parse(xhr.responseText);
-            console.log(result);
-            if (result.reseach == false) {showErrorMessage(result.header, result.text);}
-            else {window.location.replace('/research/'+result.id_research)}
-        } else {console.log(xhr.status);}
-    }; xhr.send(formData);
+
+            if (result.reseach == false) {
+                closeLoadMessage();
+                showErrorMessage(result.header, result.text);
+            } else {
+                closeLoadMessage();
+                window.location.replace('/research/'+result.id_research)
+            }
+        } else {
+            if (xhr.status == 413) {
+                closeLoadMessage();
+                showErrorMessage('Ошибка', 'Размер файлов слижком большой. Ограничение 100 мегобайт');
+            }
+            console.log(xhr.status);
+        }
+    };
+    xhr.send(formData);
 }
 
 

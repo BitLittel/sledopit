@@ -78,11 +78,11 @@
     {% if user_autificate %}
         {% if current_user.id == check_research.user_id %}
             {% if check_research.checked == False and (check_research.prichina == None or check_research.prichina == '')%}
-                <p style="font-family: 'Lilita', sans-serif;color: #4435c1;;font-size: 25pt;">Ваша работа на проверке, как проверка будет выполнена, здесь появиться ответ</p>
+                <p style="font-family: 'Lilita', sans-serif;color: #4435c1;font-size: 25pt;">Ваша работа на проверке, как проверка будет выполнена, здесь появиться ответ</p>
             {% elif check_research.checked == False and (check_research.prichina != '' or check_research.prichina != None) %}
                 <p style="font-family: 'Lilita', sans-serif;color: #DD2A1B;font-size: 25pt;">Ваша работа не прошла проверку. Причина: {{ check_research.prichina }}</p>
             {% elif check_research.checked == True %}
-                <p style="font-family: 'Lilita', sans-serif;color: #258d32;;font-size: 25pt;">Ваша работа прошла проверку</p>
+                <p style="font-family: 'Lilita', sans-serif;color: #258d32;font-size: 25pt;">Ваша работа прошла проверку</p>
             {% endif %}
             <div class="funButton" style="margin-bottom: 100px;" onclick="window.location.replace('{{ url_for('edit_research', id_research=check_research.id) }}')">Редактировать</div>
         {% else %}
