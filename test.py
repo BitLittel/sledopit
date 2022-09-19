@@ -22,7 +22,7 @@ def test():
             Research.user_id == Users.id
         ).filter(
             and_(Research.checked == True)
-        ).order_by(Users.id).all()
+        ).group_by(Users.id).all()
         users = []
         for i in rand_user:
             count_research = db.query(Research).filter(and_(Research.user_id == i.user_id, Research.checked == True)).count()
