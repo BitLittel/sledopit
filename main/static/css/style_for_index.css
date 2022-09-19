@@ -1074,3 +1074,11 @@ p.Tahoma {
     font-size: 20pt;
     color: #333;
 }
+
+.ck-editor__main {
+    height: 500px !important;
+}
+
+.ck-content {
+    height: 500px !important;
+}
