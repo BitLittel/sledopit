@@ -11,12 +11,15 @@ def test():
 
         print('lol')
         start = time.time()
-        sql = text("select user.id as user_id, user.FIO, user.age,research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research,(select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc limit 4")
+
+        sql = text("select user.id as user_id, user.FIO, user.age, research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research, (select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc limit 4")
         user = db.execute(sql)
 
         end = time.time()
         print(f'delta: {end - start}')
-        print([x for x in user])
+        user = [x for x in user]
+        for i in user:
+            print(f'{i.user_id} {i.FIO} {i.age} {i.id} {i.main_photo_path} {i.count_research} {i.count_votes}')
 
         print('kek1')
         start = time.time()
