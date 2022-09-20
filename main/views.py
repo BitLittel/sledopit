@@ -66,7 +66,56 @@ def index():
             )
         )
     ).all()
-    return render_template('admin.html', get_all_researchs=get_all_researchs)
+    count_users = g.db.query(Users).count()
+    count_sledopit = g.db.query(Users).join(Research, Research.user_id == Users.id).group_by(Users.id).count()
+
+    count_sledopit_famous_people = g.db.query(
+        Users.id,
+        Research.id
+    ).join(
+        Research,
+        Research.user_id == Users.id
+    ).filter(
+        Research.type_research == 'famous_people'
+    ).group_by(Users.id).count()
+
+    count_sledopit_plants = g.db.query(
+        Users.id,
+        Research.id
+    ).join(
+        Research,
+        Research.user_id == Users.id
+    ).filter(
+        Research.type_research == 'plants'
+    ).group_by(Users.id).count()
+
+    count_sledopit_animals = g.db.query(
+        Users.id,
+        Research.id
+    ).join(
+        Research,
+        Research.user_id == Users.id
+    ).filter(
+        Research.type_research == 'animals'
+    ).group_by(Users.id).count()
+
+    count_sledopit_nature_object = g.db.query(
+        Users.id,
+        Research.id
+    ).join(
+        Research,
+        Research.user_id == Users.id
+    ).filter(
+        Research.type_research == 'nature_object'
+    ).group_by(Users.id).count()
+    return render_template('admin.html',
+                           get_all_researchs=get_all_researchs,
+                           count_users=count_users,
+                           count_sledopit=count_sledopit,
+                           count_sledopit_famous_people=count_sledopit_famous_people,
+                           count_sledopit_plants=count_sledopit_plants,
+                           count_sledopit_animals=count_sledopit_animals,
+                           count_sledopit_nature_object=count_sledopit_nature_object)
 
 
 @main.route('/', methods=['GET'])
@@ -277,11 +326,6 @@ def edit_research(id_research):
     if check_research.user_id != current_user.id:
         return redirect(url_for('test'))
     return render_template("edit_research.html", check_research=check_research)
-
-
-@main.route('/test_user', methods=['POST', 'GET'])
-def test_user():
-    return ''
 
 
 @main.route('/logout')

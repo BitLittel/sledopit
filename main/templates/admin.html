@@ -32,6 +32,24 @@
                 </div>
             </div>
             <div id="conBox">
+                <table style="border: 1px solid #000;">
+                    <tr>
+                        <th>Всего пользователей</th>
+                        <th>Сколько участников</th>
+                        <th>Участники в категории "Известные люди"</th>
+                        <th>Участники в категории "Растительный мир"</th>
+                        <th>Участники в категории "Животный мир"</th>
+                        <th>Участники в категории "Природные объекты"</th>
+                    </tr>
+                    <tr>
+                        <td>{{ count_users }}</td>
+                        <td>{{ count_sledopit }}</td>
+                        <td>{{ count_sledopit_famous_people }}</td>
+                        <td>{{ count_sledopit_plants }}</td>
+                        <td>{{ count_sledopit_animals }}</td>
+                        <td>{{ count_sledopit_nature_object }}</td>
+                    </tr>
+                </table>
                 <div style="margin: 5% 0;">
                     {% for get_all_research in get_all_researchs %}
                         <div id="research_{{ get_all_research.id }}">
