@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from main.database import Users, Session, Votes, Research
-from sqlalchemy import and_, or_, desc, distinct
+from sqlalchemy import and_, or_, desc, distinct, text
 from sqlalchemy.sql import func
 from random import randint
 import time
@@ -10,19 +10,13 @@ def test():
     with Session() as db:
 
         print('lol')
-        research_famous_people = db.query(
-            Research.id,
-            Research.name,
-            Research.main_photo_path,
-            Users.FIO
-        ).join(
-            Users,
-            Users.id == Research.user_id,
-            isouter=True
-        ).filter(
-            and_(Research.type_research == 'famous_people', Research.checked == True)
-        ).order_by(func.rand()).limit(4).all()
-        print(research_famous_people)
+        start = time.time()
+        sql = text("select user.id as user_id, user.FIO, user.age,research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research,(select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc")
+        user = db.execute(sql)
+
+        end = time.time()
+        print(f'delta: {end - start}')
+        print([x[0] for x in user])
 
         print('kek1')
         start = time.time()
