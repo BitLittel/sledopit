@@ -11,7 +11,7 @@ def test():
 
         print('lol')
         start = time.time()
-        sql = text("select user.id as user_id, user.FIO, user.age,research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research,(select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc")
+        sql = text("select user.id as user_id, user.FIO, user.age,research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research,(select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc limit 4")
         user = db.execute(sql)
 
         end = time.time()
