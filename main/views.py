@@ -3,7 +3,7 @@ from main import main
 from flask import render_template, g, request, redirect, url_for
 from flask_login import current_user, login_required, LoginManager, logout_user
 from main.database import Users, Session, Votes, Research
-from sqlalchemy import and_, or_
+from sqlalchemy import and_, or_, text
 from flask_wtf.csrf import CSRFProtect
 from sqlalchemy.sql import func
 
@@ -121,24 +121,8 @@ def index():
 @main.route('/', methods=['GET'])
 @main.route('/main', methods=['GET'])
 def test():
-    top_user = g.db.query(
-        Users.id.label('user_id'),
-        Users.FIO,
-        Users.age,
-        Research.id,
-        Research.main_photo_path,
-        func.count(Research.id).label('count_research')
-    ).join(
-        Research,
-        Research.user_id == Users.id
-    ).filter(Research.checked == True).group_by(Users.id).all()
-    users = []
-    for i in top_user:
-        count_votes = g.db.query(Votes).join(Research, Research.id == Votes.user_vote_to_research).filter(
-            and_(Votes.user_research == i.user_id, Research.checked == True)
-        ).count()
-        users.append([i, count_votes])
-    users = sorted(users, key=lambda x: x[1], reverse=True)[0:4] if users != [] else None
+    users = g.db.execute(text("select user.id as user_id, user.FIO, user.age, research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research, (select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc limit 4"))
+    users = [x for x in users]
 
     research_famous_people = g.db.query(
         Research.id,
@@ -208,24 +192,8 @@ def test():
 
 @main.route("/rating", methods=['GET', 'POST'])
 def rating():
-    top_user = g.db.query(
-        Users.id.label('user_id'),
-        Users.FIO,
-        Users.age,
-        Research.id,
-        Research.main_photo_path,
-        func.count(Research.id).label('count_research')
-    ).join(
-        Research,
-        Research.user_id == Users.id
-    ).filter(Research.checked == True).group_by(Users.id).all()
-    users = []
-    for i in top_user:
-        count_votes = g.db.query(Votes).join(Research, Research.id == Votes.user_vote_to_research).filter(
-            and_(Votes.user_research == i.user_id, Research.checked == True)
-        ).count()
-        users.append([i, count_votes])
-    users = sorted(users, key=lambda x: x[1], reverse=True) if users != [] else None
+    users = g.db.execute(text("select user.id as user_id, user.FIO, user.age, research.id, research.main_photo_path, (select count(*) from research where research.user_id = user.id and research.checked = 1) as count_research, (select count(*) from votes where votes.user_research = user.id) as count_votes from user join research on user.id = research.user_id where research.checked = 1 group by user.id order by count_votes desc"))
+    users = [x for x in users]
     return render_template('rating.html', top_users=users)
 
 

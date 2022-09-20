@@ -39,20 +39,20 @@
     <div class="flexGrid">
         {% if top_users != None %}
             {% for i in range(top_users|length) %}
-                <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=top_users[i][0].id) }}')">
+                <div class="participantContainer" onclick="window.location.replace('{{ url_for('research', id_research=top_users[i].id) }}')">
                     <div class="rankEmbed">{{ i + 1 }}</div>
-                    <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+top_users[i][0].main_photo_path)+')' if top_users[i][0].main_photo_path else ''}}"></div>
-                    <p>{{ top_users[i][0].FIO }}</p>
-                    <p>{{ top_users[i][0].age }} лет</p>
-                    {% if top_users[i][0].count_research == 1 %}
+                    <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+top_users[i].main_photo_path)+')' if top_users[i].main_photo_path else ''}}"></div>
+                    <p>{{ top_users[i].FIO }}</p>
+                    <p>{{ top_users[i].age }} лет</p>
+                    {% if top_users[i].count_research == 1 %}
                         <p class="rank">Юный исследователь</p>
-                    {% elif top_users[i][0].count_research == 2 %}
+                    {% elif top_users[i].count_research == 2 %}
                         <p class="rank">Следопыт</p>
-                    {% elif top_users[i][0].count_research >= 3 %}
+                    {% elif top_users[i].count_research >= 3 %}
                         <p class="rank">Следопыт-супергерой</p>
                     {% endif %}
-                    <p>{{ top_users[i][0].count_research }} исследований</p>
-                    <p><span id="count_votes">{{ top_users[i][1] }}</span> голосов</p>
+                    <p>{{ top_users[i].count_research }} исследований</p>
+                    <p><span id="count_votes">{{ top_users[i].count_votes }}</span> голосов</p>
                 </div>
             {% endfor %}
         {% else %}
