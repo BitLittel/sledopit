@@ -26,7 +26,7 @@ def test():
         ).join(
             Research,
             Research.user_id == Users.id
-        ).join(
+        ).outerjoin(
             con_vot,
             con_vot.c.user_vote_to_research == Research.id,
             isouter=True
