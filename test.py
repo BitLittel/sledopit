@@ -16,7 +16,7 @@ def test():
 
         end = time.time()
         print(f'delta: {end - start}')
-        print([x[0] for x in user])
+        print([x for x in user])
 
         print('kek1')
         start = time.time()
