@@ -9,6 +9,32 @@ import time
 def test():
     with Session() as db:
 
+        print('kek01')
+        start = time.time()
+
+        get_user = db.query(
+            Users.id.label('user_id'),
+            Users.FIO,
+            Users.age,
+            Research.id,
+            Research.main_photo_path,
+            func.count(Research.id).label('count_research'),
+            func.count(Votes.id).label('count_votes')
+        ).join(
+            Votes,
+            Votes.user_vote_to_research == Research.id,
+            isouter=True
+        ).join(
+            Users,
+            Users.id == Research.user_id,
+            isouter=True
+        ).filter(
+            Research.checked == True
+        ).group_by(Users.id).order_by(func.count(Votes.id).desc()).all()
+
+        end = time.time()
+        print(f'delta: {end - start}')
+        print(get_user)
         print('kek1')
         start = time.time()
 
