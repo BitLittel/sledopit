@@ -51,21 +51,21 @@
                 </div>
                 <div style="margin: 5% 0;">
                     <p style="font-size: 40pt; color: #DD2A1B; margin: 20px 0; font-family: 'Lilita', serif;">Рейтинг юных исследователей</p>
-                    <div class="photoContainer" style="padding-top: 0px">
-                        {% if random_users != None %}
-                            {% for random_user in random_users %}
+                    <div class="photoContainer" style="padding-top: 0">
+                        {% if top_users != None %}
+                            {% for top_user in top_users %}
                                 <div class="participantContainer">
-                                    <div class="participantPhoto" onclick="window.location.replace('{{ url_for('research', id_research=random_user[1]) }}')" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+random_user[2])+')' if random_user[2] else ''}}"></div>
-                                    <p>{{ random_user[0].FIO }}</p>
-                                    {% if random_user[3] == 1 %}
+                                    <div class="participantPhoto" onclick="window.location.replace('{{ url_for('research', id_research=top_user[0].id) }}')" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+top_user[0].main_photo_path)+')' if top_user[0].main_photo_path else ''}}"></div>
+                                    <p>{{ top_user[0].FIO }}</p>
+                                    {% if top_user[0].count_research == 1 %}
                                         <p class="rank">Юный исследователь</p>
-                                    {% elif random_user[3] == 2 %}
+                                    {% elif top_user[0].count_research == 2 %}
                                         <p class="rank">Следопыт</p>
-                                    {% elif random_user[3] >= 3 %}
+                                    {% elif top_user[0].count_research >= 3 %}
                                         <p class="rank">Следопыт-супергерой</p>
                                     {% endif %}
-                                    <p><span class="fitDigit">{{ random_user[3] }}</span> исследований</p>
-                                    <p><span class="fitDigit">{{ random_user[4] }}</span> голосов</p>
+                                    <p><span class="fitDigit">{{ top_user[0].count_research }}</span> исследований</p>
+                                    <p><span class="fitDigit">{{ top_user[1] }}</span> голосов</p>
                                 </div>
                             {% endfor %}
                         {% else %}

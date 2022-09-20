@@ -9,32 +9,20 @@ import time
 def test():
     with Session() as db:
 
-        print('kek0001')
-        start = time.time()
-
-        con_vot = db.query(func.count(Votes.id).label('count_votes'), Votes.user_vote_to_research).subquery()
-
-        rand_user = db.query(
-            Users.id.label('user_id'),
-            Users.FIO,
-            Users.age,
+        print('lol')
+        research_famous_people = db.query(
             Research.id,
+            Research.name,
             Research.main_photo_path,
-            func.count(Research.id).label('count_research'),
-            con_vot.c.count_votes
-            # func.count(Votes.id).label('count_votes')
+            Users.FIO
         ).join(
-            Research,
-            Research.user_id == Users.id
-        ).outerjoin(
-            con_vot,
-            con_vot.c.user_vote_to_research == Research.id,
+            Users,
+            Users.id == Research.user_id,
             isouter=True
-        ).filter(Research.checked == True).group_by(Users.id).limit(4).all()
-
-        end = time.time()
-        print(f'delta: {end - start}')
-        print(rand_user)
+        ).filter(
+            and_(Research.type_research == 'famous_people', Research.checked == True)
+        ).order_by(func.rand()).limit(4).all()
+        print(research_famous_people)
 
         print('kek1')
         start = time.time()
@@ -45,8 +33,7 @@ def test():
             Users.age,
             Research.id,
             Research.main_photo_path,
-            func.count(Research.id).label('count_research'),
-            func.count(Votes.id).label('count_votes')
+            func.count(Research.id).label('count_research')
         ).join(
             Research,
             Research.user_id == Users.id
