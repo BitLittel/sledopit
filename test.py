@@ -11,6 +11,9 @@ def test():
 
         print('kek0001')
         start = time.time()
+
+        con_vot = db.query(func.count(Votes.id).label('count_votes'), Votes.user_vote_to_research).subquery()
+
         rand_user = db.query(
             Users.id.label('user_id'),
             Users.FIO,
@@ -18,14 +21,16 @@ def test():
             Research.id,
             Research.main_photo_path,
             func.count(Research.id).label('count_research'),
-            func.count(Votes.id).label('count_votes')
+            con_vot.c.count_votes
+            # func.count(Votes.id).label('count_votes')
         ).join(
             Research,
             Research.user_id == Users.id
-        ).outerjoin(
-            Votes,
-            Votes.user_vote_to_research == Research.id
-        ).filter(Research.checked == True).group_by(Users.id).order_by(func.count(Votes.id).desc()).limit(4).all()
+        ).join(
+            con_vot,
+            con_vot.c.user_vote_to_research == Research.id,
+            isouter=True
+        ).filter(Research.checked == True).group_by(Users.id).limit(4).all()
 
         end = time.time()
         print(f'delta: {end - start}')
