@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 from main.database import Users, Session, Votes, Research
-from sqlalchemy import and_, or_, desc, distinct, text
+from sqlalchemy import and_, text
 from sqlalchemy.sql import func
-from random import randint
 import time
 
 
