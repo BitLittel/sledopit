@@ -277,15 +277,48 @@ function vote(id_research, is_authenticated, user_id) {
     } else {showLoginPopUp(); showErrorMessage('Ошибка', 'Необходимо войти в аккаунт');}
 }
 
-function EditResearch(user_id, id_research) {
-    let newResearchName = document.getElementById('newResearchName'),
+function EditResearch(user_id, id_research, csrf_token) {
+    let formData = new FormData(),
+        newResearchName = document.getElementById('newResearchName'),
         text = document.getElementsByClassName('ck-editor__editable_inline')[0];
     if (text.innerText.length < 2000) {showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');return;}
     if (newResearchName.value == null || newResearchName.value == '') {showErrorMessage('Ошибка', 'Поле "Название работы" не заполнено');return;}
-    AJAX(
-        {url: '/api/edit_research', data: {newResearchName: newResearchName.value, newResearchText: text.innerHTML, user_id: user_id, id_research: id_research}},
-        function (data) {
-            if (data.edit == true) window.location.replace('/research/'+id_research); else showErrorMessage(data.header, data.text);
+    // AJAX(
+    //     {url: '/api/edit_research', data: {newResearchName: newResearchName.value, newResearchText: text.innerHTML, user_id: user_id, id_research: id_research}},
+    //     function (data) {
+    //         if (data.edit == true) window.location.replace('/research/'+id_research); else showErrorMessage(data.header, data.text);
+    //     }
+    // );
+    formData.append('newResearchText', text.innerHTML);
+    formData.append('newResearchName', newResearchName.value);
+    formData.append('user_id', user_id);
+    formData.append('id_research', id_research);
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/edit_research', true);
+    xhr.setRequestHeader("X-CSRFToken", csrf_token);
+    showLoadMessage();
+    xhr.onprogress = function () {showLoadMessage();}
+
+    xhr.onload = function(e) {
+        if (xhr.status >= 200 && xhr.status < 400) {
+            // выполнить при получении данных
+            var result = JSON.parse(xhr.responseText);
+
+            if (result.edit == false) {
+                closeLoadMessage();
+                showErrorMessage(result.header, result.text);
+            } else {
+                closeLoadMessage();
+                window.location.replace('/research/'+result.id_research)
+            }
+        } else {
+            if (xhr.status == 413) {
+                closeLoadMessage();
+                showErrorMessage('Ошибка', 'Размер файлов слижком большой. Ограничение 100 мегабайт');
+            }
+            console.log(xhr.status);
         }
-    );
+    };
+    xhr.send(formData);
 }

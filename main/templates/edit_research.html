@@ -102,7 +102,7 @@
             </div>
           </div>
           <div class="newResearchParagraph" style="justify-content: center">
-              <div class="funButton" onclick="EditResearch({{ current_user.id }}, {{ check_research.id }});">Сохранить</div>
+              <div class="funButton" onclick="EditResearch({{ current_user.id }}, {{ check_research.id }}, '{{ csrf_token() }}');">Сохранить</div>
           </div>
         </div>
       </div>
