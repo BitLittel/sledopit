@@ -312,13 +312,8 @@ function EditResearch(user_id, id_research, csrf_token) {
                 closeLoadMessage();
                 window.location.replace('/research/'+result.id_research)
             }
-        } else {
-            if (xhr.status == 413) {
-                closeLoadMessage();
-                showErrorMessage('Ошибка', 'Размер файлов слижком большой. Ограничение 100 мегабайт');
-            }
-            console.log(xhr.status);
         }
     };
+    console.log(xhr.status);
     xhr.send(formData);
 }
