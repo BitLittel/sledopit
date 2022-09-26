@@ -75,36 +75,42 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
     return [all_photo, all_video, main_photo]
 
 
-@main.route('/api/login', methods=['GET'])
-def api_login():
+@main.route('/api/login/password', methods=['GET'])
+def api_login_password():
     if request.method == 'GET':
         try:
             phoneNumber = request.args.get('phoneNumber').strip().replace(' ', '').replace('(', '').replace(')', '')
             password = request.args.get('loginPassword')
         except:
-            return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
+            return jsonify(dict(login=False, header='Ошибка', text='Номер телефона или пароль введён некорректно'))
 
-        if phoneNumber is None or phoneNumber == '':
-            return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
+        check_user = g.db.query(Users).filter(Users.tel_number == phoneNumber).first()
+        if check_user is None:
+            return jsonify(dict(login=False, header='Ошибка', text='Пользователь с таким номером телефона не найден'))
 
-        if password is None or password == '':
-            if re.search(r'^(([+][0-9]{1,3})[0-9]{10})|(8+[0-9]{10})$', phoneNumber) is None:
-                return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
-
-            check_user = g.db.query(Users).filter(Users.tel_number == phoneNumber).first()
-            if check_user is None:
-                return jsonify(dict(login='not found user'))
-            else:
-                return jsonify(dict(login=True))
+        if check_user.password == hash_password(password):
+            login_user(check_user, remember=True)
+            return jsonify(dict(login=True))
         else:
-            check_user = g.db.query(Users).filter(Users.tel_number == phoneNumber).first()
-            if check_user is None:
-                return jsonify(dict(login=False, header='Ошибка', text='Пользователь с таким номером телефона не найден'))
-            if check_user.password == hash_password(password):
-                login_user(check_user, remember=True)
-                return jsonify(dict(login=True))
-            else:
-                return jsonify(dict(login=False, header='Ошибка', text='Пароль введен не верно'))
+            return jsonify(dict(login=False, header='Ошибка', text='Пароль введен не верно'))
+
+
+@main.route('/api/login', methods=['GET'])
+def api_login():
+    if request.method == 'GET':
+        try:
+            phoneNumber = request.args.get('phoneNumber').strip().replace(' ', '').replace('(', '').replace(')', '')
+        except:
+            return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
+
+        if re.search(r'^(([+][0-9]{1,3})[0-9]{10})|(8+[0-9]{10})$', phoneNumber) is None:
+            return jsonify(dict(login=False, header='Ошибка', text='Номер телефона введён некорректно'))
+
+        check_user = g.db.query(Users).filter(Users.tel_number == phoneNumber).first()
+        if check_user is None:
+            return jsonify(dict(login='not found user'))
+        else:
+            return jsonify(dict(login=True))
 
 
 @main.route('/api/reg', methods=['GET'])

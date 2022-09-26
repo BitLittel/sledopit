@@ -96,19 +96,13 @@
         </div>
         <script>
             function Admin(id_research, accept) {
-                let prichina = document.getElementById('prichina');
-                if (accept) {
-                    send = {id_research: id_research, accept: accept};
-                } else {
-                    send = {id_research: id_research, accept: accept, prichina: prichina.value};
-                }
+                let prichina = document.getElementById('prichina'),
+                    send;
+                if (accept) {send = {id_research: id_research, accept: accept};}
+                else {send = {id_research: id_research, accept: accept, prichina: prichina.value};}
                 AJAX(
                     {url: '/api/admin/0JzQvtGH0LAg0YHRitC10LvQsCDQs9C+0LLQvdC+', data: send},
-                    function (data) {
-                        if (data.admin == true) {
-                            document.getElementById('research_'+id_research).remove()
-                        }
-                    }
+                    function (data) {if (data.admin == true) {document.getElementById('research_'+id_research).remove()}}
                 );
             }
         </script>

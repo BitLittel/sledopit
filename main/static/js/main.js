@@ -169,22 +169,25 @@ var Serialize = function(form) {
 
 let phoneNumber;
 
-function logIn() {
+function LogInWithoutPass() {
     phoneNumber = document.getElementById('phoneNumber');
-    let loginPassword = document.getElementById('loginPassword').value,
-        send_data = (loginPassword != "") ? {phoneNumber: phoneNumber.value, loginPassword: loginPassword} : {phoneNumber: phoneNumber.value};
-
     AJAX(
-        {url: '/api/login', data: send_data},
+        {url: '/api/login', data: {phoneNumber: phoneNumber.value}},
         function (data) {
-            if (loginPassword === "") {
-                if (data.login == true) {document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep2').style.display = 'block';}
-                else if (data.login == false) {showErrorMessage(data.header, data.text);}
-                else {document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep3').style.display = 'block';}
-            } else {
-                if (data.login == true) {closeLoginPopUp();window.location.reload();}
-                else {showErrorMessage(data.header, data.text);}
-            }
+            if (data.login == true) {document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep2').style.display = 'block';}
+            else if (data.login == false) {showErrorMessage(data.header, data.text);}
+            else {document.getElementById('loginStep1').style.display = 'none';document.getElementById('loginStep3').style.display = 'block';}
+        }
+    );
+}
+
+function LogInWithPass() {
+    let loginPassword = document.getElementById('loginPassword').value;
+    AJAX(
+        {url: '/api/login/password', data: {phoneNumber: phoneNumber.value, loginPassword: loginPassword}},
+        function (data) {
+            if (data.login == true) {closeLoginPopUp(); window.location.reload();}
+            else {showErrorMessage(data.header, data.text);}
         }
     );
 }
@@ -283,12 +286,6 @@ function EditResearch(user_id, id_research, csrf_token) {
         text = document.getElementsByClassName('ck-editor__editable_inline')[0];
     if (text.innerText.length < 2000) {showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');return;}
     if (newResearchName.value == null || newResearchName.value == '') {showErrorMessage('Ошибка', 'Поле "Название работы" не заполнено');return;}
-    // AJAX(
-    //     {url: '/api/edit_research', data: {newResearchName: newResearchName.value, newResearchText: text.innerHTML, user_id: user_id, id_research: id_research}},
-    //     function (data) {
-    //         if (data.edit == true) window.location.replace('/research/'+id_research); else showErrorMessage(data.header, data.text);
-    //     }
-    // );
     formData.append('newResearchText', text.innerHTML);
     formData.append('newResearchName', newResearchName.value);
     formData.append('user_id', user_id);
