@@ -80,5 +80,68 @@ def test():
         print(f'delta: {end - start}')
         print(users[0:4])
 
+        print('test010')
+        start = time.time()
+
+        research_famous_people = db.query(
+            Research.id,
+            Research.name,
+            Research.main_photo_path,
+            Users.FIO
+        ).join(
+            Users,
+            Users.id == Research.user_id,
+            isouter=True
+        ).filter(
+            and_(Research.type_research == 'famous_people', Research.checked == True)
+        ).order_by(func.rand()).limit(4).all()
+
+        research_plants = db.query(
+            Research.id,
+            Research.name,
+            Research.main_photo_path,
+            Users.FIO
+        ).join(
+            Users,
+            Users.id == Research.user_id,
+            isouter=True
+        ).filter(
+            and_(Research.type_research == 'plants', Research.checked == True)
+        ).order_by(func.rand()).limit(4).all()
+
+        research_animals = db.query(
+            Research.id,
+            Research.name,
+            Research.main_photo_path,
+            Users.FIO
+        ).join(
+            Users,
+            Users.id == Research.user_id,
+            isouter=True
+        ).filter(
+            and_(Research.type_research == 'animals', Research.checked == True)
+        ).order_by(func.rand()).limit(4).all()
+
+        research_nature_objects = db.query(
+            Research.id,
+            Research.name,
+            Research.main_photo_path,
+            Users.FIO
+        ).join(
+            Users,
+            Users.id == Research.user_id,
+            isouter=True
+        ).filter(
+            and_(Research.type_research == 'nature_object', Research.checked == True)
+        ).order_by(func.rand()).limit(4).all()
+
+        print(research_famous_people)
+        print(research_plants)
+        print(research_animals)
+        print(research_nature_objects)
+        end = time.time()
+        print(f'delta: {end - start}')
+
+
 if __name__ == '__main__':
     test()
