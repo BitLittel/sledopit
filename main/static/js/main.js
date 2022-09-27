@@ -283,14 +283,19 @@ function vote(id_research, is_authenticated, user_id) {
 function EditResearch(user_id, id_research, csrf_token) {
     let formData = new FormData(),
         newResearchName = document.getElementById('newResearchName'),
-        text = document.getElementsByClassName('ck-editor__editable_inline')[0];
+        text = document.getElementsByClassName('ck-editor__editable_inline')[0],
+        list_photo = document.getElementsByClassName('tasks__item'),
+        str_list_photo = '';
     if (text.innerText.length < 2000) {showErrorMessage('Ошибка', 'Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.');return;}
     if (newResearchName.value == null || newResearchName.value == '') {showErrorMessage('Ошибка', 'Поле "Название работы" не заполнено');return;}
     formData.append('newResearchText', text.innerHTML);
     formData.append('newResearchName', newResearchName.value);
     formData.append('user_id', user_id);
     formData.append('id_research', id_research);
-
+    for (let kek = 0; kek < list_photo.length; kek++) {
+        str_list_photo += " "+list_photo[kek].getAttribute('data-img');
+    }
+    formData.append('list_photo', str_list_photo)
     var xhr = new XMLHttpRequest();
     xhr.open('POST', '/api/edit_research', true);
     xhr.setRequestHeader("X-CSRFToken", csrf_token);

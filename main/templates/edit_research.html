@@ -56,22 +56,12 @@
                     <button class="slider__control" data-slide="next"></button>
                 </div>
             </div>
-            <div>
-                <div class="photoContainer" id="main_place_photo">
-                    <div class="participantContainer">
-                        <div class="participantPhoto" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+check_research.main_photo_path) }})"></div>
-                    </div>
-                    {% for photo in check_research.photos %}
-                        <div class="participantContainer">
-                            <div class="participantPhoto" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})"></div>
-                        </div>
-                    {% endfor %}
-                    {% for video in check_research.videos %}
-                        <div class="participantContainer">
-                            <div class="participantPhoto" style="display: flex;justify-content: center;"><video style="justify-content: center;height: 100%" src="{{ url_for('static', filename='img/reseach_img/'+video) }}" preload="auto" controls=""></video></div>
-                        </div>
-                    {% endfor %}
-                </div>
+            <span>Изменения порядка фотографий</span>
+            <div class="photoContainer tasks__list" style="padding-top: 0;">
+                <div class="participantPhoto_vlad tasks__item" data-img="{{ check_research.main_photo_path }}" style="margin: 12px; background-image: url({{ url_for('static', filename='img/reseach_img/'+check_research.main_photo_path) }})"></div>
+                {% for photo in check_research.photos %}
+                    <div class="participantPhoto_vlad tasks__item" data-img="{{ photo }}" style="margin: 12px; background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})"></div>
+                {% endfor %}
             </div>
           <div class="newResearchParagraph">
             <div class="newResearchLabel">

@@ -264,6 +264,9 @@ def api_edit_research():
         if len(newResearchText) < 2000:
             return jsonify(dict(edit=False, header='Ошибка',
                                 text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
+        list_img = request.form.get('list_photo').strip().split()
+        research.main_photo_path = list_img[0]
+        research.photos = list_img[1:]
         research.name = newResearchName
         research.about = newResearchText
         research.checked = False

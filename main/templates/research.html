@@ -97,8 +97,8 @@
     {% if all_research_user %}
         <div>
             <h1>Другие работы этого исследователя</h1>
-            {% for aru in all_research_user %}
-                <div class="flexGrid">
+            <div class="flexGrid">
+                {% for aru in all_research_user %}
                     <div class="participantContainer">
                         <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+aru.main_photo_path)+')' if aru.main_photo_path else ''}}"></div>
                         <p>{{ aru.name }}</p>
@@ -113,8 +113,8 @@
                         {% endif %}
                         <div class="funButtonSmall" onclick="window.location.replace('{{ url_for('research', id_research=aru.id) }}')">Посмотреть</div>
                     </div>
-                </div>
-            {% endfor %}
+                {% endfor %}
+            </div>
         </div>
     {% endif %}
     <!-- /Блок остальных работ пользователя -->

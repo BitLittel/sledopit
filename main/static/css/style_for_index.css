@@ -1082,3 +1082,14 @@ p.Tahoma {
 .ck-content {
     height: 500px !important;
 }
+
+.participantPhoto_vlad {
+    width: 200px;
+    height: 200px;
+    background-color: #888;
+    border-radius: 15px;
+    background-size: cover;
+    cursor: pointer;
+    box-shadow: 0 0 15px #00000077;
+    background-position: center;
+}

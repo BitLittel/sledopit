@@ -236,7 +236,7 @@ def research(id_research):
         Research.name,
         Research.type_research,
         Research.main_photo_path
-    ).filter(Research.id != check_research.id).all()
+    ).filter(and_(Research.id != check_research.id, Research.user_id == check_research.user_id)).all()
 
     try:
         count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
