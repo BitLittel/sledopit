@@ -277,7 +277,6 @@ def api_admin():
     if request.method == 'GET':
         id_research = int(request.args.get('id_research'))
         accept = (request.args.get('accept') == 'true')
-        print(accept, type(accept))
         prichina = request.args.get('prichina') if accept is False else None
         research = g.db.query(Research).filter(Research.id == id_research).first()
         research.checked = accept

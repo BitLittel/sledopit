@@ -56,6 +56,23 @@
                     <button class="slider__control" data-slide="next"></button>
                 </div>
             </div>
+            <div>
+                <div class="photoContainer" id="main_place_photo">
+                    <div class="participantContainer">
+                        <div class="participantPhoto" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+check_research.main_photo_path) }})"></div>
+                    </div>
+                    {% for photo in check_research.photos %}
+                        <div class="participantContainer">
+                            <div class="participantPhoto" style="background-image: url({{ url_for('static', filename='img/reseach_img/'+photo) }})"></div>
+                        </div>
+                    {% endfor %}
+                    {% for video in check_research.videos %}
+                        <div class="participantContainer">
+                            <div class="participantPhoto" style="display: flex;justify-content: center;"><video style="justify-content: center;height: 100%" src="{{ url_for('static', filename='img/reseach_img/'+video) }}" preload="auto" controls=""></video></div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
           <div class="newResearchParagraph">
             <div class="newResearchLabel">
               <label for="newResearchName">Название работы</label>
@@ -117,5 +134,6 @@
     <p id="loadMessageText">Ваша работа, загружается. Пожалуйста подождите</p>
   </div>
 <script src="../static/js/main.js"></script>
+<script src="../static/js/DramAndBaaas.js"></script>
 </body>
 </html>

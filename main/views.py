@@ -231,6 +231,13 @@ def research(id_research):
     if check_research is None:
         return redirect(url_for('test'))
 
+    all_research_user = g.db.query(
+        Research.id,
+        Research.name,
+        Research.type_research,
+        Research.main_photo_path
+    ).filter(Research.id != check_research.id).all()
+
     try:
         count_votes_user = 3 - int(g.db.query(Votes).filter(Votes.user_vote == current_user.id).count())
         user_autificate = True if current_user.id else None
@@ -238,7 +245,11 @@ def research(id_research):
         user_autificate = False
         count_votes_user = None
 
-    return render_template('research.html', check_research=check_research, user_autificate=user_autificate, count_votes_user=count_votes_user)
+    return render_template('research.html',
+                           check_research=check_research,
+                           user_autificate=user_autificate,
+                           count_votes_user=count_votes_user,
+                           all_research_user=all_research_user)
 
 
 @main.route('/category/<type_category>')

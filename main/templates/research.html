@@ -94,17 +94,29 @@
         <h1 style="margin-top: 25px">Необходимо зарегистрироваться, чтобы проголосовать</h1>
     {% endif %}
     <!-- Блок остальных работ пользователя -->
-    <div>
-      <h1>Другие работы этого исследователя</h1>
-      <div class="flexGrid">
-        <div class="participantContainer">
-          <div class="participantPhoto"></div>
-          <p>Название работы</p>
-          <p>Категория</p>
-          <div class="funButtonSmall">Посмотреть</div>
+    {% if all_research_user %}
+        <div>
+            <h1>Другие работы этого исследователя</h1>
+            {% for aru in all_research_user %}
+                <div class="flexGrid">
+                    <div class="participantContainer">
+                        <div class="participantPhoto" style="{{ 'background-image: url('+url_for('static', filename='img/reseach_img/'+aru.main_photo_path)+')' if aru.main_photo_path else ''}}"></div>
+                        <p>{{ aru.name }}</p>
+                        {% if aru.type_research == 'famous_people' %}
+                            <p>Известные люди</p>
+                        {% elif aru.type_research == 'plants' %}
+                            <p>Растительный мир</p>
+                        {% elif aru.type_research == 'animals' %}
+                            <p>Животный мир</p>
+                        {% else %}
+                            <p>Природные объекты</p>
+                        {% endif %}
+                        <div class="funButtonSmall" onclick="window.location.replace('{{ url_for('research', id_research=aru.id) }}')">Посмотреть</div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-      </div>
-    </div>
+    {% endif %}
     <!-- /Блок остальных работ пользователя -->
   </div>
 </div>
