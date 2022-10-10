@@ -143,5 +143,25 @@ def test():
         print(f'delta: {end - start}')
 
 
+def test1():
+    with Session() as db:
+        altay = db.query(Research).filter(Research.id == 253).first()
+        print(altay.videos)
+        altay.videos = ["altayskie_pisateli_detym_lev_sh.MOV"]
+        db.commit()
+
+        oblip = db.query(Research).filter(Research.id == 256).first()
+        print(oblip.videos)
+        oblip.videos = ["oblepiha_lev_sh.mp4"]
+        db.commit()
+
+        kedr = db.query(Research).filter(Research.id == 254).first()
+        print(kedr.videos)
+        kedr.videos = ["siborskiy_kedr_lev_sh.mp4"]
+        db.commit()
+    print('заебись, чётко')
+
+
 if __name__ == '__main__':
-    test()
+    # test()
+    test1()
