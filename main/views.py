@@ -266,7 +266,7 @@ def category(type_category):
         count_votes_user = None
 
     users = []
-    filter_cat = [and_(Research.type_research == type_category, Research.user_id == current_user.id)] if user_autificate else [and_(Research.type_research == type_category, Research.checked == True)]
+    filter_cat = [or_(Research.type_research == type_category, and_(Research.user_id == current_user.id, Research.type_research == type_category))] if user_autificate else [and_(Research.type_research == type_category, Research.checked == True)]
     get_research_with_categorys = g.db.query(
         Research.id,
         Research.name,

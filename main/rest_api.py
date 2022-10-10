@@ -56,7 +56,7 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
             all_photo.append(i)
 
     if all_photo == [] and main_photo == '':
-        return 'Добавте хотя бы одно фото'
+        return 'Добавьте хотя бы одно фото'
 
     all_video = []
     for i in all_path_photo_and_video:
@@ -65,7 +65,7 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
 
     path_main_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", main_photo)
     img_main = Image.open(path_main_photo)
-    img_main.save(path_main_photo, quality=70)
+    img_main.save(path_main_photo, quality=60)
 
     for i in all_photo:
         path_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", i)
