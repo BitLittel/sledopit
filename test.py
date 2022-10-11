@@ -145,19 +145,19 @@ def test():
 
 def test1():
     with Session() as db:
-        alleay = db.query(Research).filter(Research.id == 270).fisrt()
+        alleay = db.query(Research).filter(Research.id == 270).first()
         alleay.videos = ["alleay_svezd.mp4"]
         db.commit()
 
-        suslin = db.query(Research).filter(Research.id == 269).fisrt()
+        suslin = db.query(Research).filter(Research.id == 269).first()
         suslin.videos = ["suslin_aleksey_boecz.mp4"]
         db.commit()
 
-        ludmila = db.query(Research).filter(Research.id == 268).fisrt()
+        ludmila = db.query(Research).filter(Research.id == 268).first()
         ludmila.videos = ["buzunova_ludmila.mp4"]
         db.commit()
 
-        svincov = db.query(Research).filter(Research.id == 252).fisrt()
+        svincov = db.query(Research).filter(Research.id == 252).first()
         svincov.videos = ["lev_shalupin_svencov.mp4"]
         db.commit()
 
