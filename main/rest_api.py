@@ -18,6 +18,7 @@ def hash_password(password: str) -> str:
 
 
 def get_path_file_and_save_this(photoAndVideo, id_user):
+    print(f"Старт загрузки видео от пользователя {id_user}")
     if len(photoAndVideo) > 30:
         return 'Максимальное количество файлов не должно превышать 30'
     all_path_photo_and_video = []
@@ -27,6 +28,7 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
     for i in photoAndVideo:
         type_file = 'mov' if i.content_type == 'video/quicktime' else i.content_type.split('/')[1]
         if (type_file not in photo_format) and (type_file not in video_format):
+            print(f"Ошибка: Поддерживаемые форматы для фото {id_user}")
             return 'Поддерживаемые форматы для фото "jpeg", "png", "webp", для видео "mov", "mp4"'
 
     for pv in photoAndVideo:
@@ -42,27 +44,28 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
 
         all_path_photo_and_video.append(f'{random_name}.{type_file}')
         pv.save(path_to_download)
-
+    print(f"{all_path_photo_and_video}")
     main_photo = ''
     for i in all_path_photo_and_video:
         if i.split('.')[1] in photo_format:
             main_photo = i
             all_path_photo_and_video.remove(i)
             break
-
+    print(f"{main_photo}")
     all_photo = []
     for i in all_path_photo_and_video:
         if i.split('.')[1] in photo_format:
             all_photo.append(i)
-
+    print(f"{all_photo}")
     if main_photo == '':
+        print(f"Ошибка: Добавьте хотя бы одно фото {id_user}")
         return 'Добавьте хотя бы одно фото'
 
     all_video = []
     for i in all_path_photo_and_video:
         if i.split('.')[1] in video_format:
             all_video.append(i)
-
+    print(f"{all_video}")
     path_main_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", main_photo)
     img_main = Image.open(path_main_photo)
     img_main.save(path_main_photo, quality=60)
@@ -71,7 +74,7 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
         path_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", i)
         img = Image.open(path_photo)
         img.save(path_photo, quality=60)
-
+    print(f"Завершена загрузка видео от пользователя {id_user}")
     return [all_photo, all_video, main_photo]
 
 
