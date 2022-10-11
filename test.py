@@ -145,19 +145,28 @@ def test():
 
 def test1():
     with Session() as db:
-        altay = db.query(Research).filter(Research.id == 253).first()
-        print(altay.videos)
-        altay.videos = ["altayskie_pisateli_detym_lev_sh.MOV"]
+        alleay = db.query(Research).filter(Research.id == 270).fisrt()
+        alleay.videos = ["alleay_svezd.mp4"]
         db.commit()
 
-        oblip = db.query(Research).filter(Research.id == 256).first()
-        print(oblip.videos)
-        oblip.videos = ["oblepiha_lev_sh.mp4"]
+        suslin = db.query(Research).filter(Research.id == 269).fisrt()
+        suslin.videos = ["suslin_aleksey_boecz.mp4"]
         db.commit()
 
-        kedr = db.query(Research).filter(Research.id == 254).first()
-        print(kedr.videos)
+        ludmila = db.query(Research).filter(Research.id == 268).fisrt()
+        ludmila.videos = ["buzunova_ludmila.mp4"]
+        db.commit()
+
+        svincov = db.query(Research).filter(Research.id == 252).fisrt()
+        svincov.videos = ["lev_shalupin_svencov.mp4"]
+        db.commit()
+
+        kedr = db.query(Research).filter(Research.id == 255).first()
         kedr.videos = ["siborskiy_kedr_lev_sh.mp4"]
+        db.commit()
+
+        aya = db.query(Research).filter(Research.id == 258).first()
+        aya.videos = ["lev_shalupin_aya.mp4"]
         db.commit()
     print('заебись, чётко')
 
