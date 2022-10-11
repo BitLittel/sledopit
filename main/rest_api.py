@@ -21,8 +21,8 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
     if len(photoAndVideo) > 30:
         return 'Максимальное количество файлов не должно превышать 30'
     all_path_photo_and_video = []
-    photo_format = ['jpeg', 'png', 'webp']
-    video_format = ['mov', 'mp4']
+    photo_format = ['jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP']
+    video_format = ['mov', 'mp4', 'MOV', 'MP4']
 
     for i in photoAndVideo:
         type_file = 'mov' if i.content_type == 'video/quicktime' else i.content_type.split('/')[1]
@@ -55,7 +55,7 @@ def get_path_file_and_save_this(photoAndVideo, id_user):
         if i.split('.')[1] in photo_format:
             all_photo.append(i)
 
-    if all_photo == [] and main_photo == '':
+    if main_photo == '':
         return 'Добавьте хотя бы одно фото'
 
     all_video = []
