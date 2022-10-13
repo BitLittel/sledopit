@@ -145,32 +145,42 @@ def test():
 
 def test1():
     with Session() as db:
-        alleay = db.query(Research).filter(Research.id == 270).first()
-        alleay.videos = ["alleay_svezd.mp4"]
-        db.commit()
 
-        suslin = db.query(Research).filter(Research.id == 269).first()
-        suslin.videos = ["suslin_aleksey_boecz.mp4"]
-        db.commit()
-
-        ludmila = db.query(Research).filter(Research.id == 268).first()
-        ludmila.videos = ["buzunova_ludmila.mp4"]
-        db.commit()
-
-        svincov = db.query(Research).filter(Research.id == 252).first()
-        svincov.videos = ["lev_shalupin_svencov.mp4"]
-        db.commit()
-
-        kedr = db.query(Research).filter(Research.id == 255).first()
-        kedr.videos = ["siborskiy_kedr_lev_sh.mp4"]
-        db.commit()
-
-        aya = db.query(Research).filter(Research.id == 258).first()
-        aya.videos = ["lev_shalupin_aya.mp4"]
-        db.commit()
+        all = db.query(Users.id, Users.FIO, Users.tel_number).join(Research, Research.user_id == Users.id).all()
+        for i in all:
+            count_research = db.query(Research).filter(Research.user_id == i.id).count()
+            if count_research == 1:
+                status = 'Юный исследователь'
+            elif count_research == 2:
+                status = 'Следопыт'
+            elif count_research == 3 or count_research > 3:
+                status = 'Следопыт-супергерой'
+            print(f"ФИО: {i.FIO}; Телефон: {i.tel_number}; Статус: {status}; Кол-во ислед.: {count_research};")
+        # alleay = db.query(Research).filter(Research.id == 270).first()
+        # alleay.videos = ["alleay_svezd.mp4"]
+        # db.commit()
+        #
+        # suslin = db.query(Research).filter(Research.id == 269).first()
+        # suslin.videos = ["suslin_aleksey_boecz.mp4"]
+        # db.commit()
+        #
+        # ludmila = db.query(Research).filter(Research.id == 268).first()
+        # ludmila.videos = ["buzunova_ludmila.mp4"]
+        # db.commit()
+        #
+        # svincov = db.query(Research).filter(Research.id == 252).first()
+        # svincov.videos = ["lev_shalupin_svencov.mp4"]
+        # db.commit()
+        #
+        # kedr = db.query(Research).filter(Research.id == 255).first()
+        # kedr.videos = ["siborskiy_kedr_lev_sh.mp4"]
+        # db.commit()
+        #
+        # aya = db.query(Research).filter(Research.id == 258).first()
+        # aya.videos = ["lev_shalupin_aya.mp4"]
+        # db.commit()
     print('заебись, чётко')
 
 
 if __name__ == '__main__':
-    # test()
     test1()
