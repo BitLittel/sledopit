@@ -146,7 +146,7 @@ def test():
 def test1():
     with Session() as db:
 
-        all = db.query(Users.id, Users.FIO, Users.tel_number).join(Research, Research.user_id == Users.id).all()
+        all = db.query(Users.id, Users.FIO, Users.tel_number).join(Research, Research.user_id == Users.id).group_by(Users.id).all()
         for i in all:
             count_research = db.query(Research).filter(Research.user_id == i.id).count()
             if count_research == 1:
