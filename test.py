@@ -155,7 +155,7 @@ def test1():
                 status = 'Следопыт'
             elif count_research == 3 or count_research > 3:
                 status = 'Следопыт-супергерой'
-            print(f"ФИО: {i.FIO}; Телефон: {i.tel_number}; Статус: {status}; Кол-во ислед.: {count_research};")
+            print(f"{i.FIO}; {i.tel_number}; {status}; {count_research}")
         # alleay = db.query(Research).filter(Research.id == 270).first()
         # alleay.videos = ["alleay_svezd.mp4"]
         # db.commit()
