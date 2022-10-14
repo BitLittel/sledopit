@@ -17,65 +17,65 @@ def hash_password(password: str) -> str:
     return h.hexdigest()
 
 
-def get_path_file_and_save_this(photoAndVideo, id_user):
-    print(f"Старт загрузки видео от пользователя {id_user}")
-    if len(photoAndVideo) > 30:
-        return 'Максимальное количество файлов не должно превышать 30'
-    all_path_photo_and_video = []
-    photo_format = ['jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP']
-    video_format = ['mov', 'mp4', 'MOV', 'MP4']
-
-    for i in photoAndVideo:
-        type_file = 'mov' if i.content_type == 'video/quicktime' else i.content_type.split('/')[1]
-        if (type_file not in photo_format) and (type_file not in video_format):
-            print(f"Ошибка: Поддерживаемые форматы для фото {id_user}")
-            return 'Поддерживаемые форматы для фото "jpeg", "png", "webp", для видео "mov", "mp4"'
-
-    for pv in photoAndVideo:
-        type_file = 'mov' if pv.content_type == 'video/quicktime' else pv.content_type.split('/')[1]
-
-        random_name = hash_password(f'{pv.filename.split(".")[0]}{id_user}{datetime.now()}')[0:20]
-
-        path_to_download = os.path.join(
-            main.config['WORKDIR'],
-            "main/static/img/reseach_img",
-            f'{random_name}.{type_file}'
-        )
-
-        all_path_photo_and_video.append(f'{random_name}.{type_file}')
-        pv.save(path_to_download)
-    print(f"{all_path_photo_and_video}")
-    main_photo = ''
-    for i in all_path_photo_and_video:
-        if i.split('.')[1] in photo_format:
-            main_photo = i
-            all_path_photo_and_video.remove(i)
-            break
-    print(f"{main_photo}")
-    all_photo = []
-    for i in all_path_photo_and_video:
-        if i.split('.')[1] in photo_format:
-            all_photo.append(i)
-    print(f"{all_photo}")
-    if main_photo == '':
-        print(f"Ошибка: Добавьте хотя бы одно фото {id_user}")
-        return 'Добавьте хотя бы одно фото'
-
-    all_video = []
-    for i in all_path_photo_and_video:
-        if i.split('.')[1] in video_format:
-            all_video.append(i)
-    print(f"{all_video}")
-    path_main_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", main_photo)
-    img_main = Image.open(path_main_photo)
-    img_main.save(path_main_photo, quality=60)
-
-    for i in all_photo:
-        path_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", i)
-        img = Image.open(path_photo)
-        img.save(path_photo, quality=60)
-    print(f"Завершена загрузка видео от пользователя {id_user}")
-    return [all_photo, all_video, main_photo]
+# def get_path_file_and_save_this(photoAndVideo, id_user):
+#     print(f"Старт загрузки видео от пользователя {id_user}")
+#     if len(photoAndVideo) > 30:
+#         return 'Максимальное количество файлов не должно превышать 30'
+#     all_path_photo_and_video = []
+#     photo_format = ['jpeg', 'png', 'webp', 'JPG', 'JPEG', 'PNG', 'WEBP']
+#     video_format = ['mov', 'mp4', 'MOV', 'MP4']
+#
+#     for i in photoAndVideo:
+#         type_file = 'mov' if i.content_type == 'video/quicktime' else i.content_type.split('/')[1]
+#         if (type_file not in photo_format) and (type_file not in video_format):
+#             print(f"Ошибка: Поддерживаемые форматы для фото {id_user}")
+#             return 'Поддерживаемые форматы для фото "jpeg", "png", "webp", для видео "mov", "mp4"'
+#
+#     for pv in photoAndVideo:
+#         type_file = 'mov' if pv.content_type == 'video/quicktime' else pv.content_type.split('/')[1]
+#
+#         random_name = hash_password(f'{pv.filename.split(".")[0]}{id_user}{datetime.now()}')[0:20]
+#
+#         path_to_download = os.path.join(
+#             main.config['WORKDIR'],
+#             "main/static/img/reseach_img",
+#             f'{random_name}.{type_file}'
+#         )
+#
+#         all_path_photo_and_video.append(f'{random_name}.{type_file}')
+#         pv.save(path_to_download)
+#     print(f"{all_path_photo_and_video}")
+#     main_photo = ''
+#     for i in all_path_photo_and_video:
+#         if i.split('.')[1] in photo_format:
+#             main_photo = i
+#             all_path_photo_and_video.remove(i)
+#             break
+#     print(f"{main_photo}")
+#     all_photo = []
+#     for i in all_path_photo_and_video:
+#         if i.split('.')[1] in photo_format:
+#             all_photo.append(i)
+#     print(f"{all_photo}")
+#     if main_photo == '':
+#         print(f"Ошибка: Добавьте хотя бы одно фото {id_user}")
+#         return 'Добавьте хотя бы одно фото'
+#
+#     all_video = []
+#     for i in all_path_photo_and_video:
+#         if i.split('.')[1] in video_format:
+#             all_video.append(i)
+#     print(f"{all_video}")
+#     path_main_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", main_photo)
+#     img_main = Image.open(path_main_photo)
+#     img_main.save(path_main_photo, quality=60)
+#
+#     for i in all_photo:
+#         path_photo = os.path.join(main.config['WORKDIR'], "main/static/img/reseach_img", i)
+#         img = Image.open(path_photo)
+#         img.save(path_photo, quality=60)
+#     print(f"Завершена загрузка видео от пользователя {id_user}")
+#     return [all_photo, all_video, main_photo]
 
 
 @main.route('/api/login/password', methods=['GET'])
@@ -150,70 +150,70 @@ def api_reg():
         return jsonify(dict(reg=True))
 
 
-@main.route('/api/load_research', methods=['POST'])
-@login_required
-def api_load_research():
-    if request.method == 'POST' and request.form.get('have_data') and (request.form.get('type_research') in global_type_research):
-        if g.db.query(Research).filter(Research.user_id == current_user.id).count() >= 20:
-            return jsonify(dict(reseach=False, header='Ошибка', text='Харош дудосить'))
-        have_data = request.form.get('have_data') == 'true'
-        type_research = request.form.get('type_research')
-        photo_and_video = request.files.getlist('photo_and_video')
-        newResearchText = request.form.get('newResearchText')
-        newResearchName = request.form.get('newResearchName')
-
-        if have_data and current_user.school is not None:
-
-            if newResearchText is None or newResearchText == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
-            if len(newResearchText) < 2000:
-                return jsonify(dict(reseach=False,  header='Ошибка', text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
-            if newResearchName is None or newResearchName == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы не заполнено"'))
-            if photo_and_video == []:
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
-
-            files = get_path_file_and_save_this(photoAndVideo=photo_and_video, id_user=current_user.id)
-            if type(files) == str:
-                return jsonify(dict(reseach=False, header='Ошибка', text=files))
-        else:
-            cityFrom = request.form.get('cityFrom')
-            ageSelection = request.form.get('ageSelection')
-            school = request.form.get('school')
-
-            if newResearchText is None or newResearchText == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
-            if newResearchName is None or newResearchName == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы" не заполнено'))
-            if cityFrom is None or cityFrom == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Откуда ты" не заполнено'))
-            if ageSelection is None or ageSelection == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Возраст" не заполнено'))
-            if school is None or school == '':
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Учебное заведение" не заполнено'))
-            if photo_and_video == []:
-                return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
-            files = get_path_file_and_save_this(photoAndVideo=photo_and_video, id_user=current_user.id)
-            if type(files) == str:
-                return jsonify(dict(reseach=False, header='Ошибка', text=files))
-            get_user = g.db.query(Users).filter(Users.id == current_user.id).first()
-            get_user.city = cityFrom
-            get_user.school = school
-            get_user.age = ageSelection
-            g.db.commit()
-
-        add_new_research = Research(researches_users=current_user,
-                                    name=newResearchName,
-                                    type_research=type_research,
-                                    about=newResearchText,
-                                    main_photo_path=files[2],
-                                    photos=files[0],
-                                    videos=files[1])
-        g.db.add(add_new_research)
-        g.db.commit()
-        return jsonify(dict(reseach=True, id_research=add_new_research.id))
-    else:
-        return jsonify(dict(reseach=False, header='Ошибка', text='Отправлены некорректные данные'))
+# @main.route('/api/load_research', methods=['POST'])
+# @login_required
+# def api_load_research():
+#     if request.method == 'POST' and request.form.get('have_data') and (request.form.get('type_research') in global_type_research):
+#         if g.db.query(Research).filter(Research.user_id == current_user.id).count() >= 20:
+#             return jsonify(dict(reseach=False, header='Ошибка', text='Харош дудосить'))
+#         have_data = request.form.get('have_data') == 'true'
+#         type_research = request.form.get('type_research')
+#         photo_and_video = request.files.getlist('photo_and_video')
+#         newResearchText = request.form.get('newResearchText')
+#         newResearchName = request.form.get('newResearchName')
+#
+#         if have_data and current_user.school is not None:
+#
+#             if newResearchText is None or newResearchText == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
+#             if len(newResearchText) < 2000:
+#                 return jsonify(dict(reseach=False,  header='Ошибка', text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
+#             if newResearchName is None or newResearchName == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы не заполнено"'))
+#             if photo_and_video == []:
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
+#
+#             files = get_path_file_and_save_this(photoAndVideo=photo_and_video, id_user=current_user.id)
+#             if type(files) == str:
+#                 return jsonify(dict(reseach=False, header='Ошибка', text=files))
+#         else:
+#             cityFrom = request.form.get('cityFrom')
+#             ageSelection = request.form.get('ageSelection')
+#             school = request.form.get('school')
+#
+#             if newResearchText is None or newResearchText == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
+#             if newResearchName is None or newResearchName == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Название работы" не заполнено'))
+#             if cityFrom is None or cityFrom == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Откуда ты" не заполнено'))
+#             if ageSelection is None or ageSelection == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Возраст" не заполнено'))
+#             if school is None or school == '':
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Учебное заведение" не заполнено'))
+#             if photo_and_video == []:
+#                 return jsonify(dict(reseach=False, header='Ошибка', text='Поле "Фото, видео" не заполнено'))
+#             files = get_path_file_and_save_this(photoAndVideo=photo_and_video, id_user=current_user.id)
+#             if type(files) == str:
+#                 return jsonify(dict(reseach=False, header='Ошибка', text=files))
+#             get_user = g.db.query(Users).filter(Users.id == current_user.id).first()
+#             get_user.city = cityFrom
+#             get_user.school = school
+#             get_user.age = ageSelection
+#             g.db.commit()
+#
+#         add_new_research = Research(researches_users=current_user,
+#                                     name=newResearchName,
+#                                     type_research=type_research,
+#                                     about=newResearchText,
+#                                     main_photo_path=files[2],
+#                                     photos=files[0],
+#                                     videos=files[1])
+#         g.db.add(add_new_research)
+#         g.db.commit()
+#         return jsonify(dict(reseach=True, id_research=add_new_research.id))
+#     else:
+#         return jsonify(dict(reseach=False, header='Ошибка', text='Отправлены некорректные данные'))
 
 
 @main.route('/api/vote', methods=['POST', 'GET'])

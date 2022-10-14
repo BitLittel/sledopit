@@ -197,12 +197,12 @@ def rating():
     return render_template('rating.html', top_users=users)
 
 
-@main.route('/add_research/<type_research>')
-@login_required
-def add_research(type_research):
-    if type_research not in global_type_research:
-        return redirect(url_for('test'))
-    return render_template("add_research.html", type_research=type_research)
+# @main.route('/add_research/<type_research>')
+# @login_required
+# def add_research(type_research):
+#     if type_research not in global_type_research:
+#         return redirect(url_for('test'))
+#     return render_template("add_research.html", type_research=type_research)
 
 
 @main.route('/research/<int:id_research>', methods=['GET', 'POST'])

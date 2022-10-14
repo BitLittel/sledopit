@@ -85,7 +85,7 @@
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="brown">Известные люди</div>
                         {% if user_autificate %}
-                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='famous_people') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                            <a onclick="{# window.location.replace('{{ url_for('add_research', type_research='famous_people') }}') #}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% else %}
                             <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% endif %}
@@ -111,7 +111,7 @@
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="green">Растительный мир</div>
                         {% if user_autificate %}
-                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='plants') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                            <a onclick="{# window.location.replace('{{ url_for('add_research', type_research='plants') }}') #}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% else %}
                             <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% endif %}
@@ -137,7 +137,7 @@
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="red">Животный мир</div>
                         {% if user_autificate %}
-                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='animals') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                            <a onclick="{# window.location.replace('{{ url_for('add_research', type_research='animals') }}') #}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% else %}
                             <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% endif %}
@@ -164,7 +164,7 @@
                     <div class="horFlexContainer">
                         <div class="researchHeader" researchColor="blue">Природные объекты</div>
                         {% if user_autificate %}
-                            <a onclick="window.location.replace('{{ url_for('add_research', type_research='nature_object') }}')" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
+                            <a onclick="{# window.location.replace('{{ url_for('add_research', type_research='nature_object') }}') #}" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% else %}
                             <a onclick="showErrorMessage('Ошибка', 'Необходимо зарегистрироваться');" style="text-decoration: none;"><div class="flatButton">Добавить свое исследование</div></a>
                         {% endif %}
