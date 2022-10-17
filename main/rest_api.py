@@ -244,38 +244,38 @@ def vote():
     return jsonify(dict(vote=True))
 
 
-@main.route('/api/edit_research', methods=['POST'])
-@login_required
-def api_edit_research():
-    if request.method == 'POST':
-        try:
-            user_id = int(request.form.get('user_id'))
-            id_research = int(request.form.get('id_research'))
-        except ValueError:
-            return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
-        if current_user.id != user_id:
-            return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
-        research = g.db.query(Research).filter(and_(Research.id == id_research, Research.user_id == user_id)).first()
-        if research is None:
-            return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
-        newResearchName = request.form.get('newResearchName')
-        if newResearchName is None or newResearchName == '':
-            return jsonify(dict(edit=False, header='Ошибка', text='Поле "Название работы" не заполнено'))
-        newResearchText = request.form.get('newResearchText')
-        if newResearchText is None or newResearchText == '':
-            return jsonify(dict(edit=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
-        if len(newResearchText) < 2000:
-            return jsonify(dict(edit=False, header='Ошибка',
-                                text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
-        list_img = request.form.get('list_photo').strip().split()
-        research.main_photo_path = list_img[0]
-        research.photos = list_img[1:]
-        research.name = newResearchName
-        research.about = newResearchText
-        research.checked = False
-        research.prichina = None
-        g.db.commit()
-        return jsonify(dict(edit=True, id_research=research.id))
+# @main.route('/api/edit_research', methods=['POST'])
+# @login_required
+# def api_edit_research():
+#     if request.method == 'POST':
+#         try:
+#             user_id = int(request.form.get('user_id'))
+#             id_research = int(request.form.get('id_research'))
+#         except ValueError:
+#             return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
+#         if current_user.id != user_id:
+#             return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
+#         research = g.db.query(Research).filter(and_(Research.id == id_research, Research.user_id == user_id)).first()
+#         if research is None:
+#             return jsonify(dict(edit=False, header='Ошибка', text='Отправлены некорректные данные'))
+#         newResearchName = request.form.get('newResearchName')
+#         if newResearchName is None or newResearchName == '':
+#             return jsonify(dict(edit=False, header='Ошибка', text='Поле "Название работы" не заполнено'))
+#         newResearchText = request.form.get('newResearchText')
+#         if newResearchText is None or newResearchText == '':
+#             return jsonify(dict(edit=False, header='Ошибка', text='Поле "Текст работы" не заполнено'))
+#         if len(newResearchText) < 2000:
+#             return jsonify(dict(edit=False, header='Ошибка',
+#                                 text='Дорогой друг, текст слишком короткий. Минимальная длина текста - 2000 символов.'))
+#         list_img = request.form.get('list_photo').strip().split()
+#         research.main_photo_path = list_img[0]
+#         research.photos = list_img[1:]
+#         research.name = newResearchName
+#         research.about = newResearchText
+#         research.checked = False
+#         research.prichina = None
+#         g.db.commit()
+#         return jsonify(dict(edit=True, id_research=research.id))
 
 
 @main.route(f'/api/admin/{main.config["SECRET_KEY"]}', methods=['GET'])

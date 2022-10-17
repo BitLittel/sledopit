@@ -84,7 +84,7 @@
             {% elif check_research.checked == True %}
                 <p style="font-family: 'Lilita', sans-serif;color: #258d32;font-size: 25pt;">Ваша работа прошла проверку</p>
             {% endif %}
-            <div class="funButton" style="margin-bottom: 100px;" onclick="window.location.replace('{{ url_for('edit_research', id_research=check_research.id) }}')">Редактировать</div>
+{#            <div class="funButton" style="margin-bottom: 100px;" onclick="window.location.replace('{{ url_for('edit_research', id_research=check_research.id) }}')">Редактировать</div>#}
         {% else %}
             <span style="display: none;" id="count_votes_{{ check_research.id }}"></span>
             <div class="funButton" onclick="vote({{ check_research.id }}, '{{ user_autificate }}', '{{ current_user.id }}');">Проголосовать</div>
