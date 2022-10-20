@@ -197,6 +197,11 @@ def rating():
     return render_template('rating.html', top_users=users)
 
 
+@main.route('/winners', methods=['POST', 'GET'])
+def winners():
+    return render_template('winners.html')
+
+
 # @main.route('/add_research/<type_research>')
 # @login_required
 # def add_research(type_research):
