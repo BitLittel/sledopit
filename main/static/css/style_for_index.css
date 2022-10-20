@@ -1093,3 +1093,79 @@ p.Tahoma {
     box-shadow: 0 0 15px #00000077;
     background-position: center;
 }
+
+.gift_desc {
+    font-family: "Lilita", serif;
+    font-size: x-large;
+    margin: 5px;
+}
+
+.sm_marg {
+    margin: 5px;
+}
+
+.winners {
+    font-family: "Lilita", serif;
+    font-size: x-large;
+    display: flex;
+}
+
+.rank3 {
+    color: saddlebrown;
+}
+
+.winners>div {
+    display: flex;
+    flex-direction: row;
+}
+
+.wtr {
+    display: flex;
+    flex-direction: row;
+    width: 800px;
+    margin-left: calc(50% - 400px);
+    justify-content: center;
+    padding: 0;
+}
+
+.wtr>p {
+    width: 200px;
+    font-family: Tahoma, Helvetica, sans-serif;
+    font-size: larger;
+    border: solid #8d8d8d 1px;
+    padding: 3px;
+    box-sizing: border-box;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.wtr_name{
+font-weight: bolder;
+}
+
+.rank3 {
+    /*background: rgb(255,238,222);*/
+    background: linear-gradient(167deg, rgba(255,238,222,0.6) 0%, rgba(207,138,73,0.6) 100%);
+}
+
+.rank2 {
+    /*background: rgb(255,255,255);*/
+    background: linear-gradient(167deg, rgba(255,255,255,0.6) 0%, rgba(193,193,193,0.6) 100%);
+}
+
+.rank1 {
+    /*background: rgb(255,250,226);*/
+    background: linear-gradient(167deg, rgba(255,250,226,0.6) 0%, rgba(232,216,0,0.6) 100%);
+}
+
+.rank4 {
+    background-color: #d7ffc8;
+    font-size: larger;
+}
+
+.rew_txt {
+    font-family: "Lilita", serif;
+    font-size: xx-large;
+    font-weight: lighter;
+}
